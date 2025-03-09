@@ -65,8 +65,8 @@
                     <span class="nav-label">Tài Khoản</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
 
-                    <li><a href="graph_peity.html">Thêm Tài Khoản</a></li>
-                    <li><a href="graph_sparkline.html">Danh Sách Tài Khoản</a></li>
+                    <li><a href="{{ route('admin.user.create') }}">Thêm Tài Khoản</a></li>
+                    <li><a href="{{ route('admin.user.index') }}">Danh Sách Tài Khoản</a></li>
                 </ul>
             </li>
             <li>
@@ -74,9 +74,8 @@
                     <span class="nav-label">Vai Trò</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
 
-                    <li><a href="graph_peity.html">Thêm Vai Trò</a></li>
-                    <li><a href="graph_sparkline.html">Danh Sách Vai Trò</a></li>
-                    <li><a href="graph_sparkline.html">GắN Vai Trò</a></li>
+                    <li><a href="{{ route('admin.role.create') }}">Thêm Vai Trò</a></li>
+                    <li><a href="{{ route('admin.role.index') }}">Danh Sách Vai Trò</a></li>
                 </ul>
             </li>
             <li>
@@ -84,18 +83,20 @@
                     <span class="nav-label">Cấp Vai Trò</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
 
-                    <li><a href="graph_peity.html">Cấp Vai Trò</a></li>
-                    <li><a href="graph_sparkline.html">Danh Sách Vai Trò</a></li>
+                    <li><a href="{{ route('admin.user-role.create') }}">Cấp Vai Trò</a></li>
+                    <li><a href="{{ route('admin.user-role.index') }}">Danh Sách Vai Trò</a></li>
 
                 </ul>
             </li>
             <li>
                 <a href="#"><i class="fas fa-shield-alt"></i>
-                    <span class="nav-label">Phân Quyền</span><span class="fa arrow"></span></a>
+                    <span class="nav-label"> Quyền Hạn</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
 
-                    <li><a href="graph_peity.html">Phân Quyền</a></li>
-                    <li><a href="graph_sparkline.html">Danh Sách</a></li>
+                    <li><a href="{{ route('admin.permission.create') }}">Thêm Quyền hạn</a></li>
+                    <li><a href="{{ route('admin.permission.index') }}">Danh Sách Quyền Hạn</a></li>
+                    <li><a href="{{ route('admin.perrmission-role.create') }}">Gán Quyền Cho Vai Trò</a></li>
+                    <li><a href="{{ route('admin.perrmission-role.index') }}">Danh Sách Quyền Hạn Cho Vai Trò</a></li>
                 </ul>
             </li>
 

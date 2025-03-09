@@ -41,28 +41,24 @@
                         <table class="table table-striped table-bordered table-hover dataTables-example">
                             <thead>
                                 <tr>
-                                    <th>Rendering engine</th>
-                                    <th>Browser</th>
-                                    <th>Platform(s)</th>
-                                    <th>Engine version</th>
-                                    <th>CSS grade</th>
+                                    <th>#</th>
+                                    <th>Tên Tài Khoản</th>
+                                    <th>Email</th>
+                                    <th>Ngày Tạo</th>
+                                    <th>Thao Tác</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="gradeX">
-                                    <td>Trident</td>
-                                    <td>Internet Explorer 4.0</td>
-                                    <td>Win 95+</td>
-                                    <td class="center">4</td>
-                                    <td class="center">X</td>
-                                </tr>
-                                <tr class="gradeC">
-                                    <td>Trident</td>
-                                    <td>Internet Explorer 5.0</td>
-                                    <td>Win 95+</td>
-                                    <td class="center">5</td>
-                                    <td class="center">C</td>
-                                </tr>
+                                @foreach ($user as $u)
+                                    <tr class="gradeX">
+                                        <td>{{ $u->id }}</td>
+                                        <td>{{ $u->name }}</td>
+                                        <td>{{ $u->email }}</td>
+                                        <td class="center">{{ $u->created_at }}</td>
+                                        <td class="center">Xoá</td>
+                                    </tr>
+                                @endforeach
+
                             </tbody>
                             <tfoot>
                                 <tr>

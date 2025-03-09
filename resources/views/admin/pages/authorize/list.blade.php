@@ -3,14 +3,14 @@
     <div class="main">
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
-                <h2>Danh sách vai trò</h2>
+                <h2>Danh sách quyền của người dùng</h2>
                 <ol class="breadcrumb">
                     <li>
                         <a href="index.html">Dashboard</a>
                     </li>
 
                     <li class="active">
-                        <strong>Danh sách vai trò</strong>
+                        <strong>Danh sách quyền đc cấp</strong>
                     </li>
                 </ol>
             </div>
@@ -21,7 +21,7 @@
         <div class="col-lg-12" style="margin-top: 20px">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>Danh Sách Vai Trò</h5>
+                    <h5>Danh Sách Quyền Được Cấp</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -30,7 +30,7 @@
                             <i class="fa fa-wrench"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
-                            <li><a href="#">Thêm Vai Trò</a></li>
+                            <li><a href="#">Thêm Danh Mục</a></li>
                             <li><a href="#">Về Trang Chủ</a></li>
                         </ul>
 
@@ -38,42 +38,33 @@
                 </div>
                 <div class="ibox-content">
                     <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-hover dataTables-example">
+                        <table class="table table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Tên Vai Trò</th>
-                                    <th>Mô Tả</th>
-                                    <th>Hành Động</th>
+                                    <th>#</th>
+                                    <th>Tên Tài Khoản</th>
+                                    <th>Quyền Hạn</th>
+                                    <th>Thao Tác</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($roles as $role)
+                                @foreach ($userRoles as $ur)
                                     <tr>
-                                        <td>{{ $role->id }}</td>
-                                        <td>{{ $role->name }}</td>
-                                        <td>{{ $role->description }}</td>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $ur->user->name }}</td>
+                                        <td>{{ $ur->role->name }}</td>
                                         <td>
-                                            <a href="{{ route('admin.role.edit', $role->id) }}" class="btn btn-warning btn-sm">Sửa</a>
-                                            <form action="{{ route('admin.role.destroy', $role->id) }}" method="POST" style="display:inline;">
+                                            <a href="{{route('admin.user-role.edit',$ur->id)}}" class="btn btn-warning">Sửa</a>
+                                            <form action="{{ route('admin.user-role.destroy', $ur->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                                                <button class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('Xóa vai trò này?')">Xóa</button>
                                             </form>
                                         </td>
                                     </tr>
                                 @endforeach
                             </tbody>
-
-                            <tfoot>
-                                <tr>
-                                    <th>Rendering engine</th>
-                                    <th>Browser</th>
-                                    <th>Platform(s)</th>
-                                    <th>Engine version</th>
-
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>

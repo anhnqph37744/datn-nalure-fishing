@@ -32,12 +32,9 @@
                             <i class="fa fa-wrench"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
-                            <li><a href="#">Trở Về Danh Sách</a>
-                            </li>
-                            <li><a href="#">Về Trang Chủ</a>
-                            </li>
+                            <li><a href="#">Trở Về Danh Sách</a></li>
+                            <li><a href="#">Về Trang Chủ</a></li>
                         </ul>
-
                     </div>
                 </div>
                 <div class="ibox-content">
@@ -45,18 +42,54 @@
                         <div class="col-sm-6 b-r">
                             <h3 class="m-t-none m-b">Thêm Danh Mục</h3>
                             <p>Thêm danh mục cho sản phẩm của bạn</p>
-                            <form role="form">
-                                <div class="form-group"><label>Tên Danh Mục</label> <input type="text"
-                                        placeholder="Nhập tên danh mục" class="form-control" value="{{ old('name') }}"
-                                        name="name"></div>
-                                <div class="form-group"><label>Ảnh Danh Mục</label> <input type="file"
-                                        class="form-control" name="image"></div>
-                                <div>
-                                    <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>Log
-                                            in</strong></button>
 
+                            {{-- Hiển thị thông báo thành công --}}
+                            @if (session('success'))
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
+
+                            {{-- Hiển thị lỗi validate --}}
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                            <form role="form" action="{{ route('admin.category.update', $category->id) }}" method="POST"
+                                enctype="multipart/form-data">
+                                @csrf
+                                @method('PUT')
+                                <div class="form-group">
+                                    <label>Tên Danh Mục</label>
+                                    <input type="text" placeholder="Nhập tên danh mục" class="form-control"
+                                        value="{{ old('name', $category->name) }}" name="name">
+                                    @error('name')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <img src="{{ asset($category->image) }}"
+                                    alt="" width="100px">
+                                <div class="form-group">
+                                    <label>Ảnh Danh Mục</label>
+                                    <input type="file" class="form-control" name="image">
+                                    @error('image')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div>
+                                    <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit">
+                                        <strong>Sửa danh mục</strong>
+                                    </button>
                                 </div>
                             </form>
+
                         </div>
                         <div class="col-sm-6">
                             <h4>Hãy thêm danh mục cho sản phẩm</h4>
