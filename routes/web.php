@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\admin\category\CategoryController;
+use App\Http\Controllers\auth\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+//admin
+
+Route::prefix('dashboard')->group(function () {
+    //dashboard
+    Route::get('/', function(){
+        return view('admin.pages.Dashboard');
+    });
+    //category
+    Route::get('/category', [CategoryController::class, 'index'])->name('admin.category.index');
+    Route::get('/category/create', [CategoryController::class, 'create'])->name('admin.category.create');
+    Route::post('/category/store', [CategoryController::class, 'store'])->name('admin.category.store');
+    Route::delete('/category/{id}', [CategoryController::class, 'destroy'])->name('admin.category.destroy');
 });
+//auth
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+//client
