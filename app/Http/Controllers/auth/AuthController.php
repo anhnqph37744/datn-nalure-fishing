@@ -44,4 +44,14 @@ class AuthController extends Controller
 
         return response()->json(['error' => 'Email hoặc mật khẩu không đúng!'], 401);
     }
+    public function listUser()
+    {
+            $user = User::all();
+            return view('admin.pages.user.list', compact('user'));
+
+    }
+    public function create()
+    {
+            return view('admin.pages.user.create');
+    }
 }

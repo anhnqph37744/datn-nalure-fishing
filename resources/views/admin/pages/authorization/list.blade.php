@@ -3,14 +3,14 @@
     <div class="main">
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
-                <h2>Danh sách danh mục</h2>
+                <h2>Danh Sách Quyền của Vai Tròc</h2>
                 <ol class="breadcrumb">
                     <li>
                         <a href="index.html">Dashboard</a>
                     </li>
 
                     <li class="active">
-                        <strong>Danh sách danh mục</strong>
+                        <strong>Danh Sách Quyền của Vai Trò</strong>
                     </li>
                 </ol>
             </div>
@@ -21,7 +21,7 @@
         <div class="col-lg-12" style="margin-top: 20px">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>Danh Sách Danh Mục</h5>
+                    <h5>Danh Sách Quyền của Vai Trò</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -38,41 +38,33 @@
                 </div>
                 <div class="ibox-content">
                     <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-hover dataTables-example">
+
+                        <table class="table table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th>Rendering engine</th>
-                                    <th>Browser</th>
-                                    <th>Platform(s)</th>
-                                    <th>Engine version</th>
-                                    <th>CSS grade</th>
+                                    <th>#</th>
+                                    <th>Tên Vai Trò</th>
+                                    <th>Quyền Hạn</th>
+                                    <th>Thao Tác</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="gradeX">
-                                    <td>Trident</td>
-                                    <td>Internet Explorer 4.0</td>
-                                    <td>Win 95+</td>
-                                    <td class="center">4</td>
-                                    <td class="center">X</td>
-                                </tr>
-                                <tr class="gradeC">
-                                    <td>Trident</td>
-                                    <td>Internet Explorer 5.0</td>
-                                    <td>Win 95+</td>
-                                    <td class="center">5</td>
-                                    <td class="center">C</td>
-                                </tr>
+                                @foreach ($rolePermissions as $rp)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $rp->role->name }}</td>
+                                        <td>{{ $rp->permission->name }}</td>
+                                        <td>
+                                            <form action="{{ route('admin.perrmission-role.destroy', $rp->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('Xóa quyền này khỏi vai trò?')">Xóa</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>Rendering engine</th>
-                                    <th>Browser</th>
-                                    <th>Platform(s)</th>
-                                    <th>Engine version</th>
-                                    <th>CSS grade</th>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>

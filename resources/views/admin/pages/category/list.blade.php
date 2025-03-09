@@ -60,9 +60,9 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a href=""
+                                            <a href="{{route('admin.category.edit',$category->id)}}"
                                                 class="btn btn-warning btn-sm">Sửa</a>
-                                            <form action=""
+                                            <form action="{{route('admin.category.destroy',$category->id)}}"
                                                 method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')

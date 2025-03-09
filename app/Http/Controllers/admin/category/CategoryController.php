@@ -21,10 +21,6 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255|unique:categories',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
-        ]);
 
         $imagePath = null;
         if ($request->hasFile('image')) {
@@ -39,7 +35,7 @@ class CategoryController extends Controller
             'image' => $imagePath
         ]);
 
-        return redirect()->route('admin.pages.category.list')->with('success', 'Danh mục được thêm thành công!');
+        return redirect()->route('admin.category.index')->with('success', 'Danh mục được thêm thành công!');
     }
 
     public function destroy($id)
@@ -52,5 +48,39 @@ class CategoryController extends Controller
 
         $category->delete();
         return redirect()->route('admin.category.index')->with('success', 'Danh mục đã bị xóa!');
+    }
+    public function edit($id)
+    {
+        $category = Category::find($id);
+        return view('admin.pages.category.update', compact('category'));
+    }
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+        $obj = Category::find($id);
+
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+
+            if ($obj->image && file_exists(public_path($obj->image))) {
+                unlink(public_path($obj->image));
+            }
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $imagePath = 'storage/category/' . $imageName;
+            $image->move(public_path('storage/category'), $imageName);
+        } else {
+            $imagePath = $obj->image;
+        }
+
+        $obj->update([
+            'name' => $request->name,
+            'image' => $imagePath
+        ]);
+
+        return redirect()->route('admin.category.index')->with('success', 'Danh mục được thêm thành công!');
     }
 }
