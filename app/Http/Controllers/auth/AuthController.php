@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\Redis;
 
 class AuthController extends Controller
 {
@@ -32,26 +33,28 @@ class AuthController extends Controller
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required'
+        ], [
+            'email.required' => "Bạn vui lòng nhập email",
+            'email.email' => "Bạn vui lòng nhập đúng định dạng email có đuôi @gmail.com",
+            'password.required' => "Bạn vui lòng nhập mật khẩu",
         ]);
 
         if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-            return response()->json([
-                'message' => 'Đăng nhập thành công!',
-                'user' => $user
-            ]);
+            return redirect()->route('home');
         }
 
-        return response()->json(['error' => 'Email hoặc mật khẩu không đúng!'], 401);
+        return back()->withErrors([
+            'email' => 'Email hoặc mật khẩu không chính xác.',
+        ])->withInput();
     }
+
     public function listUser()
     {
-            $user = User::all();
-            return view('admin.pages.user.list', compact('user'));
-
+        $user = User::all();
+        return view('admin.pages.user.list', compact('user'));
     }
     public function create()
     {
-            return view('admin.pages.user.create');
+        return view('admin.pages.user.create');
     }
 }
