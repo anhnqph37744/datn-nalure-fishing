@@ -43,8 +43,8 @@
                     <span class="nav-label">Thuộc Tính</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
 
-                    <li><a href="graph_peity.html">Thêm Thuộc Tính</a></li>
-                    <li><a href="graph_sparkline.html">Danh Sách Thuộc Tính</a></li>
+                    <li><a href="{{ route('admin.attribute.create') }}">Thêm Thuộc Tính</a></li>
+                    <li><a href="{{ route('admin.attribute.index') }}">Danh Sách Thuộc Tính</a></li>
                 </ul>
             </li>
             <li>
