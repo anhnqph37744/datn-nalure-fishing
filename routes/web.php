@@ -35,7 +35,7 @@ Route::prefix('dashboard')->group(function () {
     Route::put('/category/update/{id}', [CategoryController::class, 'update'])->name('admin.category.update')->middleware('permission:update_category');
     //role
     Route::get('/role', [RoleController::class, 'index'])->name('admin.role.index');
-    Route::get('/role/create', [RoleController::class, 'create'])->name('admin.role.create');
+    Route::get('/role/create', [RoleController::class, 'create'])->name('admin.role.create')->middleware('permission:create_role');
     Route::post('/role/store', [RoleController::class, 'store'])->name('admin.role.store');
     Route::delete('/role/{id}', [RoleController::class, 'destroy'])->name('admin.role.destroy');
     Route::get('/role/edit/{id}', [RoleController::class, 'edit'])->name('admin.role.edit');
