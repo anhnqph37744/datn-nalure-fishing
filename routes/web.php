@@ -31,7 +31,7 @@ Route::prefix('dashboard')->group(function () {
     Route::get('/category/create', [CategoryController::class, 'create'])->name('admin.category.create')->middleware('permission:create_category');
     Route::post('/category/store', [CategoryController::class, 'store'])->name('admin.category.store')->middleware('permission:create_category');
     Route::delete('/category/{id}', [CategoryController::class, 'destroy'])->name('admin.category.destroy')->middleware('permission:delete_category');
-    Route::get('/category/edit/{id}', [CategoryController::class, 'edit'])->name('admin.category.edit')->middleware('permission:edit_category');
+    Route::get('/category/edit/{id}', [CategoryController::class, 'edit'])->name('admin.category.edit')->middleware('permission:update_category');
     Route::put('/category/update/{id}', [CategoryController::class, 'update'])->name('admin.category.update')->middleware('permission:update_category');
     //role
     Route::get('/role', [RoleController::class, 'index'])->name('admin.role.index');
