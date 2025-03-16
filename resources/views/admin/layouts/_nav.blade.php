@@ -39,6 +39,15 @@
                 </ul>
             </li>
             <li>
+                <a href="#"><i class="fas fa-list"></i>
+                    <span class="nav-label">Thương Hiệu</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+
+                    <li><a href="{{ route('admin.brand.create') }}">Thêm Thương Hiệu</a></li>
+                    <li><a href="{{ route('admin.brand.index') }}">Danh Sách Thương Hiệu</a></li>
+                </ul>
+            </li>
+            <li>
                 <a href="#"><i class="fas fa-cogs"></i>
                     <span class="nav-label">Thuộc Tính</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">

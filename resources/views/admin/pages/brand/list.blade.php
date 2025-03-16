@@ -3,14 +3,14 @@
     <div class="main">
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
-                <h2>Danh sách danh mục</h2>
+                <h2>Danh sách thương hiệu</h2>
                 <ol class="breadcrumb">
                     <li>
                         <a href="index.html">Dashboard</a>
                     </li>
 
                     <li class="active">
-                        <strong>Danh sách danh mục</strong>
+                        <strong>Danh sách thương hiệu</strong>
                     </li>
                 </ol>
             </div>
@@ -21,7 +21,7 @@
         <div class="col-lg-12" style="margin-top: 20px">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>Danh Sách Danh Mục</h5>
+                    <h5>Danh Sách Thương Hiệu</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -41,36 +41,45 @@
                         <table class="table table-striped table-bordered table-hover dataTables-example">
                             <thead>
                                 <tr>
-                                    <th>Rendering engine</th>
-                                    <th>Browser</th>
-                                    <th>Platform(s)</th>
-                                    <th>Engine version</th>
-                                    <th>CSS grade</th>
+                                    <th>#</th>
+                                    <th>Tên Thương Hiệu</th>
+                                    <th>Ảnh minh hoạ</th>
+                                    <th>Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="gradeX">
-                                    <td>Trident</td>
-                                    <td>Internet Explorer 4.0</td>
-                                    <td>Win 95+</td>
-                                    <td class="center">4</td>
-                                    <td class="center">X</td>
-                                </tr>
-                                <tr class="gradeC">
-                                    <td>Trident</td>
-                                    <td>Internet Explorer 5.0</td>
-                                    <td>Win 95+</td>
-                                    <td class="center">5</td>
-                                    <td class="center">C</td>
-                                </tr>
+                                @foreach ($brands as $brand)
+                                    <tr class="gradeX">
+                                        <td>{{ $brand->id }}</td>
+                                        <td>{{ $brand->name }}</td>
+                                        <td>
+                                            @if ($brand->image)
+                                                <img src="{{ asset($brand->image) }}" width="80">
+                                            @else
+                                                Không có ảnh
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('admin.brand.edit', $brand->id) }}"
+                                                class="btn btn-warning btn-sm">Sửa</a>
+                                            <form action="{{ route('admin.brand.destroy', $brand->id) }}"
+                                                method="POST" style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('Xóa thương hiệu này?')">Xóa</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
+
                             <tfoot>
                                 <tr>
                                     <th>Rendering engine</th>
                                     <th>Browser</th>
                                     <th>Platform(s)</th>
                                     <th>Engine version</th>
-                                    <th>CSS grade</th>
                                 </tr>
                             </tfoot>
                         </table>
