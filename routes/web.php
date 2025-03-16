@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin\auth\RolePermissionController;
 use App\Http\Controllers\admin\auth\UserRoleController;
+use App\Http\Controllers\admin\brand\BrandController;
 use App\Http\Controllers\admin\category\CategoryController;
 use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\auth\PermissionController;
@@ -65,6 +66,14 @@ Route::prefix('dashboard')->group(function () {
     Route::delete('/perrmission-role/delete/{id}', [RolePermissionController::class, 'destroy'])->name('admin.perrmission-role.destroy');
     Route::get('/perrmission-role/edit/{id}', [RolePermissionController::class, 'edit'])->name('admin.perrmission-role.edit');
     Route::put('/perrmission-role/update/{id}', [RolePermissionController::class, 'update'])->name('admin.perrmission-role.update');
+
+    // Brand
+    Route::get('/brand', [BrandController::class, 'index'])->name('admin.brand.index')->middleware('permission:list_brand');
+    Route::get('/brand/create', [BrandController::class, 'create'])->name('admin.brand.create')->middleware('permission:create_brand');
+    Route::post('/brand/store', [BrandController::class, 'store'])->name('admin.brand.store')->middleware('permission:create_brand');
+    Route::delete('/brand/{id}', [BrandController::class, 'destroy'])->name('admin.brand.destroy')->middleware('permission:delete_brand');
+    Route::get('/brand/edit/{id}', [BrandController::class, 'edit'])->name('admin.brand.edit')->middleware('permission:update_brand');
+    Route::put('/brand/update/{id}', [BrandController::class, 'update'])->name('admin.brand.update')->middleware('permission:update_brand');
 });
 //auth
 Route::post('/register', [AuthController::class, 'register'])->name('register');
