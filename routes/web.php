@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\admin\attribute\AttributeController;
 use App\Http\Controllers\admin\auth\RolePermissionController;
 use App\Http\Controllers\admin\auth\UserRoleController;
 use App\Http\Controllers\admin\category\CategoryController;
-use App\Http\Controllers\AttributesController;
 use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\auth\PermissionController;
 use App\Http\Controllers\auth\RoleController;
@@ -34,13 +34,15 @@ Route::prefix('dashboard')->group(function () {
     Route::delete('/category/{id}', [CategoryController::class, 'destroy'])->name('admin.category.destroy')->middleware('permission:delete_category');
     Route::get('/category/edit/{id}', [CategoryController::class, 'edit'])->name('admin.category.edit')->middleware('permission:edit_category');
     Route::put('/category/update/{id}', [CategoryController::class, 'update'])->name('admin.category.update')->middleware('permission:update_category');
-     //attribute
-     Route::get('/attribute', [AttributesController::class, 'index'])->name('admin.attribute.index')->middleware('permission:list_attribute');
-     Route::get('/attribute/create', [AttributesController::class, 'create'])->name('admin.attribute.create')->middleware('permission:create_attribute');
-     Route::post('/attribute/store', [AttributesController::class, 'store'])->name('admin.attribute.store')->middleware('permission:create_attribute');
-     Route::delete('/attribute/{id}', [AttributesController::class, 'destroy'])->name('admin.attribute.destroy')->middleware('permission:delete_attribute');
-     Route::get('/attribute/edit/{id}', [AttributesController::class, 'edit'])->name('admin.attribute.edit')->middleware('permission:edit_attribute');
-     Route::put('/attribute/update/{id}', [AttributesController::class, 'update'])->name('admin.attribute.update')->middleware('permission:update_attribute');
+
+    //attribute
+    Route::get('/attribute', [AttributeController::class, 'index'])->name('admin.attribute.index');
+    Route::get('/attribute/create', [AttributeController::class, 'create'])->name('admin.attribute.create');
+    Route::post('/attribute/store', [AttributeController::class, 'store'])->name('admin.attribute.store');
+    Route::delete('/attribute/{id}', [AttributeController::class, 'destroy'])->name('admin.attribute.destroy');
+    Route::get('/attribute/edit/{id}', [AttributeController::class, 'edit'])->name('admin.attribute.edit');
+    Route::put('/attribute/update/{id}', [AttributeController::class, 'update'])->name('admin.attribute.update');
+
     //role
     Route::get('/role', [RoleController::class, 'index'])->name('admin.role.index');
     Route::get('/role/create', [RoleController::class, 'create'])->name('admin.role.create');

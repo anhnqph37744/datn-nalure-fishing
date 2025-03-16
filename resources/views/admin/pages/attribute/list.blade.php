@@ -41,38 +41,32 @@
                         <table class="table table-striped table-bordered table-hover dataTables-example">
                             <thead>
                                 <tr>
-                                    <th>Rendering engine</th>
-                                    <th>Browser</th>
-                                    <th>Platform(s)</th>
-                                    <th>Engine version</th>
-                                    <th>CSS grade</th>
+                                    <th>STT</th>
+                                    <th>Tên danh mục</th>
+                                    <th>Thao tác</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($attribute as $attribute)
                                 <tr class="gradeX">
-                                    <td>Trident</td>
-                                    <td>Internet Explorer 4.0</td>
-                                    <td>Win 95+</td>
-                                    <td class="center">4</td>
-                                    <td class="center">X</td>
+                                    <td>{{ $attribute->id }}</td>
+                                    <td>{{ $attribute->name }}</td>
+                                    <td>
+                                        <a href="{{route('admin.attribute.edit',$attribute->id)}}"
+                                            class="btn btn-warning btn-sm">Sửa</a>
+                                        <form action="{{route('admin.attribute.destroy',$attribute->id)}}"
+                                            method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm"
+                                                onclick="return confirm('Xóa danh mục này?')">Xóa</button>
+                                        </form>
+                                    </td>
                                 </tr>
-                                <tr class="gradeC">
-                                    <td>Trident</td>
-                                    <td>Internet Explorer 5.0</td>
-                                    <td>Win 95+</td>
-                                    <td class="center">5</td>
-                                    <td class="center">C</td>
-                                </tr>
+                               @endforeach
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>Rendering engine</th>
-                                    <th>Browser</th>
-                                    <th>Platform(s)</th>
-                                    <th>Engine version</th>
-                                    <th>CSS grade</th>
-                                </tr>
-                            </tfoot>
+                           
                         </table>
                     </div>
                 </div>
