@@ -48,14 +48,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($attribute as $attribute)
+                                @foreach ($attributeValue as $attributeValue)
                                 <tr class="gradeX">
-                                    <td>{{ $attribute->id }}</td>
-                                    <td>{{ $attribute->name }}</td>
+                                    <td>{{ $attributeValue->id }}</td>
+                                    <td>{{ $attributeValue->name }}</td>
                                     <td>
-                                        <a href="{{route('admin.attribute.edit',$attribute->id)}}"
+                                        <a href="{{route('admin.attribute.edit',$attributeValue->id)}}"
                                             class="btn btn-warning btn-sm">Sửa</a>
-                                        <form action="{{route('admin.attribute.destroy',$attribute->id)}}"
+                                        <form action="{{route('admin.attribute.destroy',$attributeValue->id)}}"
                                             method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
