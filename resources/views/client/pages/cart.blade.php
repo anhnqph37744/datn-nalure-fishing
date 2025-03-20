@@ -33,45 +33,52 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="cart_item">
-                                <td data-title="Product">
-                                    <a class="cart-productimage" href="shop-details.html">
-                                        <img src="{{ asset('client/assets/img/cart/cart-img-1.png') }}" alt="Image">
-                                    </a>
-                                </td>
-                                <td data-title="Name">
-                                    <a class="cart-productname" href="shop-details.html">Spoon lure tackle Baits</a>
-                                </td>
-                                <td data-title="Price">
-                                    <span class="amount">
-                                        <bdi>
-                                            <span>$</span>18</bdi>
-                                    </span>
-                                </td>
-                                <td data-title="Quantity">
-                                    <div class="quantity product-quantity">
-                                        <button class="quantity-minus qut-btn">
-                                            <i class="far fa-minus"></i>
-                                        </button>
-                                        <input type="number" class="qty-input" value="1" min="1"
-                                            max="99">
-                                        <button class="quantity-plus qut-btn"><i class="far fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                                <td data-title="Total">
-                                    <span class="amount">
-                                        <bdi>
-                                            <span>$</span>18</bdi>
-                                    </span>
-                                </td>
-                                <td data-title="Remove">
-                                    <a href="shop-details.html" class="remove">
-                                        <i class="fal fa-trash-alt">
-                                        </i>
-                                    </a>
-                                </td>
-                            </tr>
+                            @foreach ($cart as $c)
+                                <tr class="cart_item">
+                                    <td data-title="Product">
+                                        <a class="cart-productimage" href="{{ route('detail', $c->id_product) }}">
+                                            <img src="{{ $c->image }}" alt="Image">
+                                        </a>
+                                    </td>
+                                    <td data-title="Name">
+                                        <a class="cart-productname"
+                                            href="{{ route('detail', $c->id_product) }}">{{ $c->name }}</a>
+                                    </td>
+                                    <td data-title="Price">
+                                        <span class="amount">
+                                            <bdi>
+                                                <span>{{ number_format($c->price, 0, ',', '.') }} đ</span></bdi>
+                                        </span>
+                                    </td>
+                                    <td data-title="Quantity">
+                                        <div class="quantity product-quantity">
+                                            <button class="quantity-minus qut-btn">
+                                                <i class="far fa-minus"></i>
+                                            </button>
+                                            <input type="number" class="qty-input" value="1" min="1"
+                                                max="99">
+                                            <button class="quantity-plus qut-btn"><i class="far fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td data-title="Total">
+                                        <span class="amount">
+                                            <bdi>
+                                                <span>{{ number_format($c->total, 0, ',', '.') }} đ</span></bdi>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <form action="{{ route('remove-cart', $c->id) }}" method="POST">
+                                            @csrf
+                                            @method('POST')
+                                            <button style="border:none; background:none; cursor:pointer;">
+                                                <i class="fal fa-trash-alt"></i>
+                                            </button>
+                                        </form>
+
+                                    </td>
+                                </tr>
+                            @endforeach
 
 
 
@@ -117,4 +124,5 @@
             </div>
         </div>
     </section>
+
 @endsection

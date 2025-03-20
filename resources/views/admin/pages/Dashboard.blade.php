@@ -220,7 +220,7 @@
                                                 <img
                                                     alt="image"
                                                     class="img-circle"
-                                                    src="img/profile.jpg" />
+                                                    src="{{asset('admin/img/profile.jpg')}}" />
                                             </a>
                                             <div class="media-body">
                                                 <small class="pull-right">5m ago</small>
@@ -268,7 +268,7 @@
                                                 <img
                                                     alt="image"
                                                     class="img-circle"
-                                                    src="img/a4.jpg" />
+                                                    src="{{asset('admin/img/a4.jpg')}}" />
                                             </a>
                                             <div class="media-body">
                                                 <small class="pull-right text-navy">5h ago</small>
@@ -319,7 +319,7 @@
                                                 <img
                                                     alt="image"
                                                     class="img-circle"
-                                                    src="img/profile.jpg" />
+                                                    src="{{asset('admin/img/profile.jpg')}}" />
                                             </a>
                                             <div class="media-body">
                                                 <small class="pull-right">23h ago</small>
@@ -335,7 +335,7 @@
                                                 <img
                                                     alt="image"
                                                     class="img-circle"
-                                                    src="img/a7.jpg" />
+                                                    src="{{asset('admin/img/a7.jpg')}}" />
                                             </a>
                                             <div class="media-body">
                                                 <small class="pull-right">46h ago</small>
@@ -671,7 +671,7 @@
                                     <img
                                         alt="image"
                                         class="img-circle message-avatar"
-                                        src="img/a4.jpg" />
+                                        src="{{asset('admin/img/a4.jpg')}}" />
                                 </div>
 
                                 <div class="media-body">
@@ -704,7 +704,7 @@
                                     <img
                                         alt="image"
                                         class="img-circle message-avatar"
-                                        src="img/a7.jpg" />
+                                        src="{{asset('admin/img/a7.jpg')}}" />
                                 </div>
                                 <div class="media-body">
                                     Renaissance. The first line of Lorem Ipsum, "Lorem
@@ -743,7 +743,7 @@
                                     <img
                                         alt="image"
                                         class="img-circle message-avatar"
-                                        src="img/a4.jpg" />
+                                        src="{{asset('admin/img/a4.jpg')}}" />
                                 </div>
                                 <div class="media-body">
                                     Uncover many web sites still in their infancy. Various
