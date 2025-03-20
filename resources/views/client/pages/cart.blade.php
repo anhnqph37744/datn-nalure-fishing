@@ -70,7 +70,7 @@
                                     <td>
                                         <form action="{{ route('remove-cart', $c->id) }}" method="POST">
                                             @csrf
-                                            @method('POST')
+                                            @method('DELETE')
                                             <button style="border:none; background:none; cursor:pointer;">
                                                 <i class="fal fa-trash-alt"></i>
                                             </button>
@@ -79,8 +79,6 @@
                                     </td>
                                 </tr>
                             @endforeach
-
-
 
                             <tr>
                                 <td colspan="6" class="actions">
@@ -124,5 +122,4 @@
             </div>
         </div>
     </section>
-
 @endsection
