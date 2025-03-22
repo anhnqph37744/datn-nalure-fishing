@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin\attribute_value;
 
+use App\Http\Requests\AttributeValueRequest;
 use App\Models\Attributes;
 use Illuminate\Http\Request;
 use App\Models\AttributeValue;
@@ -14,8 +15,8 @@ class AttributeValueController extends Controller
      */
     public function index()
     {
-        $attributeValue = AttributeValue::all();
-        return view('admin.pages.attribute_value.list', compact('attributeValue'));
+        $attribute = AttributeValue::all();
+        return view('admin.pages.attribute_value.list', compact('attribute'));
     }
 
     /**
@@ -30,12 +31,15 @@ class AttributeValueController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(AttributeValueRequest $request)
     {
+       
         AttributeValue::create([
-            'name' => $request->name,
             'attribute_id' => $request->attribute_id,
+            'value' => $request->value,
         ]);
+        return redirect()->route('admin.attribute_value.index')->with('success', 'Giá trị thuộc tính được thêm thành công!');
+
     }
 
     /**
@@ -51,15 +55,24 @@ class AttributeValueController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $attribute = Attributes::all();
+        $attributeValue = AttributeValue::findOrFail($id);
+        return view('admin.pages.attribute_value.update', compact('attributeValue', 'attribute'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(AttributeValueRequest $request, string $id)
     {
-        //
+        $obj = AttributeValue::find($id);
+        $obj->update([
+            'attribute_id' => $request->attribute_id,
+            'value' => $request->value,
+        
+        ]);
+
+        return redirect()->route('admin.attribute_value.index')->with('success', 'Sửa thành công thuộc tính!');
     }
 
     /**
@@ -67,6 +80,8 @@ class AttributeValueController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $attributeValue = AttributeValue::findOrFail($id);
+        $attributeValue->delete();
+        return redirect()->route('admin.attribute_value.index')->with('success', 'Thuộc tính đã bị xóa!');
     }
 }

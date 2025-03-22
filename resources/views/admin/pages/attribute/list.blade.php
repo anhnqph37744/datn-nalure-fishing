@@ -3,14 +3,14 @@
     <div class="main">
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
-                <h2>Danh sách danh mục</h2>
+                <h2>Danh sách thuộc tính</h2>
                 <ol class="breadcrumb">
                     <li>
                         <a href="index.html">Dashboard</a>
                     </li>
 
                     <li class="active">
-                        <strong>Danh sách danh mục</strong>
+                        <strong>Danh sách thuộc tính</strong>
                     </li>
                 </ol>
             </div>
@@ -21,7 +21,7 @@
         <div class="col-lg-12" style="margin-top: 20px">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>Danh Sách thuộc tính</h5>
+                    <h5>Danh Sách Thuộc Tính</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -36,6 +36,13 @@
 
                     </div>
                 </div>
+                <div class="ibox-content">
+                    @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                <a href="{{ route('admin.attribute.create') }}" class="btn btn-primary mb-3">Tạo Mới Thuộc Tính</a>
                 <div class="ibox-content">
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover dataTables-example">

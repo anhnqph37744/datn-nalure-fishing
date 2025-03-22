@@ -3,7 +3,7 @@
     <div class="main">
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
-                <h2>THÊM GÍA TRỊ THUỘC TÍNH</h2>
+                <h2>THÊM GIÁ TRỊ THUỘC TÍNH</h2>
                 <ol class="breadcrumb">
                     <li>
                         <a href="{{ url('/admin') }}">Dashboard</a>
@@ -16,9 +16,7 @@
                     </li>
                 </ol>
             </div>
-            <div class="col-lg-2">
-
-            </div>
+            
         </div>
         <div class="col-lg-12" style="margin-top: 20px">
             <div class="ibox float-e-margins">
@@ -32,12 +30,9 @@
                             <i class="fa fa-wrench"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
-                            <li><a href="#">Trở Về Danh Sách</a>
-                            </li>
-                            <li><a href="#">Về Trang Chủ</a>
-                            </li>
+                            <li><a href="#">Trở Về Danh Sách</a></li>
+                            <li><a href="#">Về Trang Chủ</a></li>
                         </ul>
-
                     </div>
                 </div>
                 <div class="ibox-content">
@@ -45,36 +40,42 @@
                         <div class="col-sm-6 b-r">
                             <h3 class="m-t-none m-b">Thêm Giá Trị Thuộc Tính</h3>
                             <p>Thêm giá trị thuộc tính cho sản phẩm của bạn</p>
-
+        
                             <form role="form" action="{{ route('admin.attribute_value.store') }}" method="POST">
                                 @csrf
-                                <div class="mb-3">
-                                <label for="attribute_id">Chọn thuộc tính:</label>
-                                <select class="form-select" name="attribute_id" id="attribute_id">
-                                    <option value="">Chọn thuộc tính</option>
-                                    @foreach($attributeValue as $attributeValue)
-                                        <option value="{{ $attributeValue->id }}">{{ $attributeValue->name }}</option>
-                                    @endforeach
+                                
+                                <div class="form-group">
+                                    <label for="attribute_id">Chọn thuộc tính:</label>
+                                    <select class="form-select form-select-sm" name="attribute_id" id="attribute_id" aria-label="Chọn thuộc tính">
+                                        <option value="" disabled selected>Chọn thuộc tính</option>
+                                        @foreach($attributeValue as $attributeValue)
+                                            <option value="{{ $attributeValue->id }}">{{ $attributeValue->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('attribute_id')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
-                                </select>
-                                <div class="form-group"><label>Tên giá trị Thuộc Tính</label> <input type="text"
-                                        placeholder="Nhập giá trị thuộc tính" class="form-control" value="{{ old('name') }}"
-                                        name="name"></div>
-                                {{-- @error('name')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror --}}
-                                <button class="btn btn-sm btn-primary pull-right m-t-n-xs"
-                                    type="submit"><strong>Thêm</strong></button>
-
+                                
+                                <div class="form-group">
+                                    <label for="value">Tên giá trị Thuộc Tính</label>
+                                    <input type="text" placeholder="Nhập giá trị thuộc tính" class="form-control" value="{{ old('value') }}" name="value">
+                                    @error('value')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                
+                                <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>Thêm</strong></button>
+                            </form>
                         </div>
-                        </form>
-                    </div>
-                    <div class="col-sm-6">
-                        <h4>Hãy thêm thuộc tính cho sản phẩm</h4>
-                        <p>Để website của bạn phong phú hơn </p>
-                        <p class="text-center">
-                            <span><i class="fa fa-sign-in big-icon"></i></span>
-                        </p>
+                        
+                        <div class="col-sm-6">
+                            <h4>Hãy thêm thuộc tính cho sản phẩm</h4>
+                            <p>Để website của bạn phong phú hơn</p>
+                            <p class="text-center">
+                                <span><i class="fa fa-sign-in big-icon"></i></span>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>

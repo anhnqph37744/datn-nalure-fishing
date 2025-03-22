@@ -66,7 +66,7 @@ class AttributeController extends Controller
         
         ]);
 
-        return redirect()->route('admin.attribute.index')->with('success', 'Danh mục được thêm thành công!');
+        return redirect()->route('admin.attribute.index')->with('success', 'Sửa thuộc tính thành công!');
     }
     
 
@@ -78,7 +78,7 @@ class AttributeController extends Controller
     {
         $attribute = Attributes::findOrFail($id);
         $attribute->delete();
-        return redirect()->route('admin.attribute.index')->with('success', 'Danh mục đã bị xóa!');
+        return redirect()->route('admin.attribute.index')->with('success', 'Thuộc tính đã bị xóa!');
 
     }
 }
