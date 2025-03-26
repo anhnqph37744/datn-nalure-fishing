@@ -19,6 +19,8 @@
         content="#ffffff">
     <meta name="theme-color" content="#ffffff">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
     <link rel="preconnect" href="https://fonts.googleapis.com/">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo:wght@400;500;600;700;800&amp;family=Inter&amp;display=swap"
@@ -38,122 +40,46 @@
 
     @include('client.layouts._loader')
 
-    <div class="sidemenu-wrapper d-none d-lg-block">
-        <div class="sidemenu-content">
-            <button class="closeButton sideMenuCls"><i class="far fa-times"></i></button>
-            <div class="widget  ">
-                <div class="vs-widget-about">
-                    <div class="footer-logo">
-                        <a href="index.html"><img src="{{ asset('client/assets/img/logo.svg') }}" alt="Marino"></a>
-                    </div>
-                    <p class="footer-text">Ut tellus dolor, dapibus eget, elementum ifend cursus eleifend, elit. Aenea
-                        ifen dn tor wisi Aliquam er at volutpat. Dui ac tui end cursus eleifendrpis.</p>
-                    <div class="info-social style3">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-google"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="widget  ">
-                <h3 class="widget_title">Recent Articles</h3>
-                <div class="recent-post-wrap">
-                    <div class="recent-post">
-                        <div class="media-img">
-                            <a href="blog-details.html"><img
-                                    src="{{ asset('client/assets/img/blog/recent-post-1-1.jpg') }}"
-                                    alt="Blog Image"></a>
-                        </div>
-                        <div class="media-body">
-                            <div class="recent-post-meta">
-                                <a href="blog.html"><i class="fal fa-calendar-alt"></i>December 15, 2022</a>
-                            </div>
-                            <h4 class="post-title"><a class="text-inherit" href="blog-details.html">Expanding The
-                                    Solar
-                                    Supply Chain Finance</a></h4>
-                        </div>
-                    </div>
-                    <div class="recent-post">
-                        <div class="media-img">
-                            <a href="blog-details.html"><img
-                                    src="{{ asset('client/assets/img/blog/recent-post-1-2.jpg') }}"
-                                    alt="Blog Image"></a>
-                        </div>
-                        <div class="media-body">
-                            <div class="recent-post-meta">
-                                <a href="blog.html"><i class="fal fa-calendar-alt"></i>March 13, 2022</a>
-                            </div>
-                            <h4 class="post-title"><a class="text-inherit" href="blog-details.html">Surviving
-                                    sustainably solar energy 2022</a></h4>
-                        </div>
-                    </div>
-                    <div class="recent-post">
-                        <div class="media-img">
-                            <a href="blog-details.html"><img
-                                    src="{{ asset('client/assets/img/blog/recent-post-1-3.jpg') }}"
-                                    alt="Blog Image"></a>
-                        </div>
-                        <div class="media-body">
-                            <div class="recent-post-meta">
-                                <a href="blog.html"><i class="fal fa-calendar-alt"></i>Augest 23, 2022</a>
-                            </div>
-                            <h4 class="post-title"><a class="text-inherit" href="blog-details.html">Future Solar
-                                    Energy
-                                    Innovation Challenges</a></h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    @if (Auth::check())
 
-    <div class="sideCart-wrapper offcanvas-wrapper d-none d-lg-block">
-        <div class="sidemenu-content">
-            <button class="closeButton border-theme bg-theme-hover sideMenuCls2"><i class="far fa-times"></i></button>
-            <div class="widget widget_shopping_cart">
-                <h3 class="widget_title">Shopping cart</h3>
-                <div class="widget_shopping_cart_content">
-                    <ul class="cart_list">
-                        <li class="mini_cart_item">
-                            <a href="shop.html" class="remove"><i class="fal fa-trash-alt"></i></a> <a
-                                href="shop.html"><img src="{{ asset('client/assets/img/cart/cart-img-1.png') }}"
-                                    alt="Cart Image" />Fishing
-                                Reels Spin</a>
-                            <span class="quantity">
-                                1 × <span class="amount"><span>$</span>100.00</span>
-                            </span>
-                        </li>
-                        <li class="mini_cart_item">
-                            <a href="shop.html" class="remove"><i class="fal fa-trash-alt"></i></a> <a
-                                href="shop.html"><img src="{{ asset('client/assets/img/cart/cart-img-2.png') }}"
-                                    alt="Cart Image" />Spoon
-                                lure tackle Baits</a>
-                            <span class="quantity">
-                                1 × <span class="amount"><span>$</span>19.00</span>
-                            </span>
-                        </li>
-                        <li class="mini_cart_item">
-                            <a href="shop.html" class="remove"><i class="fal fa-trash-alt"></i></a> <a
-                                href="shop.html"><img src="{{ asset('client/assets/img/cart/cart-img-3.png') }}"
-                                    alt="Cart Image" />Fishing
-                                Reels Globeride</a>
-                            <span class="quantity">
-                                1 × <span class="amount"><span>$</span>10.00</span>
-                            </span>
-                        </li>
-                    </ul>
-                    <div class="total">
-                        <strong>Subtotal:</strong> <span class="amount"><span>$</span>129.00</span>
-                    </div>
-                    <div class="buttons">
-                        <a href="cart.html" class="vs-btn style4">View cart</a>
-                        <a href="checkout.html" class="vs-btn style4">Checkout</a>
+
+        <div class="sidemenu-wrapper d-none d-lg-block">
+            <div class="sidemenu-content">
+                <button class="closeButton sideMenuCls"><i class="far fa-times"></i></button>
+                <div class="widget widget_shopping_cart">
+                    <h3 class="widget_title">Giỏ hàng</h3>
+                    <div class="widget_shopping_cart_content">
+                        <ul class="cart_list">
+                            @foreach ($cart as $c)
+                                <li class="mini_cart_item">
+                                    <form action="{{ route('remove-cart', $c->id) }}" method="POST"> @csrf
+                                        @method('DELETE')<button style="border:none;" class="remove"><i
+                                                class="fal fa-trash-alt"></i></button></form> <a
+                                        href="{{ route('detail', $c->id_product) }}"><img src="{{ $c->image }}"
+                                            alt="Cart Image" />{{ Str::limit($c->name, 50, '...') }}</a>
+                                    <span class="quantity">
+                                        {{ $c->quantity }} × <span
+                                            class="amount"><span>{{ number_format($c->price, 0, ',', '.') }}
+                                                đ</span></span>
+                                    </span>
+                                </li>
+                            @endforeach
+
+                        </ul>
+                        <div class="total">
+                            <strong>Tổng tiền:</strong> <span class="amount"><span>67.000 đ</span></span>
+                        </div>
+                        <div class="buttons">
+                            <a href="{{ route('cart') }}" class="vs-btn style4">View cart</a>
+                            <a href="checkout.html" class="vs-btn style4">Checkout</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
+
+
 
     @include('client.layouts._header')
 
@@ -188,6 +114,29 @@
     <script src="{{ asset('client/assets/js/imagesloaded.pkgd.min.js') }}"></script>
     <!-- Main Js File -->
     <script src="{{ asset('client/assets/js/main.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <script>
+        $(document).ready(function() {
+            @if (session('success'))
+                toastr.success("{{ session('success') }}", "Thành công");
+            @endif
+
+            @if (session('error'))
+                toastr.error("{{ session('error') }}", "Lỗi");
+            @endif
+
+            @if (session('warning'))
+                toastr.warning("{{ session('warning') }}", "Cảnh báo");
+            @endif
+
+            @if (session('info'))
+                toastr.info("{{ session('info') }}", "Thông báo");
+            @endif
+        });
+    </script>
 
 
 

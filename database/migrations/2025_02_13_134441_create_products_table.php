@@ -22,8 +22,8 @@ return new class extends Migration
             $table->integer('quantity_warning')->default(0);
             $table->string('tags', 200)->nullable();
             $table->string('sku', 100)->unique();
-            $table->foreignId('brand_id')->nullable()->constrained('brands')->nullOnDelete();
-            $table->foreignId('category_id')->nullable()->constrained('categories')->nullOnDelete();
+            $table->integer('brand_id');
+            $table->integer('category_id');
             $table->string('instructional_images', 255)->nullable();
             $table->tinyInteger('active')->default(1);
             $table->timestamps();
