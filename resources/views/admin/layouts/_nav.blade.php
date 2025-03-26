@@ -54,8 +54,8 @@
                     <span class="nav-label">Sản Phẩm</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
 
-                    <li><a href="graph_peity.html">Thêm Sản Phẩm</a></li>
-                    <li><a href="graph_sparkline.html">Danh Sách Sản Phẩm</a></li>
+                    <li><a href="{{ route('admin.product.create') }}">Thêm Sản Phẩm</a></li>
+                    <li><a href="{{ route('admin.product.index') }}">Danh Sách Sản Phẩm</a></li>
                 </ul>
             </li>
             <li>
