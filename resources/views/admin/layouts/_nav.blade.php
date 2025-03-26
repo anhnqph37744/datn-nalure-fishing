@@ -50,6 +50,15 @@
                 </ul>
             </li>
             <li>
+                <a href="#"><i class="fas fa-cogs"></i>
+                    <span class="nav-label">Banner</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+
+                    <li><a href="{{ route('banner.create')}}">Thêm Banner</a></li>
+                    <li><a href="{{ route('banner.index') }}">Danh Sách Banner</a></li>
+                </ul>
+            </li>
+            <li>
                 <a href="#"><i class="fas fa-box"></i>
                     <span class="nav-label">Sản Phẩm</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
