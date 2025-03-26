@@ -43,8 +43,10 @@
                     <span class="nav-label">Thuộc Tính</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
 
-                    <li><a href="graph_peity.html">Thêm Thuộc Tính</a></li>
-                    <li><a href="graph_sparkline.html">Danh Sách Thuộc Tính</a></li>
+                    <li><a href="{{ route('admin.attribute.create') }}">Thêm Thuộc Tính</a></li>
+                    <li><a href="{{ route('admin.attribute.index') }}">Danh Sách Thuộc Tính</a></li>
+                    <li><a href="{{ route('admin.attribute_value.create') }}">Thêm Giá Trị Thuộc Tính</a></li>
+                    <li><a href="{{ route('admin.attribute_value.index') }}">Danh Sách Giá Trị Thuộc Tính</a></li>
                 </ul>
             </li>
             <li>
@@ -68,6 +70,15 @@
             <li>
                 <a href=""><i class="fas fa-shopping-cart"></i>
                     <span class="nav-label">Đơn Hàng </span><span class="label label-info pull-right">62</span></a>
+            </li>
+            <li>
+                <a href="#"><i class="fas fa-list"></i>
+                    <span class="nav-label">Voucher</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+
+                    <li><a href="{{ route('admin.voucher.create') }}">Thêm Voucher</a></li>
+                    <li><a href="{{ route('admin.voucher.index') }}">Danh Sách Voucher</a></li>
+                </ul>
             </li>
             <li>
                 <a href="#"><i class="fas fa-user"></i>

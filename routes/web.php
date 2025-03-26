@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\admin\attribute\AttributeController;
+use App\Http\Controllers\admin\attribute_value\AttributeValueController;
 use App\Http\Controllers\admin\auth\RolePermissionController;
 use App\Http\Controllers\admin\auth\UserRoleController;
 use App\Http\Controllers\admin\banner\BannerController;
 use App\Http\Controllers\admin\category\CategoryController;
+use App\Http\Controllers\admin\voucher\VoucherController;
 use App\Http\Controllers\admin\product\ProductController;
 use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\auth\PermissionController;
@@ -31,6 +34,38 @@ Route::prefix('dashboard')->group(function () {
         return view('admin.pages.Dashboard');
     });
     //category
+    Route::get('/category', [CategoryController::class, 'index'])->name('admin.category.index')->middleware('permission:list_category');
+    Route::get('/category/create', [CategoryController::class, 'create'])->name('admin.category.create')->middleware('permission:create_category');
+    Route::post('/category/store', [CategoryController::class, 'store'])->name('admin.category.store')->middleware('permission:create_category');
+    Route::delete('/category/{id}', [CategoryController::class, 'destroy'])->name('admin.category.destroy')->middleware('permission:delete_category');
+    Route::get('/category/edit/{id}', [CategoryController::class, 'edit'])->name('admin.category.edit')->middleware('permission:update_category');
+    Route::put('/category/update/{id}', [CategoryController::class, 'update'])->name('admin.category.update')->middleware('permission:update_category');
+    //voucher
+    Route::get('/voucher', [VoucherController::class, 'index'])->name('admin.voucher.index');
+    Route::get('/voucher/create', [VoucherController::class, 'create'])->name('admin.voucher.create');
+    Route::post('/voucher/store', [VoucherController::class, 'store'])->name('admin.voucher.store');
+    Route::delete('/voucher/{id}', [VoucherController::class, 'destroy'])->name('admin.voucher.destroy');
+    Route::get('/voucher/edit/{id}', [VoucherController::class, 'edit'])->name('admin.voucher.edit');
+    // Route::put('/voucher/update/{id}', [VoucherController::class, 'update'])->name('admin.voucher.update');
+
+    Route::put('/voucher/update/{id}', [VoucherController::class, 'update'])->name('admin.voucher.update');
+    //attribute
+    Route::get('/attribute', [AttributeController::class, 'index'])->name('admin.attribute.index');
+    Route::get('/attribute/create', [AttributeController::class, 'create'])->name('admin.attribute.create');
+    Route::post('/attribute/store', [AttributeController::class, 'store'])->name('admin.attribute.store');
+    Route::delete('/attribute/{id}', [AttributeController::class, 'destroy'])->name('admin.attribute.destroy');
+    Route::get('/attribute/edit/{id}', [AttributeController::class, 'edit'])->name('admin.attribute.edit');
+    Route::put('/attribute/update/{id}', [AttributeController::class, 'update'])->name('admin.attribute.update');
+    //attribute_value
+    Route::get('/attribute_value', [AttributeValueController::class, 'index'])->name('admin.attribute_value.index');
+    Route::get('/attribute_value/create', [AttributeValueController::class, 'create'])->name('admin.attribute_value.create');
+    Route::post('/attribute_value/store', [AttributeValueController::class, 'store'])->name('admin.attribute_value.store');
+    Route::delete('/attribute_value/{id}', [AttributeValueController::class, 'destroy'])->name('admin.attribute_value.destroy');
+    Route::get('/attribute_value/edit/{id}', [AttributeValueController::class, 'edit'])->name('admin.attribute_value.edit');
+    Route::put('/attribute_value/update/{id}', [AttributeValueController::class, 'update'])->name('admin.attribute_value.update');
+
+
+    //role
     Route::get('/category', [CategoryController::class, 'index'])->name('admin.category.index');//->middleware('permission:list_category');
     Route::get('/category/create', [CategoryController::class, 'create'])->name('admin.category.create');//->middleware('permission:create_category');
     Route::post('/category/store', [CategoryController::class, 'store'])->name('admin.category.store');//->middleware('permission:create_category');
