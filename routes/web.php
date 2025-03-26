@@ -4,9 +4,12 @@ use App\Http\Controllers\admin\auth\RolePermissionController;
 use App\Http\Controllers\admin\auth\UserRoleController;
 use App\Http\Controllers\admin\banner\BannerController;
 use App\Http\Controllers\admin\category\CategoryController;
+use App\Http\Controllers\admin\product\ProductController;
 use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\auth\PermissionController;
 use App\Http\Controllers\auth\RoleController;
+use App\Http\Controllers\client\cart\CartController;
+use App\Http\Controllers\client\home\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,7 +47,10 @@ Route::prefix('dashboard')->group(function () {
     Route::put('/banner/{banner}', [BannerController::class, 'update'])->name('banner.update');
     
     Route::get('/role', [RoleController::class, 'index'])->name('admin.role.index');
+
     Route::get('/role/create', [RoleController::class, 'create'])->name('admin.role.create');//->middleware('permission:create_role');
+
+    Route::get('/role/create', [RoleController::class, 'create'])->name('admin.role.create');
     Route::post('/role/store', [RoleController::class, 'store'])->name('admin.role.store');
     Route::delete('/role/{id}', [RoleController::class, 'destroy'])->name('admin.role.destroy');
     Route::get('/role/edit/{id}', [RoleController::class, 'edit'])->name('admin.role.edit');
@@ -75,17 +81,24 @@ Route::prefix('dashboard')->group(function () {
     Route::get('/perrmission-role/edit/{id}', [RolePermissionController::class, 'edit'])->name('admin.perrmission-role.edit');
     Route::put('/perrmission-role/update/{id}', [RolePermissionController::class, 'update'])->name('admin.perrmission-role.update');
 
+
+
+    Route::get('/product', [ProductController::class, 'index'])->name('admin.product.index');
+    Route::get('/product/create', [ProductController::class, 'create'])->name('admin.product.create');
+    Route::post('/product/store', [ProductController::class, 'store'])->name('admin.product.store');
+    Route::get('/product/edit/{id}', [ProductController::class, 'edit'])->name('admin.product.edit');
+    Route::delete('/product/{id}', [ProductController::class, 'destroy'])->name('admin.product.destroy');
+    //get attribute cho variant
+    Route::get('/get-attribute-values/{id}', [ProductController::class, 'attributeValueData'])->name('get-attribute-value');
 });
 //auth
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 //client
-Route::get('/', function () {
-    return view('client.pages.home');
-})->name('home');
-Route::get('/cart', function () {
-    return view('client.pages.cart');
-});
+Route::get('/', [HomeController::class, 'home'])->name('home');
+Route::get('/cart', [CartController::class, 'Cart'])->name('cart');
+Route::delete('/remove-cart/{id}', [CartController::class, 'RemoveCart'])->name('remove-cart');
+Route::get('product-detail/{id}', [HomeController::class, 'detail'])->name('detail');
 Route::get('/checkout', function () {
     return view('client.pages.checkout');
 });
@@ -95,3 +108,5 @@ Route::get('/login', function () {
 Route::get('/register', function () {
     return view('client.pages.register');
 });
+//ajax
+Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add-to-cart');
