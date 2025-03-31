@@ -3,16 +3,16 @@
     <div class="main">
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
-                <h2>Thêm Danh Mục</h2>
+                <h2>THÊM THUỘC TÍNH</h2>
                 <ol class="breadcrumb">
                     <li>
                         <a href="{{ url('/admin') }}">Dashboard</a>
                     </li>
                     <li>
-                        <a>Danh mục</a>
+                        <a>Thuộc Tính</a>
                     </li>
                     <li class="active">
-                        <strong>Thêm Danh Mục</strong>
+                        <strong>Thêm Thuộc Tính</strong>
                     </li>
                 </ol>
             </div>
@@ -23,7 +23,7 @@
         <div class="col-lg-12" style="margin-top: 20px">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>Danh mục</h5>
+                    <h5>Thuộc tính</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -43,23 +43,24 @@
                 <div class="ibox-content">
                     <div class="row">
                         <div class="col-sm-6 b-r">
-                            <h3 class="m-t-none m-b">Thêm Danh Mục</h3>
-                            <p>Thêm danh mục cho sản phẩm của bạn</p>
-                            <form role="form">
-                                <div class="form-group"><label>Tên Danh Mục</label> <input type="text"
+                            <h3 class="m-t-none m-b">Thêm Thuộc Tính</h3>
+                            <p>Thêm thuộc tính cho sản phẩm của bạn</p>
+                              
+                            <form role="form" action="{{route('admin.attribute.store')}}" method="POST">
+                                @csrf
+                                <div class="form-group"><label>Tên Thuộc Tính</label> <input type="text"
                                         placeholder="Nhập tên danh mục" class="form-control" value="{{ old('name') }}"
                                         name="name"></div>
-                                <div class="form-group"><label>Ảnh Danh Mục</label> <input type="file"
-                                        class="form-control" name="image"></div>
-                                <div>
-                                    <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>Log
-                                            in</strong></button>
+                                        @error('name')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                    <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>Thêm</strong></button>
 
                                 </div>
                             </form>
                         </div>
                         <div class="col-sm-6">
-                            <h4>Hãy thêm danh mục cho sản phẩm</h4>
+                            <h4>Hãy thêm thuộc tính cho sản phẩm</h4>
                             <p>Để website của bạn phong phú hơn </p>
                             <p class="text-center">
                                 <span><i class="fa fa-sign-in big-icon"></i></span>

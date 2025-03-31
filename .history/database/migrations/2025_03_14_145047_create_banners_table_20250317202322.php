@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('attributes', function (Blueprint $table) {
+        Schema::create('banners', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 200);
+            $table->string('title',255)->nullable();
+            $table->string('image',255)->nullable();
+            $table->string('content',255)->nullable();
+            $table->string('link',255)->nullable();
+            $table->integer('active')->default(0) ;
             $table->timestamps();
         });
     }
@@ -23,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('attributes');
+        Schema::dropIfExists('banners');
     }
 };
