@@ -50,7 +50,7 @@
                                 {{ session('success') }}
                             </div>
                         @endif
-                              
+
                             <form role="form" action="{{route('admin.voucher.store')}}" method="POST">
                                 @csrf
                                 <div class="form-group">
@@ -60,7 +60,7 @@
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
-                    
+
                                 <div class="form-group">
                                     <label for="title">Tiêu Đề</label>
                                     <input type="text" name="title" id="title" class="form-control" value="{{ old('title') }}">
@@ -68,7 +68,7 @@
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
-                    
+
                                 <div class="form-group">
                                     <label for="voucher_type">Loại Voucher</label>
                                     <select name="voucher_type" id="voucher_type" class="form-control" required>
@@ -79,7 +79,7 @@
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
-                    
+
                                 <div class="form-group">
                                     <label for="value">Giá Trị Voucher</label>
                                     <input type="number" step="0.01" name="value" id="value" class="form-control" value="{{ old('value') }}" required>
@@ -87,7 +87,7 @@
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
-                    
+
                                 <div class="form-group">
                                     <label for="discount_type">Loại Giảm Giá</label>
                                     <select name="discount_type" id="discount_type" class="form-control" required>
@@ -98,7 +98,7 @@
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
-                    
+
                                 <div class="form-group">
                                     <label for="min_order_value">Giá Trị Đơn Hàng Tối Thiểu</label>
                                     <input type="number" step="0.01" name="min_order_value" id="min_order_value" class="form-control" value="{{ old('min_order_value') }}">
@@ -106,7 +106,7 @@
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
-                    
+
                                 <div class="form-group">
                                     <label for="max_discount_value">Giảm Giá Tối Đa</label>
                                     <input type="number" step="0.01" name="max_discount_value" id="max_discount_value" class="form-control" value="{{ old('max_discount_value') }}">
@@ -114,7 +114,7 @@
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
-                    
+
                                 <div class="form-group">
                                     <label for="start_date">Ngày Bắt Đầu</label>
                                     <input type="datetime-local" name="start_date" id="start_date" class="form-control" value="{{ old('start_date') }}">
@@ -122,7 +122,7 @@
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
-                    
+
                                 <div class="form-group">
                                     <label for="end_date">Ngày Kết Thúc</label>
                                     <input type="datetime-local" name="end_date" id="end_date" class="form-control" value="{{ old('end_date') }}">
@@ -130,7 +130,7 @@
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
-                    
+
                                 <div class="form-group">
                                     <label for="limit">Giới Hạn</label>
                                     <input type="number" name="limit" id="limit" class="form-control" value="{{ old('limit') }}" required>
@@ -138,7 +138,7 @@
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
-                    
+
                                 <div class="form-group">
                                     <label for="is_active">Trạng Thái</label>
                                     <select name="is_active" id="is_active" class="form-control" required>
@@ -149,7 +149,7 @@
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
-                    
+
                                 <button type="submit" class="btn btn-primary">Tạo Voucher</button>
                             </form>
                         </div>

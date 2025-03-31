@@ -1,11 +1,9 @@
 @extends('admin.layouts.main')
-{{-- @section('main')
-    Quản lý banner
-@endsection --}}
+
 @section('title')
     Thêm mới banner
 @endsection
-@section('content')
+@section('main')
     <div class="row">
         <div class="col-xl-5 col-lg-4">
             <div class="card">
@@ -96,7 +94,7 @@
                                 {{-- @php
                                     $images = json_decode($banner->image, true);
                                 @endphp
-                            
+
                                 @if ($images)
                                     @foreach ($images as $index => $img)
                                         <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">

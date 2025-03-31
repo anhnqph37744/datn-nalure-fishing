@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\admin\product;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreProductRequest;
 use App\Models\Attribute;
 use App\Models\AttributeValue;
 use App\Models\Brand;
@@ -43,7 +42,7 @@ class ProductController extends Controller
         $brand = Brand::orderBy('id', 'DESC')->get();
         $attribute = Attribute::orderBy('id', 'DESC')->get();
         $attribute_value = AttributeValue::orderBy('id', 'DESC')->get();
-        return view($this->base_url . __FUNCTION__, compact('category', 'brand', 'attribute', 'attribute_value'));
+        return view('admin.pages.product.create', compact('category', 'brand', 'attribute', 'attribute_value'));
     }
     public function store(Request $request)
     {

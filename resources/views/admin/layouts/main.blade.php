@@ -68,7 +68,7 @@
             <div class="row border-bottom">
                 @include('admin.layouts.__nav')
             </div>
-            @yield('content')
+            @yield('main')
         </div>
     </div>
 
