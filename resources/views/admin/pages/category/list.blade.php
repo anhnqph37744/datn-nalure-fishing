@@ -59,17 +59,17 @@
                                                 Không có ảnh
                                             @endif
                                         </td>
-                                        <td>
-                                            <a href="{{route('admin.category.edit',$category->id)}}"
-                                                class="btn btn-warning btn-sm">Sửa</a>
-                                            <form action="{{route('admin.category.destroy',$category->id)}}"
-                                                method="POST" style="display:inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                    onclick="return confirm('Xóa danh mục này?')">Xóa</button>
-                                            </form>
-                                        </td>
+                                            <td>
+                                                <a href="{{route('admin.category.edit',$category->id)}}"
+                                                    class="btn btn-warning btn-sm">Sửa</a>
+                                                <form action="{{route('admin.category.destroy',$category->id)}}"
+                                                    method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm"
+                                                        onclick="return confirm('Xóa danh mục này?')">Xóa</button>
+                                                </form>
+                                            </td>
                                     </tr>
                                 @endforeach
                             </tbody>
