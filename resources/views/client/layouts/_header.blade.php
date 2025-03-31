@@ -9,7 +9,7 @@
                             <a href="#"><i class="fas fa-map-marker-alt"></i> Nam Từ Liêm , Hà Nội , Việt Nam  </a>
                         </li>
                         <li>
-                            <a href="#"><i class="fas fa-envelope"></i> haidevelopment24@gmail.com </a>
+                            <a href="#"><i class="fas fa-envelope"></i> anhnqph37744@fpt.edu.vn </a>
                         </li>
                     </ul>
                 </div>

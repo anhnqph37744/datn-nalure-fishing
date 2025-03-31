@@ -77,7 +77,7 @@ class ProductController extends Controller
         $obj->price = $request->price;
         $obj->description = $request->description;
         $obj->quantity = $request->quantity;
-        $obj->weight = $request->weight ? $request->weight : null;
+        $obj->weight = $request->weight ? $request->weight : 0;
         $obj->quantity_warning = $request->quantity_warning ? $request->quantity_warning : null;
         $obj->tags = $request->tags ? $request->tags : null;
         $obj->sku  = $request->sku;
