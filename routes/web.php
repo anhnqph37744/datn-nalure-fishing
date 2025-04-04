@@ -13,7 +13,9 @@ use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\auth\PermissionController;
 use App\Http\Controllers\auth\RoleController;
 use App\Http\Controllers\client\cart\CartController;
+use App\Http\Controllers\client\cart\OrderController as CartOrderController;
 use App\Http\Controllers\client\home\HomeController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -148,8 +150,17 @@ Route::get('/checkout', function () {
 Route::get('/login', function () {
     return view('client.pages.login');
 });
+
 Route::get('/register', function () {
     return view('client.pages.register');
 });
 //ajax
 Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add-to-cart');
+
+Route::get('/check-out', [CartController::class, 'checkOut'])->name('check-out');
+Route::post('/order', [CartOrderController::class, 'store'])->name('order');
+
+Route::get('/order-success/{id}', [CartOrderController::class, 'success'])->name('order.success');
+
+
+

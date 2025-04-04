@@ -16,7 +16,7 @@
 
 <div class="vs-checkout-wrapper space">
     <div class="container">
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-xl-12">
                 <div class="woocommerce-form-login-toggle">
                     <div class="woocommerce-info"><i class="fas fa-info-circle"></i> Returning customer? <a href="#" class="showlogin"> Click here to login</a>
@@ -69,7 +69,7 @@
                 </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <div class="row">
             <div class="col-lg-4">
             </div>
@@ -78,165 +78,253 @@
             <div class="col-lg-4">
             </div>
         </div>
-        <form action="#" class="woocommerce-checkout mt-40">
-            <div class="row ">
-                <div class="col-lg-6">
-                    <h2 class="h4">Billing Details</h2>
-                    <div class="row">
-                        <div class="col-12 form-group">
-                            <select class="form-select">
-                                <option>United Kingdom (UK)</option>
-                                <option>United State (US)</option>
-                                <option>Equatorial Guinea (GQ)</option>
-                                <option>Australia (AU)</option>
-                                <option>Germany (DE)</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <input type="text" class="form-control" placeholder="First Name">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <input type="text" class="form-control" placeholder="Last Name">
-                        </div>
-                        <div class="col-12 form-group">
-                            <input type="text" class="form-control" placeholder="Your Company Name">
-                        </div>
-                        <div class="col-12 form-group">
-                            <input type="text" class="form-control" placeholder="Street Address">
-                            <input type="text" class="form-control" placeholder="Apartment, suite, unit etc. (optional)">
-                        </div>
-                        <div class="col-12 form-group">
-                            <input type="text" class="form-control" placeholder="Town / City">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <input type="text" class="form-control" placeholder="Country">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <input type="text" class="form-control" placeholder="Postcode / Zip">
-                        </div>
-                        <div class="col-12 form-group">
-                            <input type="text" class="form-control" placeholder="Email Address">
-                            <input type="text" class="form-control" placeholder="Phone number">
-                        </div>
-                        <div class="col-12 form-group">
-                            <input type="checkbox" id="accountNewCreate">
-                            <label for="accountNewCreate">Create An Account?</label>
-                        </div>
-                    </div>
-                </div>
+        {{-- <form action="{{ route('bill') }}" method="POST">
+            @csrf
+            <input type="text" name="hello">
+            <button type="submit">hel</button>
+        </form> --}}
+        
+        <form action="{{ route('order') }}" method="POST">
+            @csrf
+            <h4 class="mt-4 pt-lg-2">Thông tin nhận hàng</h4>
+
+            <div class="row">
                 <div class="col-lg-6 checkout-right">
                     <p id="ship-to-different-address">
                         <input id="ship-to-different-address-checkbox" type="checkbox" name="ship_to_different_address" value="1" checked>
                         <label for="ship-to-different-address-checkbox">
-                            Ship to a different address?
+                            Địa chỉ nhận hàng
                             <span class="checkmark"></span>
                         </label>
                     </p>
                     <div class="shipping_address">
                         <div class="row">
-                            <div class="col-12 form-group">
-                                <select class="form-select">
-                                    <option>United Kingdom (UK)</option>
-                                    <option>United State (US)</option>
-                                    <option>Equatorial Guinea (GQ)</option>
-                                    <option>Australia (AU)</option>
-                                    <option>Germany (DE)</option>
-                                </select>
-                            </div>
                             <div class="col-md-6 form-group">
-                                <input type="text" class="form-control" placeholder="First Name">
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <input type="text" class="form-control" placeholder="Last Name">
+                                <input type="text" name="name" class="form-control" placeholder="Họ và Tên" value="{{ $user_login->name }}" required>
                             </div>
                             <div class="col-12 form-group">
-                                <input type="text" class="form-control" placeholder="Your Company Name">
+                                <input type="text" name="email" class="form-control" placeholder="Email" value="{{ $user_login->email }}" required>
                             </div>
                             <div class="col-12 form-group">
-                                <input type="text" class="form-control" placeholder="Street Address">
-                                <input type="text" class="form-control" placeholder="Apartment, suite, unit etc. (optional)">
+                                <input type="text" name="phone" class="form-control" placeholder="Số điện thoại" required>
                             </div>
                             <div class="col-12 form-group">
-                                <input type="text" class="form-control" placeholder="Town / City">
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <input type="text" class="form-control" placeholder="Country">
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <input type="text" class="form-control" placeholder="Postcode / Zip">
-                            </div>
-                            <div class="col-12 form-group">
-                                <input type="text" class="form-control" placeholder="Email Address">
-                                <input type="text" class="form-control" placeholder="Phone number">
+                                <input type="text" name="address" class="form-control" placeholder="Địa chỉ" required>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 form-group">
-                        <textarea cols="20" rows="5" class="form-control" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
+                        <textarea cols="20" name="note" rows="5" class="form-control" placeholder="Ghi chú về đơn hàng, ví dụ: lưu ý đặc biệt khi giao hàng."></textarea>
+                    </div>
+                </div>
+            </div>
+            <table class="cart_table mb-20">
+                <thead>
+                    <tr>
+                        <th class="cart-col-image">Hình ảnh</th>
+                        <th class="cart-col-productname">Tên sản phẩm</th>
+                        <th class="cart-col-price">Giá sản phẩm</th>
+                        <th class="cart-col-quantity">Số lượng</th>
+                        <th class="cart-col-total">Tổng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php
+                        $subtotal = 0;
+                    @endphp
+                    
+                    @foreach ($cart_product as $item)
+                    @php
+                        $total = $item->quantity * $item->price;
+                        $subtotal += $total;
+                    @endphp
+                    <tr class="cart_item">
+                        <td data-title="Product">
+                            <a class="cart-productimage" href="shop-details.html">
+                                <img width="91" height="91" src="{{ asset('client/assets/img/shop/product-2-1.jpg') }}" alt="Image">
+                            </a>
+                        </td>
+                        <td data-title="Name">
+                            <a class="cart-productname" href="shop-details.html">{{ $item->name }}</a>
+                            <input type="hidden" name="products[{{ $item->id }}][id]" value="{{ $item->id_product }}">
+                            <input type="hidden" name="products[{{ $item->id }}][quantity]" value="{{ $item->quantity }}">
+                            <input type="hidden" name="products[{{ $item->id }}][price]" value="{{ $item->price }}">
+                        </td>
+                        <td data-title="Price">
+                            <span class="amount"><bdi>{{ number_format($item->price, 0, ',', '.') }}đ</bdi></span>
+                        </td>
+                        <td data-title="Quantity">
+                            <strong class="product-quantity">{{ $item->quantity }}</strong>
+                        </td>
+                        <td data-title="Total">
+                            <span class="amount"><bdi>{{ number_format($total, 0, ',', '.') }}đ</bdi></span>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+                <tfoot class="checkout-ordertable">
+                    <tr class="cart-subtotal">
+                        <th>Tạm tính</th>
+                        <td data-title="Tạm tính" colspan="4">
+                            <span class="woocommerce-Price-amount amount">
+                                <bdi id="subtotal-amount">{{ number_format($subtotal, 0, ',', '.') }}đ</bdi>
+                            </span>
+                        </td>
+                    </tr>
+                
+                    <!-- Phí vận chuyển -->
+                    <tr class="woocommerce-shipping-totals shipping">
+                        <th>Phí vận chuyển</th>
+                        <td data-title="Phí vận chuyển" colspan="4">
+                            <span id="shipping-fee">{{ number_format(30000, 0, ',', '.') }}đ</span>
+                            <span id="shipping-discount" style="color:red; display:none;">(-<span id="discount-amount">0</span>đ)</span>
+                        </td>
+                    </tr>
+                
+                    <!-- Chọn mã giảm giá -->
+                    <tr class="woocommerce-shipping-totals shipping">
+                        <th>Mã giảm giá</th>
+                        <td colspan="4">
+                            <select id="voucher-select" name="voucher_id" class="form-control">
+                                <option value="0" selected>Chọn mã giảm giá</option>
+                                @foreach ($vouchers as $voucher)
+                                    <option value="{{ $voucher->id }}" 
+                                            data-value="{{ $voucher->value }}" 
+                                            data-type="{{ $voucher->voucher_type }}"
+                                            data-min="{{ $voucher->min_order_value }}"
+                                            data-max="{{ $voucher->max_discount_value ?? null }}">
+                                        {{ $voucher->title }} - 
+                                        @if ($voucher->voucher_type == 'freeship')
+                                            Giảm {{ number_format(min($voucher->value, 30000), 0, ',', '.') }}đ phí vận chuyển
+                                        @elseif ($voucher->voucher_type == 'discount')
+                                            Giảm {{ number_format($voucher->value, 0, ',', '.') }}đ
+                                            (ĐH tối thiểu {{ number_format($voucher->min_order_value, 0, ',', '.') }}đ)
+                                        @endif
+                                    </option>
+                                @endforeach
+                            </select>
+                        </td>
+                    </tr>
+                
+                    <!-- Tổng cộng -->
+                    <tr class="order-total">
+                        <th>Tổng cộng</th>
+                        <td data-title="Tổng cộng" colspan="4">
+                            <strong>
+                                <span class="woocommerce-Price-amount amount">
+                                    <bdi id="total-price">{{ number_format($subtotal + 30000, 0, ',', '.') }}đ</bdi>
+                                </span>
+                            </strong> 
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+                    
+            <!-- Các trường ẩn cần thiết -->
+            <input type="hidden" name="subtotal" id="input-subtotal" value="{{ $subtotal }}">
+            <input type="hidden" name="shipping_fee" id="input-shipping-fee" value="30000">
+            <input type="hidden" name="discount_amount" id="input-discount-amount" value="0">
+            {{-- <input type="hidden" name="voucher_id" id="input-voucher-id" value="0"> --}}
+            <input type="hidden" name="total_price" id="input-total-price" value="{{ $subtotal + 30000 }}">
+            <div class="mt-lg-3">
+                <div class="woocommerce-checkout-payment">
+                    <ul class="wc_payment_methods payment_methods methods">
+                        <li class="wc_payment_method payment_method_bacs">
+                            <input id="payment_method_bacs" type="radio" class="input-radio" name="payment_method" value="bacs" checked="checked">
+                            <label for="payment_method_bacs">Thanh toán khi nhận hàng</label>
+                            <div class="payment_box payment_method_bacs">
+                                <p>Thanh toán khi nhận hàng (COD)</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="form-row place-order">
+                        <button type="submit" class="vs-btn style-1">Đặt hàng</button>
                     </div>
                 </div>
             </div>
         </form>
-        <h4 class="mt-4 pt-lg-2">Your Order</h4>
-        <form action="#" class="woocommerce-cart-form">
-            <table class="cart_table mb-20">
-                <thead>
-                    <tr>
-                        <th class="cart-col-image">Image</th>
-                        <th class="cart-col-productname">Product Name</th>
-                        <th class="cart-col-price">Price</th>
-                        <th class="cart-col-quantity">Quantity</th>
-                        <th class="cart-col-total">Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="cart_item">
-                        <td data-title="Product">
-                            <a class="cart-productimage" href="shop-details.html"><img width="91" height="91" src="{{asset('client/assets/img/shop/product-2-1.jpg')}}" alt="Image"></a>
-                        </td>
-                        <td data-title="Name">
-                            <a class="cart-productname" href="shop-details.html">Spoon lure tackle Baits</a>
-                        </td>
-                        <td data-title="Price">
-                            <span class="amount"><bdi><span>$</span>18</bdi></span>
-                        </td>
-                        <td data-title="Quantity">
-                            <strong class="product-quantity">01</strong>
-                        </td>
-                        <td data-title="Total">
-                            <span class="amount"><bdi><span>$</span>18</bdi></span>
-                        </td>
-                    </tr>
-                </tbody>
-                <tfoot class="checkout-ordertable">
-                    <tr class="cart-subtotal">
-                        <th>Subtotal</th>
-                        <td data-title="Subtotal" colspan="4"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">$</span>281.05</bdi></span></td>
-                    </tr>
-                    <tr class="woocommerce-shipping-totals shipping">
-                        <th>Shipping</th>
-                        <td data-title="Shipping" colspan="4">
-                            Enter your address to view shipping options.
-                        </td>
-                    </tr>
-                    <tr class="order-total">
-                        <th>Total</th>
-                        <td data-title="Total" colspan="4"><strong><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">$</span>281.05</bdi></span></strong> </td>
-                    </tr>
-                </tfoot>
-            </table>
-        </form>
-        <div class="mt-lg-3">
-            <div class="woocommerce-checkout-payment">
-                <ul class="wc_payment_methods payment_methods methods">
-                    <li class="wc_payment_method payment_method_bacs">
-                        <input id="payment_method_bacs" type="radio" class="input-radio" name="payment_method" value="bacs" checked="checked">
-                        <label for="payment_method_bacs">Direct bank transfer</label>
-                        <div class="payment_box payment_method_bacs">
-                            <p>Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p>
-                        </div>
-                    </li>
-                    <li class="wc_payment_method payment_method_cheque">
+    </div>
+</div>
+
+<script>
+    document.getElementById('voucher-select').addEventListener('change', function() {
+        var subtotal = parseFloat({{ $subtotal }});
+        var defaultShippingFee = 30000;
+        var selectedVoucher = this.options[this.selectedIndex];
+        var totalPrice = subtotal + defaultShippingFee;
+        var newShippingFee = defaultShippingFee;
+        var discount = 0;
+        
+        // Reset về giá trị ban đầu nếu không chọn voucher
+        if (this.value == "0") {
+            document.getElementById('shipping-fee').textContent = 
+                new Intl.NumberFormat('vi-VN').format(defaultShippingFee) + 'đ';
+            document.getElementById('shipping-discount').style.display = 'none';
+            document.getElementById('total-price').textContent = 
+                new Intl.NumberFormat('vi-VN').format(totalPrice) + 'đ';
+            return;
+        }
+        
+        // Lấy thông tin voucher
+        var voucherValue = parseFloat(selectedVoucher.getAttribute('data-value'));
+        var voucherType = selectedVoucher.getAttribute('data-type');
+        var minOrderValue = parseFloat(selectedVoucher.getAttribute('data-min'));
+        var maxDiscount = selectedVoucher.getAttribute('data-max') ? 
+                         parseFloat(selectedVoucher.getAttribute('data-max')) : null;
+        
+        // Kiểm tra điều kiện đơn hàng tối thiểu
+        if (subtotal < minOrderValue) {
+            alert('Đơn hàng phải có giá trị tối thiểu ' + 
+                 new Intl.NumberFormat('vi-VN').format(minOrderValue) + 
+                 'đ để áp dụng voucher này');
+            this.value = "0";
+            return;
+        }
+        
+        // Xử lý từng loại voucher
+        if (voucherType === 'freeship') {
+            // Voucher freeship - chỉ giảm phí ship, không trừ vào tổng đơn hàng
+            discount = Math.min(voucherValue, defaultShippingFee);
+            newShippingFee = defaultShippingFee - discount;
+            
+            // Hiển thị phí ship mới và số tiền được giảm
+            document.getElementById('shipping-fee').textContent = 
+                new Intl.NumberFormat('vi-VN').format(newShippingFee) + 'đ';
+            document.getElementById('discount-amount').textContent = 
+                new Intl.NumberFormat('vi-VN').format(discount);
+            document.getElementById('shipping-discount').style.display = 'inline';
+            
+            // Tổng đơn hàng = subtotal + phí ship mới
+            totalPrice = subtotal + newShippingFee;
+        } 
+        else if (voucherType === 'discount') {
+            // Voucher discount - giảm trực tiếp vào subtotal
+            if (maxDiscount) {
+                discount = Math.min(voucherValue, maxDiscount, subtotal);
+            } else {
+                discount = Math.min(voucherValue, subtotal);
+            }
+            // Tổng đơn hàng = (subtotal - discount) + phí ship
+            totalPrice = (subtotal - discount) + defaultShippingFee;
+        }
+        
+        // Cập nhật giao diện
+        document.getElementById('total-price').textContent = 
+            new Intl.NumberFormat('vi-VN').format(totalPrice) + 'đ';
+        
+        // Hiển thị thông báo
+        var voucherMessage = 'Áp dụng voucher thành công!\n';
+        if (voucherType === 'freeship') {
+            voucherMessage += 'Đã giảm ' + new Intl.NumberFormat('vi-VN').format(discount) + 
+                            'đ phí vận chuyển (Còn ' + new Intl.NumberFormat('vi-VN').format(newShippingFee) + 'đ)';
+        } else {
+            voucherMessage += 'Đã giảm ' + new Intl.NumberFormat('vi-VN').format(discount) + 
+                            'đ vào giá trị đơn hàng';
+        }
+        alert(voucherMessage);
+    });
+</script>
+                    {{-- <li class="wc_payment_method payment_method_cheque">
                         <input id="payment_method_cheque" type="radio" class="input-radio" name="payment_method" value="cheque">
                         <label for="payment_method_cheque">Cheque Payment</label>
                         <div class="payment_box payment_method_cheque">
@@ -256,17 +344,8 @@
                         <div class="payment_box payment_method_paypal">
                             <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account.</p>
                         </div>
-                    </li>
-                </ul>
-                <div class="form-row place-order">
-                    <button type="submit" class="vs-btn style-1">Place order</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<section class="bg-body space-title">
+                    </li> --}}
+{{-- <section class="bg-body space-title">
     <div class="container">
         <div class="subscribe">
             <div class="row gx-0 align-items-center justify-content-between z-index-common ">
@@ -289,5 +368,5 @@
             </div>
         </div>
     </div>
-</section>
+</section> --}}
 @endsection

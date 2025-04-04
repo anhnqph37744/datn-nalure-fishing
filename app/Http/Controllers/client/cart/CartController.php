@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Variant;
+use App\Models\Voucher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -82,5 +83,20 @@ class CartController extends Controller
         $cart = Cart::findOrFail($id);
         $cart->delete();
         return redirect()->route('cart')->with('success', 'Xoá thành công');
+    }
+
+    public function checkOut(){
+        // dd(1);
+        $cart_product = Cart::all();
+        $vouchers = Voucher::all();
+        // dd($vouchers);
+        // dd($categories);
+        $user_login = Auth::user();
+        // dd($user_login);
+        return view('client.pages.checkout', compact('cart_product', 'user_login', 'vouchers'));
+
+    }
+    public function bill(Request $request){
+        dd($request);
     }
 }
