@@ -41,8 +41,8 @@
                     <div class="row align-items-center">
                         <div class="col-auto">
                             <div class="vs-logo">
-                                <a href="index.html"><img src="{{asset('client/assets/img/logo.svg')}}" alt="logo"></a>
-                                <a href="index.html" class="sticky-logo"><img src="{{asset('client/assets/img/logo.svg')}}" alt="logo"></a>
+                                <a href="{{url('/')}}"><img src="{{asset('client/assets/img/logo.svg')}}" alt="logo"></a>
+                                <a href="{{url('/')}}" class="sticky-logo"><img src="{{asset('client/assets/img/logo.svg')}}" alt="logo"></a>
                             </div>
                         </div>
                         <div class="col">
@@ -51,20 +51,20 @@
                                     <nav class="main-menu d-none d-lg-block">
                                         <ul>
                                             <li >
-                                                <a href="index.html">Home</a>
+                                                <a href="{{url('/')}}">Home</a>
 
                                             </li>
                                             <li >
-                                                <a href="shop.html">Shop</a>
+                                                <a href="">Shop</a>
 
                                             </li>
                                             <li >
-                                                <a href="service.html">Service</a>
+                                                <a href="">Service</a>
 
                                             </li>
 
                                             <li >
-                                                <a href="blog.html">Blog</a>
+                                                <a href="">Blog</a>
 
                                             </li>
                                             <li class="mega-menu-wrap">
@@ -72,7 +72,7 @@
 
                                             </li>
                                             <li>
-                                                <a href="contact.html">Contact Us</a>
+                                                <a href="">Contact Us</a>
                                             </li>
                                         </ul>
                                     </nav>

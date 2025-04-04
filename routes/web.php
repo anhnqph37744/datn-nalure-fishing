@@ -131,6 +131,7 @@ Route::prefix('dashboard')->group(function () {
     Route::post('/product/store', [ProductController::class, 'store'])->name('admin.product.store');
     Route::get('/product/edit/{id}', [ProductController::class, 'edit'])->name('admin.product.edit');
     Route::delete('/product/{id}', [ProductController::class, 'destroy'])->name('admin.product.destroy');
+    Route::put('/product/{id}', [ProductController::class, 'update'])->name('admin.product.update');
     //get attribute cho variant
     Route::get('/get-attribute-values/{id}', [ProductController::class, 'attributeValueData'])->name('get-attribute-value');
 });
@@ -141,6 +142,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/cart', [CartController::class, 'Cart'])->name('cart');
 Route::delete('/remove-cart/{id}', [CartController::class, 'RemoveCart'])->name('remove-cart');
+Route::post('/update-cart', [CartController::class, 'updateQuantity'])->name('update-cart');
 Route::get('product-detail/{id}', [HomeController::class, 'detail'])->name('detail');
 Route::get('/checkout', function () {
     return view('client.pages.checkout');

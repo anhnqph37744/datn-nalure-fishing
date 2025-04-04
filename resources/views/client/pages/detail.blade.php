@@ -298,34 +298,37 @@
         const minusBtn = document.querySelector('.quantity-minus');
         const plusBtn = document.querySelector('.quantity-plus');
 
-        let maxQuantity = 1;
+        let maxQuantity = {{ $product->quantity }};
+        const hasVariants = variants.length > 0;
 
         const attributes = {};
-        variants.forEach(variant => {
-            variant.varian_attribute_value.forEach(attr => {
-                const attrName = attr.attribute.name;
-                const attrValue = attr.attribute_value.value;
-                if (!attributes[attrName]) attributes[attrName] = new Set();
-                attributes[attrName].add(attrValue);
-            });
-        });
-
-        const container = document.getElementById("attributes");
         const selectedAttributes = {};
 
-        for (const attrName in attributes) {
-            const div = document.createElement("div");
-            div.classList.add("attribute-group");
-            div.innerHTML = `<strong>${attrName}:</strong> `;
-            attributes[attrName].forEach(value => {
-                const btn = document.createElement("button");
-                btn.textContent = value;
-                btn.dataset.attribute = attrName;
-                btn.dataset.value = value;
-                btn.onclick = () => selectAttribute(btn);
-                div.appendChild(btn);
+        if (hasVariants) {
+            variants.forEach(variant => {
+                variant.varian_attribute_value.forEach(attr => {
+                    const attrName = attr.attribute.name;
+                    const attrValue = attr.attribute_value.value;
+                    if (!attributes[attrName]) attributes[attrName] = new Set();
+                    attributes[attrName].add(attrValue);
+                });
             });
-            container.appendChild(div);
+
+            const container = document.getElementById("attributes");
+            for (const attrName in attributes) {
+                const div = document.createElement("div");
+                div.classList.add("attribute-group");
+                div.innerHTML = `<strong>${attrName}:</strong> `;
+                attributes[attrName].forEach(value => {
+                    const btn = document.createElement("button");
+                    btn.textContent = value;
+                    btn.dataset.attribute = attrName;
+                    btn.dataset.value = value;
+                    btn.onclick = () => selectAttribute(btn);
+                    div.appendChild(btn);
+                });
+                container.appendChild(div);
+            }
         }
 
         function selectAttribute(button) {
@@ -357,7 +360,6 @@
                 document.querySelector('#quantity-stock').innerHTML = matchingVariant.quantity;
                 document.querySelector('#sku-variant').innerHTML = matchingVariant.sku;
 
-
                 quantityInput.value = 1;
                 validateQuantity();
             } else {
@@ -381,7 +383,7 @@
         });
 
         plusBtn.addEventListener("click", () => {
-            if (!Object.keys(selectedAttributes).length) {
+            if (hasVariants && Object.keys(selectedAttributes).length === 0) {
                 toastr.error("Vui lòng chọn biến thể trước khi tăng số lượng!", "Lỗi");
                 return;
             }
@@ -389,34 +391,37 @@
                 quantityInput.value = parseInt(quantityInput.value) + 1;
             } else {
                 toastr.error("Số lượng không thể vượt quá giới hạn!", "Lỗi");
-
             }
         });
 
         quantityInput.addEventListener('input', validateQuantity);
+
         document.querySelector('.vs-btn.style1').addEventListener('click', function(event) {
             event.preventDefault();
 
-            if (!Object.keys(selectedAttributes).length) {
-                toastr.error("Vui lòng chọn biến thể trước khi thêm vào giỏ hàng!", "Lỗi");
+            let variant_id = null;
 
-                return;
-            }
+            if (hasVariants) {
+                if (Object.keys(selectedAttributes).length === 0) {
+                    toastr.error("Vui lòng chọn biến thể trước khi thêm vào giỏ hàng!", "Lỗi");
+                    return;
+                }
 
-            const matchingVariant = variants.find(variant =>
-                variant.varian_attribute_value.every(attr =>
-                    selectedAttributes[attr.attribute.name] === attr.attribute_value.value
-                )
-            );
+                const matchingVariant = variants.find(variant =>
+                    variant.varian_attribute_value.every(attr =>
+                        selectedAttributes[attr.attribute.name] === attr.attribute_value.value
+                    )
+                );
 
-            if (!matchingVariant) {
-                toastr.error("Không thấy phân loại phù hợp", "Lỗi");
+                if (!matchingVariant) {
+                    toastr.error("Không thấy phân loại phù hợp", "Lỗi");
+                    return;
+                }
 
-                return;
+                variant_id = matchingVariant.id;
             }
 
             const quantity = quantityInput.value;
-            console.log(quantity);
 
             $.ajax({
                 url: '{{ route('add-to-cart') }}',
@@ -425,13 +430,13 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 data: {
-                    variant_id: matchingVariant.id,
-                    quantity: quantity,
-                    product_id: {{ $product->id }}
+                    product_id: {{ $product->id }},
+                    variant_id: variant_id,
+                    quantity: quantity
                 },
                 dataType: 'json',
                 success: function(data) {
-                    if (data.type =='success') {
+                    if (data.type === 'success') {
                         toastr.success(data.message, data.type);
                     } else {
                         toastr.error(data.message, data.type);
@@ -442,8 +447,6 @@
                     toastr.error("Lỗi hệ thống !", "Lỗi");
                 }
             });
-
-
         });
     </script>
 @endsection
