@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\client\home;
 
 use App\Http\Controllers\Controller;
+use App\Models\Banner;
 use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -13,11 +14,14 @@ class HomeController extends Controller
     public function home()
     {
         $products = Product::where('active', 1)->orderBy('id', 'DESC')->get();
+
+        $banners = Banner::where('active', 1)->take(3)->get();
+
         if (Auth::check()) {
             $cart = Cart::where('id_user', Auth::id())->get();
-            return view('client.pages.home', compact('products', 'cart'));
+            return view('client.pages.home', compact('products', 'cart', 'banners'));
         }
-        return view('client.pages.home', compact('products'));
+        return view('client.pages.home', compact('products', 'banners'));
     }
     public function detail($id)
     {
@@ -30,4 +34,6 @@ class HomeController extends Controller
         return view('client.pages.detail', compact('product'));
         // return response()->json($product);
     }
+
+   
 }

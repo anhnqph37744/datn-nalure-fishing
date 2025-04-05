@@ -1,28 +1,40 @@
 @extends('client.layouts.main')
 @section('main')
-    <div class="hero-layout1 shape-mockup-wrap position-relative">
-        <div class="row vs-carousel" data-arrows="false" data-dots="true" data-dots-lg-show="true" data-fade="true">
-            <div class="hero-inner">
-                <div class="hero-bg background-image" data-bg-src="{{ asset('client/assets/img/bg/hero-bg-1-1.jpg') }}">
-                </div>
-                <div class="shape-mockup hero-shape jump-img d-none d-xxl-block">
-                    <img src="{{ asset('client/assets/img/bg/hero-shape1.png') }}" alt="hero shape">
-                </div>
-                <div class="container">
-                    <div class="hero-content">
-                        <h1 class="hero-title">Let’s Go..! <br> Fishing With Marino</h1>
-                        <p class="hero-text">Lorem ipsum dolor sit amet consectur adipiscing elit
-                            eiusmod ex tempor incididunt labore dolore magna
-                            aliquaenim ad minim veniam quis nostrud exercitation laboris.</p>
-                        <div class="hero-btns">
-                            <a href="about.html" class="vs-btn me-3">About Us <i class="far fa-arrow-right"></i></a>
-                            <a href="https://www.youtube.com/watch?v=EGW2HS2tqAQ" class="play-btn1 popup-video"><i
-                                    class="fas fa-play"></i></a>
-                        </div>
+<div class="row vs-carousel" data-arrows="false" data-dots="true" data-dots-lg-show="true" data-fade="true">
+    <div class="hero-inner">
+        <!-- Background image -->
+        <div class="hero-bg background-image" data-bg-src="{{ asset('client/assets/img/bg/hero-bg-1-1.jpg') }}">
+        </div>
+        <!-- Shape mockup -->
+        <div class="shape-mockup hero-shape jump-img d-none d-xxl-block">
+            <img src="{{ asset('client/assets/img/bg/hero-shape1.png') }}" alt="hero shape">
+        </div>
+        <!-- Carousel -->
+        <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1900">
+            <div class="carousel-inner">
+                @foreach ($banners as $index => $banner)
+                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                        <a href="{{ $banner->link ?? '#' }}">
+                            <img src="{{ asset('storage/' . $banner->image) }}" class="d-block w-100" alt="{{ $banner->title }}">
+                        </a>
                     </div>
-                </div>
+                @endforeach
             </div>
-            <div class="hero-inner">
+            
+            <!-- Hero Content -->
+            {{-- <div class="hero-content">
+                <h1 class="hero-title">Let’s Go..! <br> Fishing With Marino</h1>
+                <p class="hero-text">Lorem ipsum dolor sit amet consectur adipiscing elit
+                    eiusmod ex tempor incididunt labore dolore magna
+                    aliquaenim ad minim veniam quis nostrud exercitation laboris.</p>
+                <div class="hero-btns">
+                    <a href="about.html" class="vs-btn me-3">About Us <i class="far fa-arrow-right"></i></a>
+                    <a href="https://www.youtube.com/watch?v=EGW2HS2tqAQ" class="play-btn1 popup-video"><i
+                            class="fas fa-play"></i></a>
+                </div>
+            </div> --}}
+            
+            {{-- <div class="hero-inner">
                 <div class="hero-bg background-image" data-bg-src="assets/img/bg/hero-bg-1-2.jpg">
                 </div>
                 <div class="shape-mockup hero-shape jump-img d-none d-xxl-block">
@@ -63,7 +75,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}} 
 
     <section class="space service">
         <div class="container">
