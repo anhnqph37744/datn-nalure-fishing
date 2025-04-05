@@ -1,5 +1,125 @@
 @extends('client.layouts.main')
 @section('main')
+<style>
+    /* Reset mặc định và cấu hình chung */
+/* Reset mặc định và cấu hình chung */
+.vs-checkout-wrapper {
+    padding: 40px 0;
+    background-color: #f9f9f9;
+    font-family: 'Arial', sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Tiêu đề */
+h4 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Form thông tin nhận hàng */
+.shipping_address {
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #555;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+.form-control::placeholder {
+    color: #999;
+}
+
+/* Checkbox địa chỉ nhận hàng */
+#ship-to-different-address {
+    margin: 20px 0;
+}
+
+#ship-to-different-address-checkbox {
+    display: none;
+}
+
+#ship-to-different-address label {
+    position: relative;
+    padding-left: 30px;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+}
+
+#ship-to-different-address .checkmark {
+    position: absolute;
+    left: 0;
+    top: 2px;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #007bff;
+    border-radius: 3px;
+    background-color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+#ship-to-different-address-checkbox:checked + label .checkmark {
+    background-color: #007bff;
+}
+
+#ship-to-different-address-checkbox:checked + label .checkmark:after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 5px;
+    height: 10px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* Textarea ghi chú */
+textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+    .shipping_address .col-md-6 {
+        width: 100%;
+    }
+}
+
+/* Phần còn lại của CSS giữ nguyên */
+.cart_table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+/* ... (Giữ nguyên các phần CSS khác như bảng giỏ hàng, nút đặt hàng, v.v.) */
+</style>
 <div class="breadcumb-wrapper" data-bg-src="{{asset('client/assets/img/breadcrumb/breadcrumb-1-1.png')}}">
     <div class="container">
         <div class="breadcumb-content">
@@ -88,34 +208,21 @@
             @csrf
             <h4 class="mt-4 pt-lg-2">Thông tin nhận hàng</h4>
 
-            <div class="row">
-                <div class="col-lg-6 checkout-right">
-                    <p id="ship-to-different-address">
-                        <input id="ship-to-different-address-checkbox" type="checkbox" name="ship_to_different_address" value="1" checked>
-                        <label for="ship-to-different-address-checkbox">
-                            Địa chỉ nhận hàng
-                            <span class="checkmark"></span>
-                        </label>
-                    </p>
-                    <div class="shipping_address">
-                        <div class="row">
-                            <div class="col-md-6 form-group">
-                                <input type="text" name="name" class="form-control" placeholder="Họ và Tên" value="{{ $user_login->name }}" required>
-                            </div>
-                            <div class="col-12 form-group">
-                                <input type="text" name="email" class="form-control" placeholder="Email" value="{{ $user_login->email }}" required>
-                            </div>
-                            <div class="col-12 form-group">
-                                <input type="text" name="phone" class="form-control" placeholder="Số điện thoại" required>
-                            </div>
-                            <div class="col-12 form-group">
-                                <input type="text" name="address" class="form-control" placeholder="Địa chỉ" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 form-group">
-                        <textarea cols="20" name="note" rows="5" class="form-control" placeholder="Ghi chú về đơn hàng, ví dụ: lưu ý đặc biệt khi giao hàng."></textarea>
-                    </div>
+            <div class="row shipping_address">
+                <div class="col-md-6 form-group">
+                    <input type="text" name="name" class="form-control" placeholder="Họ và Tên" value="{{ $user_login->name }}" required>
+                </div>
+                <div class="col-md-6 form-groups">
+                    <input type="text" name="email" class="form-control" placeholder="Email" value="{{ $user_login->email }}" required>
+                </div>
+                <div class="col-md-6 form-group">
+                    <input type="text" name="phone" class="form-control" placeholder="Số điện thoại" required>
+                </div>
+                <div class="col-md-6 form-group">
+                    <input type="text" name="address" class="form-control" placeholder="Địa chỉ" required>
+                </div>
+                <div class="col-md-12 form-group">
+                    <textarea cols="20" name="note" rows="5" class="form-control" placeholder="Ghi chú về đơn hàng, ví dụ: lưu ý đặc biệt khi giao hàng."></textarea>
                 </div>
             </div>
             <table class="cart_table mb-20">
