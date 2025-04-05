@@ -240,7 +240,7 @@ textarea.form-control {
                         $subtotal = 0;
                     @endphp
                     
-                    @foreach ($cart_product as $item)
+                    @foreach ($cart as $item)
                     @php
                         $total = $item->quantity * $item->price;
                         $subtotal += $total;

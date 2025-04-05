@@ -25,6 +25,8 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        
+       
 
         return redirect()->back()->with('success', 'Tạo tài khoản thành công');
     }
@@ -39,6 +41,7 @@ class AuthController extends Controller
             'email.email' => "Bạn vui lòng nhập đúng định dạng email có đuôi @gmail.com",
             'password.required' => "Bạn vui lòng nhập mật khẩu",
         ]);
+        
 
         if (Auth::attempt($credentials)) {
             return redirect()->route('home');

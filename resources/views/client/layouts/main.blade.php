@@ -40,10 +40,10 @@
 
     @include('client.layouts._loader')
 
-    @if (Auth::check())
+    {{-- @if (Auth::check())
 
 
-        {{-- <div class="sidemenu-wrapper d-none d-lg-block">
+        <div class="sidemenu-wrapper d-none d-lg-block">
             <div class="sidemenu-content">
                 <button class="closeButton sideMenuCls"><i class="far fa-times"></i></button>
                 <div class="widget widget_shopping_cart">
@@ -76,8 +76,8 @@
                     </div>
                 </div>
             </div>
-        </div> --}}
-    @endif
+        </div>
+    @endif --}}
 
 
 

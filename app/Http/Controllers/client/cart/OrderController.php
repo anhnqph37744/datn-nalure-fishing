@@ -17,6 +17,7 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         // dd($request);
+        // dd($request);
         // // Validate dữ liệu
         // $validated = $request->validate([
         //     'name' => 'required|string|max:255',
@@ -61,6 +62,7 @@ class OrderController extends Controller
             $order = Order::create([
                 'code' => 'DH' . time() . rand(100, 999),
                 'user_id' => Auth::id(),
+                'address' => $request->address,
                 'coupon_id' => $voucherId,
                 'total_price' => $totalPrice,
                 'shipping_fee' => $shippingFee,
@@ -69,7 +71,7 @@ class OrderController extends Controller
                 'payment_status' => 'pending',
                 'order_status' => 'processing',
                 'note' => $request->note,
-                'address' => $request->address,
+                
             ]);
 
             foreach ($request->products as $productId => $productData) {

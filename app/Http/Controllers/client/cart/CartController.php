@@ -85,17 +85,52 @@ class CartController extends Controller
         return redirect()->route('cart')->with('success', 'Xoá thành công');
     }
 
-    public function checkOut(){
-        // dd(1);
-        $cart_product = Cart::all();
-        $vouchers = Voucher::all();
-        // dd($vouchers);
-        // dd($categories);
-        $user_login = Auth::user();
-        // dd($user_login);
-        return view('client.pages.checkout', compact('cart_product', 'user_login', 'vouchers'));
+    public function applyDiscount(Request $request)
+    {
+        // Lấy mã giảm giá người dùng nhập vào
+        $discountCode = $request->input('discount_code');
 
+        // Kiểm tra mã giảm giá hợp lệ
+        $discount = Voucher::validateDiscount($discountCode);
+
+        if ($discount) {
+            // Mã giảm giá hợp lệ, tính toán giảm giá
+            $totalAmount = $request->input('total_amount'); // Giả sử bạn có tổng số tiền
+
+            // Giảm giá có thể là % hoặc giá trị cố định
+            $discountAmount = ($discount->discount_value / 100) * $totalAmount; // Nếu giảm giá là phần trăm
+
+            // Cập nhật tổng tiền sau khi áp dụng giảm giá
+            $finalAmount = $totalAmount - $discountAmount;
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Mã giảm giá áp dụng thành công!',
+                'final_amount' => $finalAmount,
+                'discount' => $discountAmount,
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Mã giảm giá không hợp lệ hoặc đã hết hạn!',
+            ]);
+        }
     }
+
+    public function checkOut(){
+        // Lấy tất cả sản phẩm trong giỏ hàng
+        $cart = Cart::all();
+        
+        // Lấy tất cả các voucher
+        $vouchers = Voucher::all();
+        
+        // Lấy thông tin người dùng đã đăng nhập
+        $user_login = Auth::user();
+        
+        // Trả dữ liệu về view checkout
+        return view('client.pages.checkout', compact('cart', 'user_login', 'vouchers'));
+    }
+    
     public function bill(Request $request){
         dd($request);
     }
