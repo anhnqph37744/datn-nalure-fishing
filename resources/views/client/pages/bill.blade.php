@@ -33,11 +33,7 @@
                 <div class="col-md-6">
                     <h4>Thông tin thanh toán</h4>
                     <p><strong>Phương thức:</strong> {{ $order->payment_method == 'bacs' ? 'Chuyển khoản' : 'Khác' }}</p>
-                    <p><strong>Trạng thái:</strong> 
-                        <span class="badge {{ $order->payment_status == 'pending' ? 'bg-warning' : 'bg-success' }}">
-                            {{ $order->payment_status == 'pending' ? 'Chờ thanh toán' : 'Đã thanh toán' }}
-                        </span>
-                    </p>
+                    <p><strong>Trạng thái:</strong> {{ $order->payment_status == 'pending' ? 'Chờ thanh toán' : 'Khác' }}</p>
                 </div>
             </div>
 
