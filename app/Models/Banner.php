@@ -18,8 +18,4 @@ class Banner extends Model
         'active'
     ];
 
-    public function hinhAnhBanner()
-    {
-        return $this->hasMany(HinhAnhBanner::class, 'banner_id');
-    }
 }
