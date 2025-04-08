@@ -134,6 +134,13 @@ Route::prefix('dashboard')->group(function () {
     //get attribute cho variant
     Route::get('/get-attribute-values/{id}', [ProductController::class, 'attributeValueData'])->name('get-attribute-value');
 });
+    
+    // quản lý đánh giá sản phẩm
+    Route::prefix('admin')->group(function () {
+        Route::get('reviews', [ProductReviewController::class, 'index'])->name('admin.reviews.index');
+        Route::delete('reviews/{id}', [ProductReviewController::class, 'destroy'])->name('admin.reviews.destroy');
+    });
+
 //auth
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
