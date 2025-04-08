@@ -16,71 +16,135 @@ class CartController extends Controller
     {
         if (Auth::check()) {
             $cart = Cart::where('id_user', Auth::id())->get();
-            return view('client.pages.cart', compact('cart'));
+            $total = Cart::where('id_user', Auth::id())->sum('total');
+            return view('client.pages.cart', compact('cart','total'));
         } else {
             return redirect()->route('home')->with('error', 'Vui lòng đăng nhập để vào giỏ hàng');
         }
     }
     public function addToCart(Request $request)
     {
-        if (Auth::check()) {
-            $product_id = $request->product_id;
-            $variant_id = $request->variant_id;
-            $quantity = $request->quantity;
-            $user_id = Auth::id();
-            $product = Product::find($product_id);
+        if (!Auth::check()) {
+            return response()->json(['message' => 'Vui lòng đăng nhập để thêm vào giỏ hàng', 'type' => 'error']);
+        }
+        // return response()->json($request->all());
+        $product_id = $request->product_id;
+        $variant_id = $request->variant_id ?? null;
+        $quantity = $request->quantity;
+        $user_id = Auth::id();
+
+        $product = Product::find($product_id);
+
+        if (!$product) {
+            return response()->json(['message' => 'Sản phẩm không tồn tại', 'type' => 'error']);
+        }
+
+        if ($variant_id) {
             $variant = Variant::where('id', $variant_id)
                 ->where('product_id', $product_id)
                 ->first();
 
             if (!$variant) {
-                return response()->json(['message' => 'Sản phẩm hoặc biến thể không tồn tại', 'type' => 'error']);
+                return response()->json(['message' => 'Biến thể không tồn tại', 'type' => 'error']);
             }
 
             if ($variant->quantity < $quantity) {
                 return response()->json(['message' => 'Không đủ số lượng trong kho', 'type' => 'error']);
             }
 
-            $cartItem = Cart::where('id_user', $user_id)
-                ->where('id_product', $product_id)
-                ->where('variant_id', $variant_id)
-                ->first();
-
-            if ($cartItem) {
-                $newQuantity = $cartItem->quantity + $quantity;
-
-                if ($newQuantity > $variant->quantity) {
-                    return response()->json(['message' => 'Số lượng vượt quá số lượng tồn kho', 'type' => 'error']);
-                }
-
-                $cartItem->update([
-                    'quantity' => $newQuantity,
-                    'total' => $newQuantity * $variant->price
-                ]);
-
-                return response()->json(['message' => 'Cập nhật giỏ hàng thành công', 'type' => 'success']);
-            } else {
-                Cart::create([
-                    'name' => $product->name,
-                    'image' => $product->image,
-                    'id_user' => $user_id,
-                    'id_product' => $product_id,
-                    'variant_id' => $variant_id,
-                    'quantity' => $quantity,
-                    'price' => $variant->price,
-                    'total' => $quantity * $variant->price
-                ]);
-
-                return response()->json(['message' => 'Thêm vào giỏ hàng thành công', 'type' => 'success']);
-            }
+            $price = $variant->price;
+            $image = $variant->image ?? $product->image;
         } else {
-            return response()->json(['message' => 'Vui lòng đăng nhập để thêm vào giỏ hàng', 'type' => 'error']);
+            if ($product->quantity < $quantity) {
+                return response()->json(['message' => 'Không đủ số lượng trong kho', 'type' => 'error']);
+            }
+
+            $price = $product->price;
+            $image = $product->image;
+        }
+
+        $cartItem = Cart::where('id_user', $user_id)
+            ->where('id_product', $product_id)
+            ->where('variant_id', $variant_id)
+            ->first();
+
+        if ($cartItem) {
+            $newQuantity = $cartItem->quantity + $quantity;
+
+            $stockQuantity = $variant_id ? $variant->quantity : $product->quantity;
+
+            if ($newQuantity > $stockQuantity) {
+                return response()->json(['message' => 'Số lượng vượt quá số lượng tồn kho', 'type' => 'error']);
+            }
+
+            $cartItem->update([
+                'quantity' => $newQuantity,
+                'total' => $newQuantity * $price
+            ]);
+
+            return response()->json(['message' => 'Cập nhật giỏ hàng thành công', 'type' => 'success']);
+        } else {
+            Cart::create([
+                'name' => $product->name,
+                'image' => $image,
+                'id_user' => $user_id,
+                'id_product' => $product_id,
+                'variant_id' => $variant_id,
+                'quantity' => $quantity,
+                'price' => $price,
+                'total' => $quantity * $price
+            ]);
+
+            return response()->json(['message' => 'Thêm vào giỏ hàng thành công', 'type' => 'success']);
         }
     }
+
     public function RemoveCart($id)
     {
         $cart = Cart::findOrFail($id);
         $cart->delete();
         return redirect()->route('cart')->with('success', 'Xoá thành công');
+    }
+    public function updateQuantity(Request $request)
+    {
+        $cartItem = Cart::findOrFail($request->cart_id);
+
+        $newQuantity = $request->quantity;
+
+        if ($newQuantity < 1) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Số lượng sản phẩm phải lớn hơn 0.'
+            ]);
+        }
+
+        if ($cartItem->variant_id) {
+            $variant = Variant::find($cartItem->variant_id);
+            if (!$variant || $newQuantity > $variant->quantity) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Số lượng trong kho không đủ.'
+                ]);
+            }
+        } else {
+            $product = Product::find($cartItem->id_product);
+            if (!$product || $newQuantity > $product->quantity) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Số lượng trong kho không đủ.'
+                ]);
+            }
+        }
+
+        $cartItem->quantity = $newQuantity;
+        $cartItem->total = $cartItem->price * $newQuantity;
+        $cartItem->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Cập nhật số lượng thành công.',
+            'total' => number_format($cartItem->total, 0, ',', '.'),
+            'subtotal' => number_format(Cart::sum('total'), 0, ',', '.')
+        ]);
     }
 }

@@ -5,7 +5,7 @@
 @section('title')
     Sửa
 @endsection
-@section('content')
+@section('main')
     <div class="row">
         <div class="col-xl-5 col-lg-4">
             <div class="card">
@@ -108,9 +108,9 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <h1>Slide ở đây</h1>
-                        <div id="bannerCarousel" class="carousel slide mb-3 " data-bs-ride="carousel">
+                        <div id="bannerCarousel" class="carousel slide mb-3" data-bs-ride="carousel">
                             <div class="carousel-inner">
-                                @foreach ($banner->hinhAnhBanner as $key => $hinhAnh)
+                                @foreach ($hinhAnhBanner as $key => $hinhAnh)
                                     <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
                                         <img src="{{ Storage::url($hinhAnh->hinh_anh) }}" class="d-block w-100 img-fluid"
                                             style="height: 300px; object-fit: cover;"
@@ -154,7 +154,7 @@
 
     <script>
         // document.addEventListener('DOMContentLoaded', function() {
-        //     var rowCount = {{ count($banner->hinhAnhBanner) }};
+        
 
         //     // Thêm sự kiện cho nút 'Thêm hàng'
         //     document.getElementById('add-row').addEventListener('click', function() {

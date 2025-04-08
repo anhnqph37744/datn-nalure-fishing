@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\admin\attribute_value;
 
 use App\Http\Requests\AttributeValueRequest;
-use App\Models\Attributes;
+use App\Models\Attribute;
 use Illuminate\Http\Request;
 use App\Models\AttributeValue;
 use App\Http\Controllers\Controller;
@@ -24,7 +24,7 @@ class AttributeValueController extends Controller
      */
     public function create()
     {
-        $attributeValue = Attributes::all();
+        $attributeValue = Attribute::all();
         return view('admin.pages.attribute_value.create', compact('attributeValue'));
     }
 
@@ -33,7 +33,7 @@ class AttributeValueController extends Controller
      */
     public function store(AttributeValueRequest $request)
     {
-       
+
         AttributeValue::create([
             'attribute_id' => $request->attribute_id,
             'value' => $request->value,
@@ -55,7 +55,7 @@ class AttributeValueController extends Controller
      */
     public function edit(string $id)
     {
-        $attribute = Attributes::all();
+        $attribute = Attribute::all();
         $attributeValue = AttributeValue::findOrFail($id);
         return view('admin.pages.attribute_value.update', compact('attributeValue', 'attribute'));
     }
@@ -69,7 +69,7 @@ class AttributeValueController extends Controller
         $obj->update([
             'attribute_id' => $request->attribute_id,
             'value' => $request->value,
-        
+
         ]);
 
         return redirect()->route('admin.attribute_value.index')->with('success', 'Sửa thành công thuộc tính!');

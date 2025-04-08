@@ -25,7 +25,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return response()->json(['message' => 'Đăng ký thành công!'], 201);
+        return redirect()->back()->with('success', 'Tạo tài khoản thành công');
     }
 
     public function login(Request $request)

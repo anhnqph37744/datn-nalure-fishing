@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\admin\attribute;
 
-use App\Models\Attributes;
+use App\Models\Attribute;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AttributeRequest;
@@ -14,7 +14,7 @@ class AttributeController extends Controller
      */
     public function index()
     {
-        $attribute = Attributes::all();
+        $attribute = Attribute::all();
         return view('admin.pages.attribute.list', compact('attribute'));
     }
 
@@ -31,7 +31,7 @@ class AttributeController extends Controller
      */
     public function store(AttributeRequest $request)
     {
-        Attributes::create([
+        Attribute::create([
             'name' => $request->name,
         ]);
 
@@ -51,7 +51,7 @@ class AttributeController extends Controller
      */
     public function edit(string $id)
     {
-        $attribute = Attributes::find($id);
+        $attribute = Attribute::find($id);
         return view('admin.pages.attribute.update', compact('attribute'));
     }
 
@@ -60,15 +60,15 @@ class AttributeController extends Controller
      */
     public function update(AttributeRequest $request, string $id)
     {
-        $obj = Attributes::find($id);
+        $obj = Attribute::find($id);
         $obj->update([
             'name' => $request->name,
-        
+
         ]);
 
         return redirect()->route('admin.attribute.index')->with('success', 'Sửa thuộc tính thành công!');
     }
-    
+
 
 
     /**
@@ -76,7 +76,7 @@ class AttributeController extends Controller
      */
     public function destroy(string $id)
     {
-        $attribute = Attributes::findOrFail($id);
+        $attribute = Attribute::findOrFail($id);
         $attribute->delete();
         return redirect()->route('admin.attribute.index')->with('success', 'Thuộc tính đã bị xóa!');
 

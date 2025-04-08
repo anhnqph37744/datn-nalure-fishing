@@ -12,6 +12,7 @@
 
     <link href="{{ asset('admin/css/bootstrap.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('admin/font-awesome/css/font-awesome.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
     <link href="{{ asset('admin/css/plugins/toastr/toastr.min.css') }}" rel="stylesheet" />
 
@@ -67,7 +68,7 @@
             <div class="row border-bottom">
                 @include('admin.layouts.__nav')
             </div>
-            @yield('content')
+            @yield('main')
         </div>
     </div>
 
@@ -144,6 +145,27 @@
     <script src="{{ asset('admin/js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js') }}"></script>
 
     <script src="{{ asset('admin/js/plugins/dualListbox/jquery.bootstrap-duallistbox.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            @if (session('success'))
+                toastr.success("{{ session('success') }}", "Thành công");
+            @endif
+
+            @if (session('error'))
+                toastr.error("{{ session('error') }}", "Lỗi");
+            @endif
+
+            @if (session('warning'))
+                toastr.warning("{{ session('warning') }}", "Cảnh báo");
+            @endif
+
+            @if (session('info'))
+                toastr.info("{{ session('info') }}", "Thông báo");
+            @endif
+        });
+    </script>
 
     <script>
         $(document).ready(function() {

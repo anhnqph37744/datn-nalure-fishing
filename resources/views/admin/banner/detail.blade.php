@@ -8,7 +8,7 @@
     Chi tiết banner
 @endsection
 
-@section('content')
+@section('main')
     <div class="row">
         <!-- Nội dung chi tiết banner -->
         <div class="col-lg-8">

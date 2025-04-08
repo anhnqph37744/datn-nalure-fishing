@@ -4,10 +4,9 @@ namespace App\Http\Controllers\admin\banner;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BannerRequest;
-use App\Http\Requests\HinhAnhBanner\ThemHinhAnhBannerRequest;
 use App\Models\Banner;
-use App\Models\HinhAnhBanner;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class BannerController extends Controller
@@ -29,11 +28,9 @@ class BannerController extends Controller
     public function index($id = null)
     {
         if ($id) {
-            $banners = Banner::with('hinhAnhBanner')
-                ->where('id', $id)
-                ->get();
+            $banners = Banner::where('id', $id)->get();
         } else {
-            $banners = Banner::with('hinhAnhBanner')->get();
+            $banners = Banner::all();
         }
 
         return view('admin.banner.index', compact('banners'));
@@ -76,7 +73,7 @@ class BannerController extends Controller
         //     }
         // }
         // dd($request->all(), $request->hasFile('image'), $request->file('image'));
-        
+
         $request->validate([
             'title' => 'required|max:255',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -84,24 +81,23 @@ class BannerController extends Controller
             'link' => 'nullable|url',
             'active' => 'required|integer',
         ]);
-    
-        // Lưu ảnh vào thư mục 'public/uploads/banners'
+
+        // Lưu ảnh vào thư mục 
         $imagePath = null;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('uploads/banners', 'public');
         }
-    
+
         // Tạo mới banner
         Banner::create([
             'title' => $request->title,
-            'image' => $imagePath, // Lưu đường dẫn ảnh vào database
+            'image' => $imagePath,
             'content' => $request->content,
             'link' => $request->link,
             'active' => (int) $request->active
         ]);
-    
+
         return redirect()->route('banner.index')->with('success', 'Thêm banner thành công!');
-        
     }
 
     public function show($id)
@@ -113,14 +109,19 @@ class BannerController extends Controller
 
     public function edit(string $id)
     {
-        $banner = Banner::query()->findOrFail($id);
-        return view('admin.banner.edit', compact('banner'));
+        $banner = Banner::findOrFail($id);
+
+        
+        $hinhAnhBanner = DB::table('hinh_anh_banners')
+            ->where('banner_id', $banner->id)
+            ->get();
+        return view('admin.banner.edit', compact('banner', 'hinhAnhBanner'));
     }
 
     public function update(Request $request, string $id)
     {
 
-        $banner = Banner::findOrFail($id); 
+        $banner = Banner::findOrFail($id);
 
         $request->validate([
             'title' => 'nullable|string|max:255',
@@ -129,7 +130,7 @@ class BannerController extends Controller
             'link' => 'nullable|string|max:255',
             'active' => 'required|integer|in:0,1',
         ]);
-    
+
         if ($request->hasFile('image')) {
             // Xóa ảnh cũ nếu có
             if ($banner->image && Storage::exists('public/' . $banner->image)) {
@@ -139,14 +140,14 @@ class BannerController extends Controller
             $imagePath = $request->file('image')->store('banners', 'public');
             $banner->image = $imagePath;
         }
-    
+
         // Cập nhật dữ liệu
         $banner->title = $request->title;
         $banner->content = $request->content;
         $banner->link = $request->link;
-        $banner->active = (int) $request->active; 
+        $banner->active = (int) $request->active;
         $banner->save();
-    
+
         return redirect()->route('banner.index')->with('success', 'Cập nhật banner thành công!');
         // if ($request->isMethod('PUT')) {
         //     $params = $request->except('_token', '_method');
@@ -210,16 +211,20 @@ class BannerController extends Controller
 
     public function destroy(string $id)
     {
-        $banner = Banner::query()->findOrFail($id);
+        $banner = Banner::findOrFail($id);
 
-        // xóa album
-        $banner->hinhAnhBanner()->delete();
-
+        // Xóa album (hình ảnh liên quan đến banner)
+        DB::table('hinh_anh_banners')->where('banner_id', $id)->delete();
+    
+        // Xóa thư mục chứa hình ảnh nếu có
         $path = 'uploads/hinhanhbanner/id_' . $id;
         if (Storage::disk('public')->exists($path)) {
             Storage::disk('public')->deleteDirectory($path);
         }
+    
+        // Xóa banner
         $banner->delete();
+    
         return redirect()->back()->with('success', 'Xóa thành công');
     }
 
