@@ -1,24 +1,23 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\OrderController;
+use App\Http\Controllers\admin\attribute\AttributeController;
+use App\Http\Controllers\admin\attribute_value\AttributeValueController;
+use App\Http\Controllers\admin\auth\RolePermissionController;
+use App\Http\Controllers\admin\auth\UserRoleController;
+use App\Http\Controllers\admin\brand\BrandController;
+use App\Http\Controllers\admin\banner\BannerController;
+use App\Http\Controllers\admin\category\CategoryController;
+use App\Http\Controllers\admin\voucher\VoucherController;
+use App\Http\Controllers\admin\product\ProductController;
+use App\Http\Controllers\AI\GeminiAIController;
 use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\auth\RoleController;
 use App\Http\Controllers\auth\PermissionController;
 use App\Http\Controllers\client\cart\CartController;
 use App\Http\Controllers\client\home\HomeController;
-use App\Http\Controllers\admin\brand\BrandController;
-use App\Http\Controllers\admin\auth\UserRoleController;
-use App\Http\Controllers\admin\banner\BannerController;
-use App\Http\Controllers\admin\product\ProductController;
-use App\Http\Controllers\admin\voucher\VoucherController;
 use App\Http\Controllers\client\profile\ProfileController;
-use App\Http\Controllers\admin\category\CategoryController;
 use App\Http\Controllers\client\checkout\CheckoutController;
-use App\Http\Controllers\admin\attribute\AttributeController;
-use App\Http\Controllers\admin\auth\RolePermissionController;
 use App\Http\Controllers\client\profile\UpdateProfileController;
-use App\Http\Controllers\admin\attribute_value\AttributeValueController;
 use App\Http\Controllers\client\cart\OrderController as CartOrderController;
 use App\Http\Controllers\Momo\MomoController;
 use App\Http\Controllers\VNPay\VNPayController;
@@ -203,4 +202,6 @@ Route::middleware(['auth'])->group(function () {
 
 //vnpay return
 Route::get('/vnpay/payment/{amount}', [VNPayController::class, 'VNpay_Payment'])->name('vnpay.payment');
-Route::get('/checkout-fatal-vnpay', [VNPayController::class, 'handleReturn'])->name('vnpay.return');
+Route::post('/checkout-fatal-vnpay', [VNPayController::class, 'handleReturn'])->name('vnpay.return');
+//gemini
+Route::post('/chat', [GeminiAIController::class, 'chat'])->name('gemini.ai');

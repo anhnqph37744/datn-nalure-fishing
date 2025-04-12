@@ -31,11 +31,28 @@
     <link rel="stylesheet" href="{{ asset('client/assets/css/magnific-popup.min.css') }}">
     <link rel="stylesheet" href="{{ asset('client/assets/css/slick.min.css') }}">
     <link rel="stylesheet" href="{{ asset('client/assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('client/assets/css/chat.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 </head>
 
 <body>
 
+    <button onclick="openChatBox()" class="chat_button">
+        <i id="chatOpen" class="fas fa-comments"></i>
+    </button>
+    <div id="chatPage" class="chat_page">
 
+
+        <div id="chatbar" class="chat_box animated fadeInUp">
+            <div class="chat_box_header" style="text-transform: uppercase">Trợ Lí Ảo Của Nalure fishing</div>
+            <div id="chatBody" class="chat_box_body"></div>
+            <div class="chat_box_footer">
+                <input type="text" id="MsgInput" placeholder="Enter Message">
+                <button onclick="send()"><i class="fab fa-telegram-plane"></i></button>
+            </div>
+        </div>
+    </div>
 
     @include('client.layouts._menu')
 
@@ -86,6 +103,11 @@
 
     @yield('main')
 
+
+    <div class="brand">
+        <a href="http://www.smartcodehub.com">Best Angular Courses</a>
+    </div>
+
     @include('client.layouts._footer');
 
 
@@ -100,7 +122,72 @@
 
 
 
+    <script>
+        let isChatOpen = false;
+        let ele = document.getElementById("chatbar");
 
+        function openChatBox() {
+            if (!isChatOpen) {
+                ele.classList.add("toggle");
+                isChatOpen = true;
+                document.getElementById("chatOpen").classList.remove("fa-comments");
+                document.getElementById("chatOpen").classList.add("fa-times");
+            } else {
+                ele.classList.remove("toggle");
+                isChatOpen = false;
+                document.getElementById("chatOpen").classList.add("fa-comments");
+                document.getElementById("chatOpen").classList.remove("fa-times");
+            }
+        }
+
+        function send() {
+            const chatBody = document.getElementById("chatBody");
+            const input = document.getElementById("MsgInput");
+            const clientMsg = input.value.trim();
+            input.value = '';
+
+            if (!clientMsg) return;
+
+            const divClient = document.createElement("div");
+            divClient.classList.add("chat_box_body_self");
+            divClient.textContent = clientMsg;
+            chatBody.appendChild(divClient);
+
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            const divBot = document.createElement("div");
+            divBot.classList.add("chat_box_body_other");
+            divBot.innerHTML = `
+                                <div class="typing-animation">
+                                    <span></span><span></span><span></span>
+                                </div>
+                            `;
+
+            chatBody.appendChild(divBot);
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            fetch("{{ route('gemini.ai') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+                    },
+                    body: JSON.stringify({
+                        message: clientMsg
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    divBot.innerHTML = data.reply || "Không có phản hồi từ Gemini.";
+                    chatBody.scrollTop = chatBody.scrollHeight;
+                })
+                .catch(error => {
+                    console.error("Lỗi:", error);
+                    divBot.textContent = "Đã xảy ra lỗi khi gửi yêu cầu.";
+                    chatBody.scrollTop = chatBody.scrollHeight;
+                });
+        }
+    </script>
 
     <script src="{{ asset('client/assets/js/vendor/jquery-3.6.0.min.js') }}"></script>
     <!-- Bootstrap -->
