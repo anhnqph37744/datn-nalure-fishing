@@ -9,6 +9,7 @@ use App\Http\Controllers\admin\banner\BannerController;
 use App\Http\Controllers\admin\category\CategoryController;
 use App\Http\Controllers\admin\voucher\VoucherController;
 use App\Http\Controllers\admin\product\ProductController;
+use App\Http\Controllers\AI\GeminiAIController;
 use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\auth\PermissionController;
 use App\Http\Controllers\auth\RoleController;
@@ -160,3 +161,5 @@ Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add-to-
 //vnpay return
 Route::get('/vnpay/payment/{amount}', [VNPayController::class, 'VNpay_Payment'])->name('vnpay.payment');
 Route::post('/checkout-fatal-vnpay', [VNPayController::class, 'handleReturn'])->name('vnpay.return');
+//gemini
+Route::post('/chat', [GeminiAIController::class, 'chat'])->name('gemini.ai');
