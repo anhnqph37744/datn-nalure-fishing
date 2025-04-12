@@ -42,18 +42,15 @@
 
                         <div class="form-group">
                             <label>Mã sản phẩm</label>
-                            <input type="text" placeholder="Nhập mã sản phẩm"
-                                class="form-control @error('name') custom-invalid @enderror" value="{{ old('sku') }}"
-                                name="sku">
-                            @error('sku')
-                                <div class="custom-invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <input type="text" id="skuInput" placeholder="Nhập mã sản phẩm" readonly style="cursor:not-allowed;"
+                                class="form-control "
+                                value="{{ old('sku') }}" name="sku">
                         </div>
 
                         <div class="form-group">
                             <label>Giá Sản Phẩm</label>
                             <input type="number" placeholder="Nhập giá sản phẩm"
-                                class="form-control @error('name') custom-invalid @enderror" value="{{ old('price') }}"
+                                class="form-control @error('price') custom-invalid @enderror" value="{{ old('price') }}"
                                 name="price">
                             @error('price')
                                 <div class="custom-invalid-feedback">{{ $message }}</div>
@@ -62,7 +59,7 @@
                         <div class="form-group">
                             <label>Số lượng </label>
                             <input type="number" placeholder="Nhập số lượng chung"
-                                class="form-control @error('name') custom-invalid @enderror" value="{{ old('quantity') }}"
+                                class="form-control @error('quantity') custom-invalid @enderror" value="{{ old('quantity') }}"
                                 name="quantity">
                             @error('quantity')
                                 <div class="custom-invalid-feedback">{{ $message }}</div>
@@ -72,7 +69,7 @@
                             <label>Số lượng cảnh báo (min)</label>
                             <input type="number" placeholder="Nhập số lượng cảnh báo sắp hết hàng" class="form-control"
                                 value="{{ old('quantity_warning') }}" name="quantity_warning">
-                                @error('quantity_warning')
+                            @error('quantity_warning')
                                 <div class="custom-invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -80,7 +77,7 @@
                             <label>Cân nặng sản phẩm</label>
                             <input type="number" placeholder="Cân nặng" class="form-control" value="{{ old('weight') }}"
                                 name="weight">
-                                @error('weight')
+                            @error('weight')
                                 <div class="custom-invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -97,8 +94,8 @@
                             <label>Mô tả sản phẩm</label>
                             <textarea id="editor" name="description"></textarea>
                             @error('description')
-                            <div class="custom-invalid-feedback">{{ $message }}</div>
-                        @enderror
+                                <div class="custom-invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                     </div>
@@ -114,7 +111,7 @@
                         <div class="form-group">
                             <label>Danh mục </label>
                             <select name="category_id" id=""
-                                class="form-control @error('name') custom-invalid @enderror">
+                                class="form-control @error('category_id') custom-invalid @enderror">
                                 <option selected value="">Chọn Danh Mục</option>
 
                                 @foreach ($category as $c)
@@ -128,7 +125,7 @@
                         <div class="form-group">
                             <label>Thương hiệu </label>
                             <select name="brand_id" id=""
-                                class="form-control @error('name') custom-invalid @enderror">
+                                class="form-control @error('brand_id') custom-invalid @enderror">
                                 <option selected value="">Chọn Thương Hiệu</option>
                                 @foreach ($brand as $c)
                                     <option value="{{ $c->id }}">{{ $c->name }}</option>
@@ -232,7 +229,7 @@
                     <div class="ibox-title">
                         <h5>Biến thể sản phẩm</h5>
                         <div class="ibox-tools">
-                            <input type="checkbox" class="js-switch"  id="checkbox-status"/>
+                            <input type="checkbox" class="js-switch" id="checkbox-status" />
                         </div>
                     </div>
                     <div class="ibox-content" id="box-variant-checked" style="display: none;">
@@ -263,6 +260,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         var selectedAttributes = {};
+        const usedSKUs = new Set();
+
+        function generateUniqueSKU() {
+            let sku;
+            do {
+                sku = 'NALURE_VARIANT_' + Math.floor(1000000000 + Math.random() * 9000000000);
+            } while (usedSKUs.has(sku));
+            usedSKUs.add(sku);
+            return sku;
+        }
 
         $(document).ready(function() {
             $('#attribute_id').change(function() {
@@ -291,9 +298,10 @@
 
             $(document).on("click", ".remove-variant", function() {
                 if (confirm("Bạn muốn xoá biến thể này ?")) {
-                    $(this).closest(".variant-item").remove();
+                    $(this).closest(".variant-box").remove();
                 }
             });
+
         });
 
         function addAttributeSelect(attributeId, attributeName, values) {
@@ -331,6 +339,7 @@
 
             allCombinations.forEach(function(combination, index) {
                 let combinationArray = combination.split("-");
+                const randomSKU = generateUniqueSKU();
 
                 let selectHtml = `<div class="variant-attributes">`;
                 combinationArray.forEach(valueId => {
@@ -354,47 +363,50 @@
                 variantHtml += `
                     <div class="variant-box border p-3 mb-2 d-flex align-items-center">
                         <div class="header-variant-box">
-                                 <div class="variant-select">
-                                       ${selectHtml}
-                                 </div>
-                                 <button type="button" class="btn btn-danger remove-variant ml-2">Xóa</button>
+                            <div class="variant-select">
+                                ${selectHtml}
                             </div>
+                            <button type="button" class="btn btn-danger remove-variant ml-2">Xóa</button>
+                        </div>
                         <div class="flex-grow-1">
-                           <div class="box-variant-image-sku">
-                            <div class="image-box">
-                                <label for="variant-image-${index}">Chọn ảnh</label>
-                                <input type="file" name="variants[${index}][image]" id="variant-image-${index}" class="hide" hidden accept="image/*" />
-                            </div>
-                            <div class="sku-box">
-                                <label>Mã SKU</label>
-                                <input type="text" class="form-control variant-sku" name="variants[${index}][sku]" required placeholder="Nhập mã SKU">
-                            </div>
-                           </div>
-                          <div class="box-price-quantity">
-                            <div class="form-group" style="flex:1;">
-                                <label>Giá</label>
-                                <input type="number" class="form-control variant-price" name="variants[${index}][price]" required placeholder="Nhập giá">
-                            </div>
-                              <div class="form-group" style="flex:1;">
-                                <label>Số lượng</label>
-                                <input type="number" class="form-control variant-quantity" name="variants[${index}][quantity]" required min="1" placeholder="Nhập số lượng">
-                            </div>
-                          </div>
-                          <div class="variant-box-input">
-                              <div class="form-group mt-4">
-                                <label>Cân nặng ( Không bắt buộc )</label>
-                                <input type="number" class="form-control variant-weight" name="variants[${index}][weight]"  placeholder="Nhập nặng">
-                            </div>
-                            <div class="form-group mt-4">
-                                <label>Mô tả biến thể</label>
-                                <textarea class="form-control variant-description" name="variants[${index}][description]" id="editor">
-                                </textarea>
-                            </div>
-                            </div>
+                            <div class="box-variant-image-sku">
+                               <div class="image-box">
+                                    <label for="variant-image-${index}" class="image-label preview-image" style="display: inline-block; cursor: pointer;">
+                                        <img src="https://via.placeholder.com/120x120?text=Chọn+ảnh" class="preview-img" style="max-width: 100px;">
+                                    </label>
+                                    <input type="file" name="variants[${index}][image]" id="variant-image-${index}" class="hide variant-image-input" hidden accept="image/*" />
+                                </div>
 
+
+                                <div class="sku-box">
+                                    <label>Mã SKU</label>
+                                    <input type="text" class="form-control variant-sku" name="variants[${index}][sku]" required placeholder="Nhập mã SKU" value="${randomSKU}" readonly style="cursor:not-allowed;">
+                                </div>
+                            </div>
+                            <div class="box-price-quantity">
+                                <div class="form-group" style="flex:1;">
+                                    <label>Giá</label>
+                                    <input type="number" class="form-control variant-price" name="variants[${index}][price]" required placeholder="Nhập giá">
+                                </div>
+                                <div class="form-group" style="flex:1;">
+                                    <label>Số lượng</label>
+                                    <input type="number" class="form-control variant-quantity" name="variants[${index}][quantity]" required min="1" placeholder="Nhập số lượng">
+                                </div>
+                            </div>
+                            <div class="variant-box-input">
+                                <div class="form-group mt-4">
+                                    <label>Cân nặng ( Không bắt buộc )</label>
+                                    <input type="number" class="form-control variant-weight" name="variants[${index}][weight]" placeholder="Nhập nặng">
+                                </div>
+                                <div class="form-group mt-4">
+                                    <label>Mô tả biến thể</label>
+                                    <textarea class="form-control variant-description" name="variants[${index}][description]" id="editor"></textarea>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                `;
+`;
+
             });
 
             $("#variants-container").html(variantHtml);
@@ -416,10 +428,10 @@
     </script>
     <script>
         const checkbox = document.querySelector('#checkbox-status');
-        checkbox.addEventListener('change',function(){
-            if(checkbox.checked){
+        checkbox.addEventListener('change', function() {
+            if (checkbox.checked) {
                 document.querySelector('#box-variant-checked').style.display = 'block';
-            }else{
+            } else {
                 document.querySelector('#box-variant-checked').style.display = 'none';
 
             }
@@ -428,11 +440,45 @@
     </script>
 
 
-
-
     <script>
         ClassicEditor
             .create(document.querySelector('#editor'))
             .catch(error => console.error(error));
+    </script>
+    <script>
+        $(document).on('change', '.variant-image-input', function (e) {
+    const file = this.files[0];
+    const reader = new FileReader();
+    const previewImg = $(this).siblings('.image-label').find('.preview-img');
+
+    if (file && file.type.startsWith('image/')) {
+        reader.onload = function (e) {
+            previewImg.attr('src', e.target.result);
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+    </script>
+    <script>
+        function generateRandomSKU() {
+            const prefix = 'NALURE_FISHING_';
+            const randomNumber = Math.floor(1000000000 + Math.random() * 9000000000);
+            return prefix + randomNumber;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const skuInput = document.getElementById('skuInput');
+
+            if (!skuInput.value) {
+                skuInput.value = generateRandomSKU();
+            }
+
+            skuInput.addEventListener('click', function() {
+                if (!skuInput.value) {
+                    skuInput.value = generateRandomSKU();
+                }
+            });
+        });
     </script>
 @endsection

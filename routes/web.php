@@ -14,6 +14,8 @@ use App\Http\Controllers\auth\PermissionController;
 use App\Http\Controllers\auth\RoleController;
 use App\Http\Controllers\client\cart\CartController;
 use App\Http\Controllers\client\home\HomeController;
+use App\Http\Controllers\Momo\MomoController;
+use App\Http\Controllers\VNPay\VNPayController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -155,3 +157,6 @@ Route::get('/register', function () {
 });
 //ajax
 Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add-to-cart');
+//vnpay return
+Route::get('/vnpay/payment/{amount}', [VNPayController::class, 'VNpay_Payment'])->name('vnpay.payment');
+Route::post('/checkout-fatal-vnpay', [VNPayController::class, 'handleReturn'])->name('vnpay.return');
