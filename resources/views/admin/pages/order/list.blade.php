@@ -39,7 +39,6 @@
                                     <th>Trạng thái thanh toán</th>
                                     <th>Trạng thái đơn hàng</th>
                                     <th>Ngày đặt</th>
-                                    <th>Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody>

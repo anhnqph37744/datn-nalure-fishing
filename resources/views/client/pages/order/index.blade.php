@@ -12,7 +12,40 @@
     </div>
 </div>
     
-    @if($orders->isEmpty())
+    <!-- Modal Hủy đơn hàng -->
+<div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-labelledby="cancelOrderModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cancelOrderModalLabel">Lý do hủy đơn hàng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="cancelReason" class="form-label">Vui lòng chọn lý do hủy đơn:</label>
+                    <select class="form-select" id="cancelReason">
+                        <option value="">-- Chọn lý do --</option>
+                        <option value="wrong_product">Đặt nhầm sản phẩm</option>
+                        <option value="change_mind">Đổi ý không muốn mua nữa</option>
+                        <option value="found_better_price">Tìm được giá tốt hơn</option>
+                        <option value="financial_reason">Lý do tài chính</option>
+                        <option value="other">Lý do khác</option>
+                    </select>
+                    <div class="mt-3 d-none" id="otherReasonContainer">
+                        <label for="otherReason" class="form-label">Lý do khác:</label>
+                        <textarea class="form-control" id="otherReason" rows="3" placeholder="Vui lòng nhập lý do..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-danger" id="confirmCancelOrder">Xác nhận hủy</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if($orders->isEmpty())
         <div class="text-center py-5">
             <h4>Bạn chưa có đơn hàng nào</h4>
             <a href="{{ route('home') }}" class="btn btn-primary mt-3">Tiếp tục mua sắm</a>
@@ -44,13 +77,13 @@
                                 @case('processing')
                                     <span class="badge bg-info"><i class="fas fa-cog me-1"></i>Đang xử lý</span>
                                     @break
-                                @case('shipped')
+                                @case('shipping')
                                     <span class="badge bg-primary"><i class="fas fa-shipping-fast me-1"></i>Đang giao hàng</span>
                                     @break
-                                @case('delivered')
+                                @case('completed')
                                     <span class="badge bg-success"><i class="fas fa-check-circle me-1"></i>Đã giao hàng</span>
                                     @break
-                                @case('canceled')
+                                @case('cancelled')
                                     <span class="badge bg-danger"><i class="fas fa-times-circle me-1"></i>Đã hủy</span>
                                     @break
                             @endswitch
@@ -71,6 +104,7 @@
                         <td class="py-3">
                             <a href="{{ route('client.orders.show', $order->id) }}" class="btn btn-sm btn-info me-2 hover-shadow-sm transition-all"><i class="fas fa-eye me-1"></i>Chi tiết</a>
                             @if($order->payment_status == 'pending')
+                           
                                 <button type="button" class="btn btn-sm btn-danger cancel-order hover-shadow-sm transition-all" data-order-id="{{ $order->id }}"><i class="fas fa-ban me-1"></i>Hủy đơn</button>
                             @endif
                         </td>
@@ -91,24 +125,60 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
+        let currentOrderId = null;
+
+        // Hiển thị modal khi click nút hủy đơn
         $('.cancel-order').click(function() {
-            const orderId = $(this).data('order-id');
-            if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
-                $.ajax({
-                    url: `/client/orders/${orderId}/cancel`,
-                    type: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        alert('Hủy đơn hàng thành công');
-                        location.reload();
-                    },
-                    error: function(xhr) {
-                        alert('Có lỗi xảy ra. Vui lòng thử lại sau.');
-                    }
-                });
+            currentOrderId = $(this).data('order-id');
+            $('#cancelReason').val('');
+            $('#otherReason').val('');
+            $('#otherReasonContainer').addClass('d-none');
+            $('#cancelOrderModal').modal('show');
+        });
+
+        // Hiển thị/ẩn trường nhập lý do khác
+        $('#cancelReason').change(function() {
+            if ($(this).val() === 'other') {
+                $('#otherReasonContainer').removeClass('d-none');
+            } else {
+                $('#otherReasonContainer').addClass('d-none');
             }
+        });
+
+        // Xử lý khi xác nhận hủy đơn
+        $('#confirmCancelOrder').click(function() {
+            const reason = $('#cancelReason').val();
+            if (!reason) {
+                alert('Vui lòng chọn lý do hủy đơn hàng');
+                return;
+            }
+
+            let cancelReason = reason;
+            if (reason === 'other') {
+                const otherReason = $('#otherReason').val().trim();
+                if (!otherReason) {
+                    alert('Vui lòng nhập lý do hủy đơn hàng');
+                    return;
+                }
+                cancelReason = otherReason;
+            }
+
+            $.ajax({
+                url: `/client/orders/${currentOrderId}/cancel`,
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    reason: cancelReason
+                },
+                success: function(response) {
+                    $('#cancelOrderModal').modal('hide');
+                    alert('Hủy đơn hàng thành công');
+                    location.reload();
+                },
+                error: function(xhr) {
+                    alert('Có lỗi xảy ra. Vui lòng thử lại sau.');
+                }
+            });
         });
     });
 </script>

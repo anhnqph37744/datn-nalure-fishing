@@ -44,7 +44,7 @@
                         <div class="form-group">
                             <label>Mã sản phẩm</label>
                             <input type="text" placeholder="Nhập mã sản phẩm"
-                                class="form-control @error('name') custom-invalid @enderror"
+                                class="form-control "
                                 value="{{ old('sku', $product->sku) }}" name="sku">
                             @error('sku')
                                 <div class="custom-invalid-feedback">{{ $message }}</div>
@@ -54,7 +54,7 @@
                         <div class="form-group">
                             <label>Giá Sản Phẩm</label>
                             <input type="text" placeholder="Nhập giá sản phẩm"
-                                class="form-control @error('name') custom-invalid @enderror"
+                                class="form-control @error('price') custom-invalid @enderror"
                                 value="{{ old('price', $product->price) }}" name="price">
                             @error('price')
                                 <div class="custom-invalid-feedback">{{ $message }}</div>
@@ -63,7 +63,7 @@
                         <div class="form-group">
                             <label>Số lượng </label>
                             <input type="text" placeholder="Nhập số lượng chung"
-                                class="form-control @error('name') custom-invalid @enderror"
+                                class="form-control @error('quantity') custom-invalid @enderror"
                                 value="{{ old('quantity', $product->quantity) }}" name="quantity">
                             @error('quantity')
                                 <div class="custom-invalid-feedback">{{ $message }}</div>
@@ -114,7 +114,7 @@
                         <div class="form-group">
                             <label>Danh mục </label>
                             <select name="category_id" id=""
-                                class="form-control @error('name') custom-invalid @enderror">
+                                class="form-control @error('category_id') custom-invalid @enderror">
                                 <option selected value="">Chọn Danh Mục</option>
 
                                 @foreach ($category as $c)
@@ -130,7 +130,7 @@
                         <div class="form-group">
                             <label>Thương hiệu </label>
                             <select name="brand_id" id=""
-                                class="form-control @error('name') custom-invalid @enderror">
+                                class="form-control @error('brand_id') custom-invalid @enderror">
                                 <option selected value="">Chọn Thương Hiệu</option>
                                 @foreach ($brand as $c)
                                     <option value="{{ $c->id }}"
@@ -306,7 +306,7 @@
                             </div>
                             <div class="sku-box">
                                 <label>Mã SKU</label>
-                                <input type="text" class="form-control variant-sku" name="variants[${index}][sku]" value="${variant.sku}" required>
+                                <input type="text" class="form-control variant-sku" name="variants[${index}][sku]" value="${variant.sku}" readonly style="cursor:not-allowed;">
                             </div>
                         </div>
                         <div class="box-price-quantity">
@@ -348,7 +348,7 @@
                 var selectHtml = `
                     <div class="form-group" id="attribute-values-${attributeId}">
                         <label>${attributeName}</label>
-                        <select class="form-control attribute-values" multiple data-attribute-id="${attributeId}">
+                        <select class="form-control attribute-values" multiple data-attribute-id="${attributeId}" >
                         </select>
                     </div>
                 `;
@@ -370,87 +370,6 @@
                     selectedAttributes[attributeId] = selectedValues;
                 });
             }
-        }
-
-        function generateVariants() {
-            let allCombinations = generateCombinations(Object.values(selectedAttributes));
-            let variantHtml = '';
-
-            allCombinations.forEach(function(combination, index) {
-                let combinationArray = combination.split("-");
-
-                let selectHtml = `<div class="variant-attributes">`;
-                combinationArray.forEach(valueId => {
-                    selectHtml +=
-                        `<select class="variant-select" name="variants[${index}][attribute_values][]">`;
-
-                    @foreach ($attribute_value as $attr)
-                        if ({{ $attr->id }} == valueId) {
-                            selectHtml +=
-                                `<option value="{{ $attr->id }}" selected>{{ $attr->value }}</option>`;
-                        } else {
-                            selectHtml +=
-                                `<option value="{{ $attr->id }}">{{ $attr->value }}</option>`;
-                        }
-                    @endforeach
-
-                    selectHtml += `</select>`;
-                });
-                selectHtml += `</div>`;
-
-                variantHtml += `
-                    <div class="variant-box border p-3 mb-2 d-flex align-items-center">
-                        <div class="header-variant-box">
-                                 <div class="variant-select">
-                                       ${selectHtml}
-                                 </div>
-                                 <button type="button" class="btn btn-danger remove-variant ml-2">Xóa</button>
-                            </div>
-                        <div class="flex-grow-1">
-                           <div class="box-variant-image-sku">
-                             <div class="image-box">
-                                <input type="file" name="variants[${index}][image]" id="variant-image-${index}" class="variant-image-input" hidden accept="image/*"/>
-                                <label for="variant-image-${index}" class="image-preview-label">
-                                    ${variant.image
-                                        ? `<img id="preview-image-${index}" class="img-thumbnail" src="${variant.image}" style="width: 100px; height: 100px; object-fit: cover;">`
-                                        : "Chọn ảnh"}
-                                </label>
-                            </div>
-                            <div class="sku-box">
-                                <label>Mã SKU</label>
-                                <input type="text" class="form-control variant-sku" name="variants[${index}][sku]" required placeholder="Nhập mã SKU">
-                            </div>
-                           </div>
-                          <div class="box-price-quantity">
-                            <div class="form-group" style="flex:1;">
-                                <label>Giá</label>
-                                <input type="number" class="form-control variant-price" name="variants[${index}][price]" required placeholder="Nhập giá">
-                            </div>
-
-                                <input type="number" class="form-control variant-price" name="variants[${index}][price]" required placeholder="Nhập giá">
-                              <div class="form-group" style="flex:1;">
-                                <label>Số lượng</label>
-                                <input type="number" class="form-control variant-quantity" name="variants[${index}][quantity]" required min="1" placeholder="Nhập số lượng">
-                            </div>
-                          </div>
-                          <div class="variant-box-input">
-                              <div class="form-group mt-4">
-                                <label>Cân nặng ( Không bắt buộc )</label>
-                                <input type="number" class="form-control variant-weight" name="variants[${index}][weight]"  placeholder="Nhập nặng">
-                            </div>
-                            <div class="form-group mt-4">
-                                <label>Mô tả biến thể</label>
-                                <textarea class="form-control variant-description" name="variants[${index}][description]" id="editor">
-                                </textarea>
-                            </div>
-                            </div>
-
-                        </div>
-                    </div>
-                `;
-            });
-
-            $("#variants-container").html(variantHtml);
         }
 
         function generateCombinations(arrays, prefix = []) {

@@ -10,26 +10,26 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Symfony\Component\HttpKernel\Profiler\Profile;
+use App\Models\Profile;
 
 class CheckoutController extends Controller
 {
     public function showCheckoutForm()
     {
-       
-        // $productItem = Product::all();
+        $user_login = Auth::user();
+        $profile = Profile::where('user_id', Auth::id())->first();
         $cartItems = Cart::getItems();
         $cart = Cart::where('id_user', Auth::id())->get();
-    $totalPrice = $cartItems->sum(function($item) {
-        return $item->total_price;
-    });
+        $totalPrice = $cartItems->sum(function($item) {
+            return $item->total_price;
+        });
 
-    return view('client.pages.checkout', compact('cartItems', 'totalPrice', 'cart', 'profile'));
+    return view('client.pages.checkout', compact('cartItems', 'totalPrice', 'cart', 'profile', 'user_login'));
     }
 
     public function store(Request $request)
     {
-
+        
         try {
             DB::beginTransaction();
 
@@ -47,6 +47,7 @@ class CheckoutController extends Controller
                 'order_status' => 'pending',
                 'note' => $request->note
             ]);
+
 
             // Get cart items
             $cartItems = Cart::where('id_user', Auth::id())->get();

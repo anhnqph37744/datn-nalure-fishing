@@ -62,7 +62,7 @@
                         <span class="fw-bold">Trạng thái đơn hàng:</span>
                         @switch($order->order_status)
                             @case('pending')
-                                <span class="badge bg-warning text-dark d-flex align-items-center gap-2">
+                                <span class="text-dark d-flex align-items-center gap-2">
                                     <i class="fas fa-clock"></i> Chờ xử lý
                                 </span>
                                 @break
@@ -72,17 +72,17 @@
                                 </span>
                                 @break
                             @case('shipped')
-                                <span class="badge bg-primary d-flex align-items-center gap-2">
+                                <span class="d-flex align-items-center gap-2">
                                     <i class="fas fa-shipping-fast"></i> Đang giao hàng
                                 </span>
                                 @break
                             @case('delivered')
-                                <span class="badge bg-success d-flex align-items-center gap-2">
+                                <span class="d-flex align-items-center gap-2">
                                     <i class="fas fa-check-circle"></i> Đã giao hàng
                                 </span>
                                 @break
                             @default
-                                <span class="badge bg-danger d-flex align-items-center gap-2">
+                                <span class="d-flex align-items-center gap-2">
                                     <i class="fas fa-times-circle"></i> Đã hủy
                                 </span>
                         @endswitch

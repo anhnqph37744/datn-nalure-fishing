@@ -20,13 +20,20 @@ class OrderController extends Controller
         return view('admin.pages.order.show', compact('order'));
     }
 
-
     private $statusOrder = [
         'pending' => 0,
         'processing' => 1,
         'shipping' => 2,
         'completed' => 3,
         'cancelled' => 4
+    ];
+
+    private $statusMapping = [
+        'pending' => 'pending',
+        'processing' => 'processing',
+        'shipping' => 'shipping',
+        'completed' => 'delivered',
+        'cancelled' => 'canceled'
     ];
 
     private function isValidStatusTransition($currentStatus, $newStatus)
@@ -51,7 +58,10 @@ class OrderController extends Controller
             }
 
             $order->order_status = $status;
+            // Cập nhật trạng thái hiển thị cho user
+            // $order->status = $this->statusMapping[$status];
             $order->save();
+
             
             return response()->json(['success' => true, 'data' => $order]);
         } catch (\Exception $e) {

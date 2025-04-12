@@ -222,13 +222,13 @@ textarea.form-control {
                     @enderror
                 </div>
                 <div class="col-md-6 form-group">
-                    <input type="text" name="phone" class="form-control" placeholder="Số điện thoại" required>
+                    <input type="text" name="phone" class="form-control" placeholder="Số điện thoại" value="{{ $user_login->profile->phone }}" required>
                     @error('phone')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="col-md-6 form-group">
-                    <input type="text" name="address" class="form-control" placeholder="Địa chỉ" required>
+                    <input type="text" name="address" class="form-control" placeholder="Địa chỉ" value="{{ $user_login->profile->address }}" required>
                     @error('address')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -355,6 +355,13 @@ textarea.form-control {
                                 <p>Thanh toán khi nhận hàng (COD)</p>
                             </div>
                         </li>
+                        <li class="wc_payment_method payment_method_vnpay">
+                            <input id="payment_method_vnpay" type="radio" class="input-radio" name="payment_method" value="vnpay" onchange="updateFormAction(this)">
+                            <label for="payment_method_vnpay">Thanh toán qua VNPay <img src="https://cdn.haitrieu.com/wp-content/uploads/2022/10/Icon-VNPAY-QR.png" alt="VNPay" style="height: 32px;"></label>
+                            <div class="payment_box payment_method_vnpay">
+                                <p>Thanh toán qua cổng thanh toán VNPay - Hỗ trợ thanh toán qua QR Code, thẻ ATM, thẻ tín dụng</p>
+                            </div>
+                        </li>
                     </ul>
                     <div class="form-row place-order">
                         <button type="submit" class="vs-btn style-1">Đặt hàng</button>
@@ -366,6 +373,15 @@ textarea.form-control {
 </div>
 
 <script>
+   
+
+    // Thiết lập action form ban đầu dựa trên radio button được chọn
+    document.addEventListener('DOMContentLoaded', function() {
+        var selectedPayment = document.querySelector('input[name="payment_method"]:checked');
+        if (selectedPayment) {
+            updateFormAction(selectedPayment);
+        }
+    });
     document.getElementById('voucher-select').addEventListener('change', function() {
         var subtotal = parseFloat({{ $subtotal }});
         var defaultShippingFee = 30000;
@@ -426,7 +442,7 @@ textarea.form-control {
             // Tổng đơn hàng = (subtotal - discount) + phí ship
             totalPrice = (subtotal - discount) + defaultShippingFee;
         }
-        
+        document.querySelector('#input-total-price').value = totalPrice;
         // Cập nhật giao diện
         document.getElementById('total-price').textContent = 
             new Intl.NumberFormat('vi-VN').format(totalPrice) + 'đ';

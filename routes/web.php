@@ -20,6 +20,8 @@ use App\Http\Controllers\admin\auth\RolePermissionController;
 use App\Http\Controllers\client\profile\UpdateProfileController;
 use App\Http\Controllers\admin\attribute_value\AttributeValueController;
 use App\Http\Controllers\client\cart\OrderController as CartOrderController;
+use App\Http\Controllers\Momo\MomoController;
+use App\Http\Controllers\VNPay\VNPayController;
 
 /*
 |--------------------------------------------------------------------------
@@ -199,3 +201,6 @@ Route::middleware(['auth'])->group(function () {
 
 
 
+//vnpay return
+Route::get('/vnpay/payment/{amount}', [VNPayController::class, 'VNpay_Payment'])->name('vnpay.payment');
+Route::get('/checkout-fatal-vnpay', [VNPayController::class, 'handleReturn'])->name('vnpay.return');

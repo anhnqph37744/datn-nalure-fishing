@@ -2,37 +2,16 @@
     <div class="header-top" style="background-color: #ff8c00; color: white;">
         <div class="container">
             <div class="row justify-content-xl-between justify-content-md-center align-items-center gx-50">
-                <div class="col d-none d-xl-block">
-                    <div class="header-links">
-                        <ul>
-                            <li>
-                                <a href="#" ><i class="fas fa-map-marker-alt"></i> Nam Từ Liêm ,
-                                    Hà Nội , Việt Nam </a>
-                            </li>
-                            <li>
-                                <a href="#" ><i class="fas fa-envelope"></i>
-                                    aquanganh@gmail.com </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-auto d-flex align-items-center text-center">
-                    <div class="dropdown">
-                        <button class="dropdown-toggle" type="button" id="dropdownMenuButton1"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-globe"></i> English
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="margin: 0px;">
-                            <li><a class="dropdown-item" href="#">English</a></li>
-                            <li><a class="dropdown-item" href="#">Bangla</a></li>
-                        </ul>
-                    </div>
-                    <div class="social-media">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-pinterest-p"></i></a>
-                    </div>
+            <div class="col d-none d-xl-block">
+                <div class="header-links">
+                    <ul>
+                        <li>
+                            <a href="#"><i class="fas fa-map-marker-alt"></i> Nam Từ Liêm , Hà Nội , Việt Nam  </a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fas fa-envelope"></i> anhnqph37744@fpt.edu.vn </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

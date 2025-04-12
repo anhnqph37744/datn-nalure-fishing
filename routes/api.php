@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AI\GeminiAIController;
 use App\Http\Controllers\client\chat\ChatBotController;
+use App\Http\Controllers\VNPay\VNPayController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,4 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/chat', [ChatBotController::class, 'chatWithAI']);
+Route::post('/chat', [GeminiAIController::class, 'chat']);
+
+Route::post('/vnpay',[VNPayController::class,'VNpay_Payment']);
+Route::get('/vnpay/return', [VNPayController::class, 'handleReturn'])->name('vnpay.return');

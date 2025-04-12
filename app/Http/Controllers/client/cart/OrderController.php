@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\client\cart;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\VNPay\VNPayController;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -14,19 +15,46 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
-    public function store(Request $request)
+    protected $vnpay;
+    public function __construct(VNPayController $vnpay)
     {
-        // Validate dữ liệu
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'phone' => 'required|string|max:20',
-            'address' => 'required|string|max:500',
-            'payment_method' => 'required|string',
-            'products' => 'required|array',
-        ]);
+        $this->vnpay = $vnpay;
+    }
+    public function store(Request $request)
+{
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'phone' => 'required|string|max:20',
+        'address' => 'required|string|max:500',
+        'payment_method' => 'required|string',
+        'products' => 'required|array',
+    ]);
 
-        // Bắt đầu transaction để đảm bảo tính toàn vẹn dữ liệu
+    try {
+        if ($request->payment_method === "vnpay") {
+            $order_id = $this->placeOrder($request, 2);
+           if($order_id != null){
+            return $this->vnpay->VNpay_Payment($request->total_price,'en',$request->ip(),$order_id);
+           }
+        } else {
+            $order_id = $this->placeOrder($request, 1);
+            return redirect()->route('order.success', ['id' => $order_id]);
+        }
+    } catch (\Exception $e) {
+        return back()->with('error', 'Lỗi khi đặt hàng: ' . $e->getMessage());
+    }
+}
+
+    public function success($id)
+    {
+        $order = Order::with('orderItems.product')->findOrFail($id);
+        $cart = Cart::where('id_user', Auth::id())->get();
+
+        return view('client.pages.bill', compact('order', 'cart'));
+    }
+    private function placeOrder($request, $type)
+    {
         DB::beginTransaction();
 
         try {
@@ -62,6 +90,7 @@ class OrderController extends Controller
                 'address' => $request->address,
             ]);
 
+
             foreach ($request->products as $productId => $productData) {
                 $product = Product::find($productData['id']);
 
@@ -88,20 +117,13 @@ class OrderController extends Controller
 
             DB::commit();
 
-            return redirect()->route('order.success', ['id' => $order->id])
-                ->with('success', 'Đặt hàng thành công!');
+            return $order->id;
+
+
 
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Đặt hàng thất bại: ' . $e->getMessage());
         }
     }
-    public function success($id)
-    {
-        $order = Order::with('orderItems.product')->findOrFail($id);
-        $cart  = Cart::where('id_user', Auth::id())->get();
-
-        return view('client.pages.bill', compact('order', 'cart'));
-    }
-
 }
