@@ -108,7 +108,7 @@
     <!-- Slick Slider -->
     <script src="{{ asset('client/assets/js/slick.min.js') }}"></script>
     <!-- Magnific Popup -->
-    <script src="{{ asset('assets/js/jquery.magnific-popup.min.js') }}"></script>
+    <script src="{{ asset('client/assets/js/jquery.magnific-popup.min.js') }}"></script>
     <!-- Wow.js -->
     <script src="{{ asset('client/assets/js/wow.min.js') }}"></script>
     <!-- Imagesloaded -->

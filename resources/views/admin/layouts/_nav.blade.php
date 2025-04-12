@@ -90,6 +90,14 @@
                 </ul>
             </li>
             <li>
+                <a href="#"><i class="fas fa-list"></i>
+                    <span class="nav-label">Quản lý đánh giá</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+
+                    <li><a href="{{ route('admin.reviews.index') }}">Danh sách đánh giá</a></li>
+                </ul>
+            </li>
+            <li>
                 <a href="#"><i class="fas fa-user"></i>
                     <span class="nav-label">Tài Khoản</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">

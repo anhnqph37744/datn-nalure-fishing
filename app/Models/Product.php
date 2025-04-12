@@ -37,5 +37,9 @@ class Product extends Model
     public function variant() {
         return $this->hasMany(Variant::class);
     }
+    public function reviews()
+    {
+        return $this->hasMany(ProductReview::class);
+    }
 
 }
