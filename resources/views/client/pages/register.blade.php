@@ -4,11 +4,11 @@
         style="height: 100px ">
         <div class="container">
             <div class="breadcumb-content">
-                <h1 class="breadcumb-title">Đăng nhập</h1>
+                <h1 class="breadcumb-title">Đăng kí tài khoản</h1>
                 <div class="breadcumb-menu-wrap">
                     <ul class="breadcumb-menu">
                         <li><a href="index.html">Home</a></li>
-                        <li>Đăng nhập</li>
+                        <li>Đăng kí tài khoản</li>
                     </ul>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                     <div class="form-area">
                         <div class="row">
                             <div class="col-lg-4">
-                                <form action="{{route('login')}}" class="form-login" method="POST">
+                                <form action="{{route('register')}}" class="form-login" method="POST">
                                     @csrf
                                     <div class="form-group">
                                         <input type="text" name="name" class="form-control" placeholder="Username ">

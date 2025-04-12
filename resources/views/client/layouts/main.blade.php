@@ -58,7 +58,7 @@
 
     @include('client.layouts._loader')
 
-    @if (Auth::check())
+    {{-- @if (Auth::check())
 
 
         <div class="sidemenu-wrapper d-none d-lg-block">
@@ -95,7 +95,7 @@
                 </div>
             </div>
         </div>
-    @endif
+    @endif --}}
 
 
 

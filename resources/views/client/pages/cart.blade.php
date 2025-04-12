@@ -85,7 +85,7 @@
                                         <button type="submit" class="vs-btn">Apply Coupon</button>
                                     </div>
                                     <button type="submit" class="vs-btn">Update cart</button>
-                                    <a href="shop-details.html" class="vs-btn">Continue Shopping</a>
+                                    <a href="{{ route('check-out') }}" class="vs-btn">Thanh toán</a>
                                 </td>
                                 <p>Tổng tiền: <span class="subtotal text-bold">{{ number_format($total, 0, ',', '.') }}
                                         đ</span></p>
