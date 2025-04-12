@@ -52,7 +52,90 @@
                 @endif
                     <a href="{{ route('admin.voucher.create') }}" class="btn btn-primary mb-3">Tạo Voucher Mới</a>
                     <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-hover dataTables-example">
+                        <table class="table table-striped table-bordered table-hover dataTables-example custom-table">
+                        <style>
+                            .custom-table {
+                                box-shadow: 0 0 20px rgba(0,0,0,.1);
+                                border-radius: 8px;
+                                overflow: hidden;
+                                margin: 20px 0;
+                            }
+                            .custom-table thead th {
+                                background-color: #FFCC99;
+                                color: #333;
+                                font-weight: 600;
+                                text-align: center;
+                                padding: 15px 10px;
+                                border-bottom: 2px solid #ddd;
+                                transition: background-color 0.3s ease;
+                                white-space: nowrap;
+                                position: relative;
+                            }
+                            .custom-table thead th:hover {
+                                background-color: #FFB366;
+                            }
+                            .custom-table thead th::after {
+                                content: '';
+                                position: absolute;
+                                right: 0;
+                                top: 25%;
+                                height: 50%;
+                                width: 1px;
+                                background-color: rgba(0,0,0,0.1);
+                            }
+                            .custom-table thead th:last-child::after {
+                                display: none;
+                            }
+                            .custom-table tbody tr:nth-child(even) {
+                                background-color: #f8f9fa;
+                            }
+                            .custom-table tbody tr:hover {
+                                background-color: #f1f1f1;
+                                transition: background-color 0.3s ease;
+                            }
+                            .custom-table td {
+                                padding: 12px;
+                                vertical-align: middle;
+                            }
+                            .btn {
+                                padding: 6px 12px;
+                                margin: 0 3px;
+                                border-radius: 4px;
+                                transition: all 0.3s ease;
+                            }
+                            .btn:hover {
+                                transform: translateY(-2px);
+                                box-shadow: 0 2px 5px rgba(0,0,0,.2);
+                            }
+                            .btn-warning {
+                                background-color: #f8ac59;
+                                border-color: #f8ac59;
+                            }
+                            .btn-danger {
+                                background-color: #ed5565;
+                                border-color: #ed5565;
+                            }
+                            .badge {
+                                padding: 6px 12px;
+                                border-radius: 20px;
+                                font-weight: 500;
+                            }
+                            .badge-success {
+                                background-color: #1ab394;
+                            }
+                            .badge-danger {
+                                background-color: #ed5565;
+                            }
+                            .alert-success {
+                                border-radius: 4px;
+                                border-left: 4px solid #1ab394;
+                                animation: fadeIn 0.5s ease-in-out;
+                            }
+                            @keyframes fadeIn {
+                                from { opacity: 0; transform: translateY(-10px); }
+                                to { opacity: 1; transform: translateY(0); }
+                            }
+                        </style>
                             <thead>
                                 <tr>
                                     <th>STT</th>

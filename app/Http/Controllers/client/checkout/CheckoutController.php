@@ -10,11 +10,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpKernel\Profiler\Profile;
 
 class CheckoutController extends Controller
 {
     public function showCheckoutForm()
     {
+       
         // $productItem = Product::all();
         $cartItems = Cart::getItems();
         $cart = Cart::where('id_user', Auth::id())->get();
@@ -22,11 +24,12 @@ class CheckoutController extends Controller
         return $item->total_price;
     });
 
-    return view('client.pages.checkout', compact('cartItems', 'totalPrice', 'cart'));
+    return view('client.pages.checkout', compact('cartItems', 'totalPrice', 'cart', 'profile'));
     }
 
     public function store(Request $request)
     {
+
         try {
             DB::beginTransaction();
 

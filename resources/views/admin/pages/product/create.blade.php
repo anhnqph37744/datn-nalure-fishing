@@ -52,7 +52,7 @@
 
                         <div class="form-group">
                             <label>Giá Sản Phẩm</label>
-                            <input type="text" placeholder="Nhập giá sản phẩm"
+                            <input type="number" placeholder="Nhập giá sản phẩm"
                                 class="form-control @error('name') custom-invalid @enderror" value="{{ old('price') }}"
                                 name="price">
                             @error('price')
@@ -61,7 +61,7 @@
                         </div>
                         <div class="form-group">
                             <label>Số lượng </label>
-                            <input type="text" placeholder="Nhập số lượng chung"
+                            <input type="number" placeholder="Nhập số lượng chung"
                                 class="form-control @error('name') custom-invalid @enderror" value="{{ old('quantity') }}"
                                 name="quantity">
                             @error('quantity')
@@ -70,13 +70,19 @@
                         </div>
                         <div class="form-group">
                             <label>Số lượng cảnh báo (min)</label>
-                            <input type="text" placeholder="Nhập số lượng cảnh báo sắp hết hàng" class="form-control"
+                            <input type="number" placeholder="Nhập số lượng cảnh báo sắp hết hàng" class="form-control"
                                 value="{{ old('quantity_warning') }}" name="quantity_warning">
+                                @error('quantity_warning')
+                                <div class="custom-invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label>Cân nặng sản phẩm</label>
-                            <input type="text" placeholder="Cân nặng" class="form-control" value="{{ old('weight') }}"
+                            <input type="number" placeholder="Cân nặng" class="form-control" value="{{ old('weight') }}"
                                 name="weight">
+                                @error('weight')
+                                <div class="custom-invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="form-group">
@@ -90,6 +96,9 @@
                         <div class="form-group">
                             <label>Mô tả sản phẩm</label>
                             <textarea id="editor" name="description"></textarea>
+                            @error('description')
+                            <div class="custom-invalid-feedback">{{ $message }}</div>
+                        @enderror
                         </div>
 
                     </div>

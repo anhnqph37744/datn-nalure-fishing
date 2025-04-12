@@ -211,15 +211,27 @@ textarea.form-control {
             <div class="row shipping_address">
                 <div class="col-md-6 form-group">
                     <input type="text" name="name" class="form-control" placeholder="Họ và Tên" value="{{ $user_login->name }}" required>
+                    @error('name')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="col-md-6 form-groups">
                     <input type="text" name="email" class="form-control" placeholder="Email" value="{{ $user_login->email }}" required>
+                    @error('email')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="col-md-6 form-group">
                     <input type="text" name="phone" class="form-control" placeholder="Số điện thoại" required>
+                    @error('phone')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="col-md-6 form-group">
                     <input type="text" name="address" class="form-control" placeholder="Địa chỉ" required>
+                    @error('address')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="col-md-12 form-group">
                     <textarea cols="20" name="note" rows="5" class="form-control" placeholder="Ghi chú về đơn hàng, ví dụ: lưu ý đặc biệt khi giao hàng."></textarea>
@@ -248,7 +260,7 @@ textarea.form-control {
                     <tr class="cart_item">
                         <td data-title="Product">
                             <a class="cart-productimage" href="shop-details.html">
-                                <img width="91" height="91" src="{{ asset('client/assets/img/shop/product-2-1.jpg') }}" alt="Image">
+                                <img width="91" height="91" src="{{ $item->image }}" alt="Image">
                             </a>
                         </td>
                         <td data-title="Name">
