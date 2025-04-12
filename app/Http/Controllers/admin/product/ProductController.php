@@ -18,18 +18,120 @@ class ProductController extends Controller
     public $base_url = "admin.pages.product.";
     public function index()
     {
-        $products = Product::with('category','images','brand','variant.varianAttributeValue.attribute','variant.varianAttributeValue.attributeValue')->orderBy('id','DESC')->get();
+        $products = Product::with('category', 'images', 'brand', 'variant.varianAttributeValue.attribute', 'variant.varianAttributeValue.attributeValue')->orderBy('id', 'DESC')->get();
         // dd($products);
-        return view($this->base_url . __FUNCTION__,compact('products'));
+        return view($this->base_url . __FUNCTION__, compact('products'));
         // return response()->json($products);
     }
     public function edit($id)
     {
-        return view($this->base_url . __FUNCTION__);
+        $category = Category::orderBy('id', 'DESC')->get();
+        $brand = Brand::orderBy('id', 'DESC')->get();
+        $attribute = Attribute::orderBy('id', 'DESC')->get();
+        $attribute_value = AttributeValue::orderBy('id', 'DESC')->get();
+        $product = Product::with('category', 'images', 'brand', 'variant.varianAttributeValue.attribute', 'variant.varianAttributeValue.attributeValue')->find($id);
+        return view($this->base_url . __FUNCTION__,compact('product','category','brand','attribute','attribute_value'));
+    }
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|max:255',
+            'price' => 'required',
+            'quantity' => 'required|integer|min:1',
+            'quantity_warning' => 'nullable|integer|min:1',
+            'weight' => 'nullable|numeric|min:0',
+            'tags' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'category_id' => 'required|exists:categories,id',
+            'brand_id' => 'required',
+            'images' => 'nullable|array',
+        ], [
+            'name.required' => 'Tên sản phẩm không được để trống.',
+            'name.max' => 'Tên sản phẩm không được vượt quá 255 ký tự.',
+            'price.required' => 'Giá sản phẩm là bắt buộc.',
+            'quantity.required' => 'Số lượng sản phẩm là bắt buộc.',
+            'quantity.min' => 'Số lượng sản phẩm không thể nhỏ hơn :min.',
+            'quantity_warning.integer' => 'Số lượng cảnh báo phải là số nguyên.',
+            'quantity_warning.min' => 'Số lượng cảnh báo không thể nhỏ hơn 0.',
+            'weight.min' => 'Khối lượng không thể nhỏ hơn 0.',
+            'tags.max' => 'Tags không được vượt quá 255 ký tự.',
+            'category_id.required' => 'Danh mục sản phẩm là bắt buộc.',
+            'brand_id.required' => 'Thương hiệu sản phẩm là bắt buộc.',
+        ]);
+        $product = Product::findOrFail($id);
+
+        $product->update([
+            'name' => $request->name,
+            'sku' => $request->sku,
+            'price' => $request->price,
+            'quantity' => $request->quantity,
+            'quantity_warning' => $request->quantity_warning,
+            'weight' => $request->weight,
+            'tags' => $request->tags,
+            'description' => $request->description,
+            'category_id' => $request->category_id,
+            'brand_id' => $request->brand_id,
+        ]);
+
+        if ($request->hasFile('image')) {
+            if ($product->image && file_exists(public_path('storage/products/' . $product->image))) {
+                unlink(public_path('storage/products/' . $product->image));
+            }
+            $imageName = $this->uploadImage($request->file('image'), 'storage/product/');
+            $product->image = $imageName;
+            $product->save();
+        }
+
+        if ($request->has('variants')) {
+            foreach ($request->variants as $variantData) {
+                $variant = Variant::updateOrCreate(
+                    ['sku' => $variantData['sku'], 'product_id' => $product->id],
+                    [
+                        'price' => $variantData['price'],
+                        'quantity' => $variantData['quantity'],
+                        'weight' => $variantData['weight'],
+                        'description' => $variantData['description'],
+                    ]
+                );
+
+                if (isset($variantData['image']) && $variantData['image'] instanceof \Illuminate\Http\UploadedFile) {
+                    if ($variant->image && file_exists(public_path('storage/variant/' . $variant->image))) {
+                        unlink(public_path('storage/variant/' . $variant->image));
+                    }
+                    $variantImage = $variantData['image'];
+                    $variantImageName = $this->uploadImage($variantImage, 'storage/variant/');
+                    $variant->image = $variantImageName;
+                    $variant->save();
+                }
+            }
+        }
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $imageName = $this->uploadImage($image, 'storage/attackment/');
+                ProductAttackment::create([
+                    'product_id' => $product->id,
+                    'image_url' => $imageName,
+                ]);
+            }
+        }
+
+        return redirect()->route('admin.product.index')->with('success', 'Sản phẩm cập nhật thành công!');
     }
     public function destroy($id)
     {
-        return true;
+        $product = Product::find($id);
+        $images = ProductAttackment::where('product_id', $id)->get();
+        $variant = Variant::where('product_id', $id)->get();
+        foreach ($images as $img) {
+            ProductAttackment::find($img->id)->delete();
+        }
+        foreach ($variant as $v) {
+            VariantAttributeValue::where('variant_id', $v->id)->delete();
+            $v->delete();
+        }
+        $product->delete();
+        return redirect()->route('admin.product.index')->with('messages', 'Xoá sản phẩm thành công');
     }
     public function attributeValueData($id)
     {
@@ -46,6 +148,33 @@ class ProductController extends Controller
     }
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|max:255',
+            'price' => 'required',
+            'quantity' => 'required|integer|min:1',
+            'quantity_warning' => 'nullable|integer|min:1',
+            'weight' => 'nullable|numeric|min:0',
+            'tags' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'category_id' => 'required|exists:categories,id',
+            'brand_id' => 'required',
+            'image' => 'required|image',
+            'images' => 'nullable|array',
+        ], [
+            'name.required' => 'Tên sản phẩm không được để trống.',
+            'name.max' => 'Tên sản phẩm không được vượt quá 255 ký tự.',
+            'price.required' => 'Giá sản phẩm là bắt buộc.',
+            'quantity.required' => 'Số lượng sản phẩm là bắt buộc.',
+            'quantity.min' => 'Số lượng sản phẩm không thể nhỏ hơn :min.',
+            'quantity_warning.integer' => 'Số lượng cảnh báo phải là số nguyên.',
+            'quantity_warning.min' => 'Số lượng cảnh báo không thể nhỏ hơn 0.',
+            'weight.min' => 'Khối lượng không thể nhỏ hơn 0.',
+            'tags.max' => 'Tags không được vượt quá 255 ký tự.',
+            'category_id.required' => 'Danh mục sản phẩm là bắt buộc.',
+            'brand_id.required' => 'Thương hiệu sản phẩm là bắt buộc.',
+            'image.image' => 'Ảnh sản phẩm phải là một tệp hình ảnh.',
+            'image.required' => 'Bắt buộc chọn 1 ảnh',
+        ]);
         $product = $this->createBasicProductInfor($request);
 
         if (!$product) {
@@ -76,7 +205,7 @@ class ProductController extends Controller
         $obj->price = $request->price;
         $obj->description = $request->description;
         $obj->quantity = $request->quantity;
-        $obj->weight = $request->weight ? $request->weight : null;
+        $obj->weight = $request->weight ? $request->weight : 0;
         $obj->quantity_warning = $request->quantity_warning ? $request->quantity_warning : null;
         $obj->tags = $request->tags ? $request->tags : null;
         $obj->sku  = $request->sku;

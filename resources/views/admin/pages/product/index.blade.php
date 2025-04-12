@@ -116,20 +116,17 @@
                                             @endforeach
 
                                         </td>
-
-
-
                                         <td>
                                             <input type="checkbox" class="js-switch" id="checkbox-status-{{$key}}"
                                                 {{ $product->active ? 'checked' : '' }} />
                                         </td>
                                         <td>
-                                            <a href="" class="btn btn-warning"><i class="fas fa-edit"></i>
+                                            <a href="{{route('admin.product.edit',$product->id)}}" class="btn btn-warning"><i class="fas fa-edit"></i>
                                             </a>
-                                            <form action="" method="post">
+                                            <form action="{{route('admin.product.destroy',$product->id)}}" method="post">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button class="btn btn-danger"><i class="fas fa-trash"></i>
+                                                <button class="btn btn-danger" onclick="return confirm('Bạn muốn xoá sản phẩm này không !')"><i class="fas fa-trash"></i>
                                                 </button>
                                             </form>
                                         </td>

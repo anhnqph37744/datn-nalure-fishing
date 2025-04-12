@@ -8581,7 +8581,12 @@ body.md-skin {
     object-fit: cover;
     border-radius: 10px;
 }
-
+.variant-image-input{
+    display: none !important;
+}
+.img-thumbnail{
+    margin-top: 79px;
+}
 .image-preview .remove-btn {
     position: absolute;
     top: 50%;

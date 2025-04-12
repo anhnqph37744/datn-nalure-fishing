@@ -9,6 +9,7 @@ use App\Http\Controllers\admin\banner\BannerController;
 use App\Http\Controllers\admin\category\CategoryController;
 use App\Http\Controllers\admin\voucher\VoucherController;
 use App\Http\Controllers\admin\product\ProductController;
+use App\Http\Controllers\AI\GeminiAIController;
 use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\auth\PermissionController;
 use App\Http\Controllers\auth\RoleController;
@@ -18,6 +19,8 @@ use App\Http\Controllers\client\cart\OrderController as CartOrderController;
 use App\Http\Controllers\client\home\HomeController;
 use App\Http\Controllers\client\profile\ProfileController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\Momo\MomoController;
+use App\Http\Controllers\VNPay\VNPayController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -134,6 +137,7 @@ Route::prefix('dashboard')->group(function () {
     Route::post('/product/store', [ProductController::class, 'store'])->name('admin.product.store');
     Route::get('/product/edit/{id}', [ProductController::class, 'edit'])->name('admin.product.edit');
     Route::delete('/product/{id}', [ProductController::class, 'destroy'])->name('admin.product.destroy');
+    Route::put('/product/{id}', [ProductController::class, 'update'])->name('admin.product.update');
     //get attribute cho variant
     Route::get('/get-attribute-values/{id}', [ProductController::class, 'attributeValueData'])->name('get-attribute-value');
 });
@@ -144,6 +148,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/cart', [CartController::class, 'Cart'])->name('cart');
 Route::delete('/remove-cart/{id}', [CartController::class, 'RemoveCart'])->name('remove-cart');
+Route::post('/update-cart', [CartController::class, 'updateQuantity'])->name('update-cart');
 Route::get('product-detail/{id}', [HomeController::class, 'detail'])->name('detail');
 Route::get('/checkout', function () {
     return view('client.pages.checkout');
@@ -180,3 +185,8 @@ Route::get('/order-success/{id}', [CartOrderController::class, 'success'])->name
 
 
 
+//vnpay return
+Route::get('/vnpay/payment/{amount}', [VNPayController::class, 'VNpay_Payment'])->name('vnpay.payment');
+Route::post('/checkout-fatal-vnpay', [VNPayController::class, 'handleReturn'])->name('vnpay.return');
+//gemini
+Route::post('/chat', [GeminiAIController::class, 'chat'])->name('gemini.ai');

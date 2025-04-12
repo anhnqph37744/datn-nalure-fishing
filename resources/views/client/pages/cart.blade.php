@@ -20,7 +20,7 @@
                 <div class="notices-wrapper">
                     <div class="message"><i class="far fa-check-square"></i> Shopping Cost Updated </div>
                 </div>
-                <form action="#" class="cart-form mb-60">
+                <div class="cart-form mb-60">
                     <table class="cart_table mb-60">
                         <thead>
                             <tr>
@@ -50,17 +50,15 @@
                                                 <span>{{ number_format($c->price, 0, ',', '.') }} đ</span></bdi>
                                         </span>
                                     </td>
-                                    <td data-title="Quantity">
-                                        <div class="quantity product-quantity">
-                                            <button class="quantity-minus qut-btn">
-                                                <i class="far fa-minus"></i>
-                                            </button>
-                                            <input type="number" class="qty-input" value="1" min="1"
-                                                max="99">
-                                            <button class="quantity-plus qut-btn"><i class="far fa-plus"></i>
-                                            </button>
-                                        </div>
+                                    <td >
+
+                                            <input type="number" class="qtys-input"  data-cart-id="{{ $c->id }}"
+                                                value="{{ $c->quantity }}" min="1" max="99">
+
                                     </td>
+
+
+
                                     <td data-title="Total">
                                         <span class="amount">
                                             <bdi>
@@ -71,7 +69,7 @@
                                         <form action="{{ route('remove-cart', $c->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button style="border:none; background:none; cursor:pointer;">
+                                            <button style="border:none; background:none; cursor:pointer;" onclick="return confirm('Bạn muốn xoá ?')">
                                                 <i class="fal fa-trash-alt"></i>
                                             </button>
                                         </form>
@@ -89,10 +87,13 @@
                                     <button type="submit" class="vs-btn">Update cart</button>
                                     <a href="{{ route('check-out') }}" class="vs-btn">Thanh toán</a>
                                 </td>
+                                <p>Tổng tiền: <span class="subtotal text-bold">{{ number_format($total, 0, ',', '.') }}
+                                        đ</span></p>
+
                             </tr>
                         </tbody>
                     </table>
-                </form>
+                </div>
 
             </div>
         </div>
@@ -122,4 +123,48 @@
             </div>
         </div>
     </section>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(".qtys-input").on("change", function() {
+                let row = $(this).closest("tr");
+                let newQuantity = parseInt($(this).val());
+
+                if (newQuantity >= 1) {
+                    updateCart(row, $(this), newQuantity);
+                } else {
+                    $(this).val(1);
+                }
+            });
+
+            function updateCart(row, input, quantity) {
+                let cartId = input.data("cart-id");
+                input.val(quantity);
+
+                $.ajax({
+                    url: "{{ route('update-cart') }}",
+                    type: "POST",
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr("content"),
+                        cart_id: cartId,
+                        quantity: quantity
+                    },
+                    success: function(response) {
+                        if (response.status === "success") {
+                            row.find(".amount span").text(response.total + " đ");
+                            $(".subtotal").text(response.subtotal + " đ");
+                            toastr.success(response.message)
+
+                        } else {
+                            toastr.error(response.message)
+                            location.reload();
+                        }
+                    },
+                    error: function() {
+                        alert("Có lỗi xảy ra, vui lòng thử lại!");
+                    }
+                });
+            }
+        });
+    </script>
 @endsection
