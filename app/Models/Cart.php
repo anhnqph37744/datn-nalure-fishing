@@ -11,4 +11,10 @@ class Cart extends Model
     protected $fillable = [
        'name', 'id_user', 'id_product', 'variant_id', 'quantity', 'price', 'total' ,'image'
     ];
+    public static function getItems()
+    {
+        // Logic của phương thức tĩnh
+        return self::all();  // Ví dụ: trả về tất cả các mục trong giỏ hàng
+    }
+    
 }

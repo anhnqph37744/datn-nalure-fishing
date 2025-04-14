@@ -25,4 +25,14 @@ class Voucher extends Model
         'start_date' => 'datetime',
         'end_date' => 'datetime',
     ];
+
+    public static function validateDiscount($code)
+    {
+        $voucher = Voucher::where('code', $code)
+            ->where('is_active', true)
+            ->where('end_date', '>=', now()) // Kiểm tra ngày hết hạn
+            ->first();
+
+        return $voucher;
+    }
 }   
