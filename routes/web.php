@@ -14,6 +14,8 @@ use App\Http\Controllers\auth\PermissionController;
 use App\Http\Controllers\auth\RoleController;
 use App\Http\Controllers\client\cart\CartController;
 use App\Http\Controllers\client\home\HomeController;
+use App\Http\Controllers\admin\post\PostController;
+use App\Http\Controllers\admin\post\PostCategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -81,6 +83,12 @@ Route::prefix('dashboard')->group(function () {
     Route::resource('banner', BannerController::class);
     Route::get('/banner/{id}/edit', [BannerController::class, 'edit'])->name('banner.edit');
     Route::put('/banner/{banner}', [BannerController::class, 'update'])->name('banner.update');
+
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::resource('posts', PostController::class);
+        Route::resource('post-categories', PostCategoryController::class);
+    });
+   
 
     Route::get('/role', [RoleController::class, 'index'])->name('admin.role.index');
 

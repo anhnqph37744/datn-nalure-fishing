@@ -213,16 +213,14 @@ class BannerController extends Controller
     {
         $banner = Banner::findOrFail($id);
 
-        // Xóa album (hình ảnh liên quan đến banner)
         DB::table('hinh_anh_banners')->where('banner_id', $id)->delete();
     
-        // Xóa thư mục chứa hình ảnh nếu có
         $path = 'uploads/hinhanhbanner/id_' . $id;
         if (Storage::disk('public')->exists($path)) {
             Storage::disk('public')->deleteDirectory($path);
         }
     
-        // Xóa banner
+      
         $banner->delete();
     
         return redirect()->back()->with('success', 'Xóa thành công');
@@ -258,7 +256,7 @@ class BannerController extends Controller
 
     public function getBannersByType($type)
     {
-        // Lấy tối đa 3 banner theo loại được chọn
+
         $banners = Banner::where('loai_banner', $type)
             ->where('trang_thai', 'hien')
             ->take(3)
