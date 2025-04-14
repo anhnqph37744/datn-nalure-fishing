@@ -163,3 +163,10 @@ Route::get('/vnpay/payment/{amount}', [VNPayController::class, 'VNpay_Payment'])
 Route::post('/checkout-fatal-vnpay', [VNPayController::class, 'handleReturn'])->name('vnpay.return');
 //gemini
 Route::post('/chat', [GeminiAIController::class, 'chat'])->name('gemini.ai');
+//
+Route::get('/blog',function(){
+    return view('client.pages.blog');
+});
+Route::get('/blog-detail',function(){
+    return view('client.pages.blog-detail');
+});
