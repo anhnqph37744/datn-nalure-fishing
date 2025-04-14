@@ -21,6 +21,9 @@ use App\Http\Controllers\client\profile\UpdateProfileController;
 use App\Http\Controllers\client\cart\OrderController as CartOrderController;
 use App\Http\Controllers\Momo\MomoController;
 use App\Http\Controllers\VNPay\VNPayController;
+use App\Http\Controllers\OrderController;
+use App\Models\Cart;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -205,3 +208,11 @@ Route::get('/vnpay/payment/{amount}', [VNPayController::class, 'VNpay_Payment'])
 Route::post('/checkout-fatal-vnpay', [VNPayController::class, 'handleReturn'])->name('vnpay.return');
 //gemini
 Route::post('/chat', [GeminiAIController::class, 'chat'])->name('gemini.ai');
+//
+Route::get('/blog',function(){
+    $cart = Cart::where('id_user',Auth::id())->get();
+    return view('client.pages.blog',compact('cart'));
+});
+Route::get('/blog-detail',function(){
+    return view('client.pages.blog-detail');
+});

@@ -156,6 +156,7 @@ class CartController extends Controller
     public function bill(Request $request){
         dd($request);
     }
+
     public function updateQuantity(Request $request)
     {
         $cartItem = Cart::findOrFail($request->cart_id);
