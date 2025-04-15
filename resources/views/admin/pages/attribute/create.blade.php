@@ -43,13 +43,12 @@
                 <div class="ibox-content">
                     <div class="row">
                         <div class="col-sm-6 b-r">
-                            <h3 class="m-t-none m-b">Thêm Thuộc Tính</h3>
-                            <p>Thêm thuộc tính cho sản phẩm của bạn</p>
+                           
                               
                             <form role="form" action="{{route('admin.attribute.store')}}" method="POST">
                                 @csrf
                                 <div class="form-group"><label>Tên Thuộc Tính</label> <input type="text"
-                                        placeholder="Nhập tên danh mục" class="form-control" value="{{ old('name') }}"
+                                        placeholder="Nhập tên thuộc tính" class="form-control" value="{{ old('name') }}"
                                         name="name"></div>
                                         @error('name')
                                         <div class="text-danger">{{ $message }}</div>
@@ -58,14 +57,15 @@
 
                                 </div>
                             </form>
+                            <div class="col-sm-6">
+                                <h4>Hãy thêm thuộc tính cho sản phẩm</h4>
+                                <p>Để website của bạn phong phú hơn</p>
+                                <p class="text-center">
+                                    <span><i class="fa fa-sign-in big-icon"></i></span>
+                                </p>
+                            </div>
                         </div>
-                        <div class="col-sm-6">
-                            <h4>Hãy thêm thuộc tính cho sản phẩm</h4>
-                            <p>Để website của bạn phong phú hơn </p>
-                            <p class="text-center">
-                                <span><i class="fa fa-sign-in big-icon"></i></span>
-                            </p>
-                        </div>
+                       
                     </div>
                 </div>
             </div>
