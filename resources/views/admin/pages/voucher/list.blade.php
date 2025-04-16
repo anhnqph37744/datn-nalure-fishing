@@ -49,7 +49,43 @@
                     <div class="alert alert-success">
                         {{ session('success') }}
                     </div>
-                @endif
+                    @endif
+
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <form action="{{ route('admin.voucher.index') }}" method="GET" class="form-inline">
+                                <div class="form-group mx-2">
+                                    <input type="text" name="code" class="form-control" placeholder="Mã voucher" value="{{ request('code') }}">
+                                </div>
+                                <div class="form-group mx-2">
+                                    <input type="text" name="title" class="form-control" placeholder="Tiêu đề" value="{{ request('title') }}">
+                                </div>
+                                <div class="form-group mx-2">
+                                    <select name="voucher_type" class="form-control">
+                                        <option value="">Tất cả loại voucher</option>
+                                        <option value="discount" {{ request('voucher_type') == 'discount' ? 'selected' : '' }}>Giảm giá</option>
+                                        <option value="freeship" {{ request('voucher_type') == 'freeship' ? 'selected' : '' }}>Miễn phí vận chuyển</option>
+                                    </select>
+                                </div>
+                                <div class="form-group mx-2">
+                                    <select name="is_active" class="form-control">
+                                        <option value="">Tất cả trạng thái</option>
+                                        <option value="1" {{ request('is_active') == '1' ? 'selected' : '' }}>Hoạt động</option>
+                                        <option value="0" {{ request('is_active') == '0' ? 'selected' : '' }}>Không hoạt động</option>
+                                    </select>
+                                </div>
+                                <div class="form-group mx-2">
+                                    <input type="date" name="start_date" class="form-control" value="{{ request('start_date') }}">
+                                </div>
+                                <div class="form-group mx-2">
+                                    <input type="date" name="end_date" class="form-control" value="{{ request('end_date') }}">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                                <a href="{{ route('admin.voucher.index') }}" class="btn btn-default ml-2">Đặt lại</a>
+                            </form>
+                        </div>
+                    </div>
+
                     <a href="{{ route('admin.voucher.create') }}" class="btn btn-primary mb-3">Tạo Voucher Mới</a>
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover dataTables-example custom-table">

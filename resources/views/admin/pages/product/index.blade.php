@@ -55,6 +55,7 @@
                                     <th>Thương hiệu</th>
                                     <th>Danh mục</th>
                                     <th>Phân loại</th>
+                                    <th>Số lượng đã bán</th>
                                     <th>Trạng thái</th>
                                     <th>Thao tác</th>
                                 </tr>
@@ -117,6 +118,17 @@
 
                                         </td>
                                         <td>
+                                            @php
+                                                $totalSold = $product->orderDetails->sum('quantity');
+                                            @endphp
+                                            {{ $totalSold }} sản phẩm
+                                            @if($totalSold > 0)
+                                                <span class="badge bg-success">Đã bán</span>
+                                            @else
+                                                <span class="badge bg-warning">Chưa bán</span>
+                                            @endif
+                                        </td>
+                                        <td>
                                             <input type="checkbox" class="js-switch" id="checkbox-status-{{$key}}"
                                                 {{ $product->active ? 'checked' : '' }} />
                                         </td>
@@ -145,6 +157,7 @@
                                     <th>Thương hiệu</th>
                                     <th>Danh mục</th>
                                     <th>Phân loại</th>
+                                    <th>Số lượng đã bán</th>
                                     <th>Trạng thái</th>
                                     <th>Thao tác</th>
                                 </tr>

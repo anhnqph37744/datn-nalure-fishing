@@ -39,4 +39,7 @@ class Product extends Model
         return $this->hasMany(Variant::class);
     }
 
+    public function orderDetails() {
+        return $this->hasMany(OrderItem::class);
+    }
 }

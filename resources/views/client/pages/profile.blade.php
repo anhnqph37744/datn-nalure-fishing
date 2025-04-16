@@ -247,19 +247,20 @@
                                 <div class="tab-pane fade" id="preferences" role="tabpanel" aria-labelledby="preferences-tab">
                                     <style>
                                         .voucher-card {
-                                            background: linear-gradient(135deg, #fff4e6 0%, #ffe8cc 100%);
+                                            background: linear-gradient(135deg, #fff5e6 0%, #ffe0b3 100%);
                                             border-radius: 12px;
                                             padding: 20px;
                                             margin-bottom: 20px;
-                                            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+                                            box-shadow: 0 4px 15px rgba(255, 128, 0, 0.1);
                                             transition: all 0.3s ease;
                                             position: relative;
                                             overflow: hidden;
                                             display: flex;
                                             align-items: center;
-                                            height: 160px;
+                                            height: 150px;
+                                            border: none;
                                         }
-
+                                        
                                         .voucher-card::before {
                                             content: '';
                                             position: absolute;
@@ -267,22 +268,23 @@
                                             top: 10px;
                                             bottom: 10px;
                                             width: 2px;
-                                            background: repeating-linear-gradient(0deg, #ff6b35 0px, #ff6b35 5px, transparent 5px, transparent 10px);
+                                            background: repeating-linear-gradient(0deg, #ff8000 0px, #ff8000 4px, transparent 4px, transparent 8px);
                                         }
                                         
                                         .voucher-card:hover {
-                                            transform: translateX(5px);
-                                            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+                                            transform: translateY(-3px);
+                                            box-shadow: 0 8px 20px rgba(255, 128, 0, 0.15);
                                         }
-
+                                        
                                         .voucher-left {
-                                            flex: 0 0 35%;
+                                            flex: 0 0 30%;
                                             padding-right: 20px;
-                                            border-right: 1px dashed #ff6b35;
+                                            border-right: 1.5px dashed #ff8000;
+                                            position: relative;
                                         }
                                         
                                         .voucher-right {
-                                            flex: 0 0 65%;
+                                            flex: 0 0 70%;
                                             padding-left: 20px;
                                             display: flex;
                                             flex-wrap: wrap;
@@ -290,63 +292,104 @@
                                         }
                                         
                                         .voucher-title {
-                                            font-size: 1.2rem;
+                                            font-size: 1.1rem;
                                             font-weight: 600;
-                                            color: #ff6b35;
+                                            color: #ff6600;
                                             margin-bottom: 10px;
                                             width: 100%;
+                                            font-family: var(--title-font);
+                                            transition: color 0.3s ease;
                                         }
                                         
                                         .voucher-discount {
-                                            font-size: 2rem;
+                                            font-size: 1.8rem;
                                             font-weight: 700;
                                             color: #ff4d00;
-                                            margin-bottom: 5px;
+                                            margin-bottom: 6px;
                                             text-align: center;
-                                        }
-                                        
-                                        .voucher-info {
-                                            color: #666;
-                                            font-size: 0.85rem;
-                                            margin-bottom: 5px;
-                                            width: 50%;
-                                        }
-                                        
-                                        .voucher-expiry {
-                                            color: #ff4d00;
-                                            font-size: 0.85rem;
-                                            font-weight: 500;
-                                            width: 100%;
+                                            font-family: var(--title-font);
+                                            text-shadow: 1px 1px 3px rgba(255, 77, 0, 0.2);
+                                            transition: transform 0.3s ease;
                                         }
                                         
                                         .use-btn {
-                                            background: #ff6b35;
-                                            color: white;
+                                            background: #ff8000;
+                                            color: var(--white-color);
                                             padding: 8px 20px;
                                             border-radius: 6px;
                                             text-decoration: none;
                                             display: inline-block;
-                                            margin-top: 10px;
+                                            margin-top: 15px;
+                                            margin-right: 15px;
                                             transition: all 0.3s ease;
-                                            position: absolute;
-                                            bottom: 20px;
-                                            right: 20px;
+                                            position: relative;
+                                            font-family: var(--title-font);
+                                            font-weight: 500;
+                                            border: 1.5px solid transparent;
+                                            font-size: 0.9rem;
+                                            float: right;
+                                            clear: both;
                                         }
                                         
                                         .use-btn:hover {
-                                            background: #ff4d00;
+                                            background: var(--white-color);
+                                            color: #ff8000;
+                                            border-color: #ff8000;
                                             transform: translateY(-2px);
                                         }
                                         
                                         .voucher-count {
                                             position: absolute;
-                                            top: 10px;
-                                            right: 10px;
-                                            background: rgba(255,255,255,0.9);
-                                            padding: 4px 8px;
-                                            border-radius: 4px;
+                                            top: 12px;
+                                            right: 12px;
+                                            background: rgba(255,77,0,0.08);
+                                            padding: 4px 10px;
+                                            border-radius: 15px;
                                             font-size: 0.8rem;
                                             color: #ff4d00;
+                                            font-weight: 500;
+                                            display: flex;
+                                            align-items: center;
+                                            gap: 4px;
+                                        }
+                                        
+                                        .voucher-count i {
+                                            font-size: 0.9rem;
+                                        }
+                                        
+                                        @media (max-width: 768px) {
+                                            .voucher-card {
+                                                flex-direction: column;
+                                                height: auto;
+                                                padding: 15px;
+                                            }
+                                        
+                                            .voucher-left {
+                                                flex: 0 0 100%;
+                                                padding-right: 0;
+                                                padding-bottom: 12px;
+                                                border-right: none;
+                                                border-bottom: 1.5px dashed var(--secondary-color);
+                                            }
+                                        
+                                            .voucher-right {
+                                                flex: 0 0 100%;
+                                                padding-left: 0;
+                                                padding-top: 12px;
+                                            }
+                                        
+                                            .voucher-info {
+                                                width: 100%;
+                                            }
+                                        
+                                            .use-btn {
+                                                position: relative;
+                                                bottom: auto;
+                                                right: auto;
+                                                width: 100%;
+                                                text-align: center;
+                                                margin-top: 12px;
+                                            }
                                         }
                                     </style>
                                     <div class="container text-center">
