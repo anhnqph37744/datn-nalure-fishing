@@ -215,7 +215,7 @@
                                                 Không có
                                             @endif
                                         </td>
-                                        <td>{{ $item->active ? 'Ẩn' : 'Hiển thị' }}</td>
+                                        <td>{{ $item->active ? 'Hiển Thị' : 'Ẩn' }}</td>
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">
                                                 <a href="{{ route('banner.edit', $item->id) }}"
