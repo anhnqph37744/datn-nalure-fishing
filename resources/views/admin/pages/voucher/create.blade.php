@@ -2,6 +2,9 @@
 @push('css')
     <link rel="stylesheet" href="{{ asset('admin/css/voucher-form.css') }}">
 @endpush
+@push('js')
+    <script src="{{ asset('admin/js/voucher-validation.js') }}"></script>
+@endpush
 @section('main')
     <div class="main">
         <div class="row wrapper border-bottom white-bg page-heading">

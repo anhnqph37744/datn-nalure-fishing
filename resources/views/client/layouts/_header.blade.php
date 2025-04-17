@@ -94,22 +94,28 @@
                                             <i class="fas fa-shopping-cart"></i>
                                         </button>
                                     @endif
-                                    <div class="user-dropdown">
-                                        <button class="icon-btn has-badge" type="button" id="profile-btn">
-                                            <i class="fas fa-user"></i>
-                                        </button>
-                                        <div class="user-dropdown-menu">
-                                            <a href="{{ route('profile.index') }}" class="dropdown-item">
-                                                <i class="fas fa-user-circle"></i> Trang cá nhân
-                                            </a>
-                                            <a href="{{ route('client.orders.index') }}" class="dropdown-item">
-                                                <i class="fas fa-shopping-bag"></i> Đơn hàng của tôi
-                                            </a>
-                                            <a href="" class="dropdown-item">
-                                                <i class="fas fa-sign-out-alt"></i> Đăng xuất
-                                            </a>
+                                    @if (Auth::check())
+                                        <div class="user-dropdown">
+                                            <button class="icon-btn has-badge" type="button" id="profile-btn">
+                                                <i class="fas fa-user"></i>
+                                            </button>
+                                            <div class="user-dropdown-menu">
+                                                <a href="{{ route('profile.index') }}" class="dropdown-item">
+                                                    <i class="fas fa-user-circle"></i> Trang cá nhân
+                                                </a>
+                                                <a href="{{ route('client.orders.index') }}" class="dropdown-item">
+                                                    <i class="fas fa-shopping-bag"></i> Đơn hàng của tôi
+                                                </a>
+                                                <a href="" class="dropdown-item">
+                                                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                                                </a>
+                                            </div>
                                         </div>
-                                    </div>
+                                    @else
+                                        <a href="{{ route('login') }}" class="icon-btn has-badge" type="button">
+                                            <i class="fas fa-user"></i>
+                                        </a>
+                                    @endif
                                     <style>
                                         .bg-orange {
                                             background-color: #ff8c00;

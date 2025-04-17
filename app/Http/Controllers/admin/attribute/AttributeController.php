@@ -12,9 +12,16 @@ class AttributeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $attribute = Attribute::all();
+        $query = Attribute::query();
+        
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where('name', 'like', "%{$search}%");
+        }
+
+        $attribute = $query->orderBy('id', 'desc')->paginate(10);
         return view('admin.pages.attribute.list', compact('attribute'));
     }
 
