@@ -111,8 +111,13 @@
                                     </button>
 
                                     @endif
-
+                                    <a href="{{ route('profile.index') }}">
+                                        <button class="icon-btn has-badge" type="button" id="profile-btn">
+                                            <i class="fas fa-user"></i>
+                                        </button>
+                                    </a>
                                 </div>
+                                
                                 {{-- <div class="col-auto">
                                     <button class="bar-btn sideMenuToggler d-none d-xl-block">
                                         <i class="far fa-bars"></i>
