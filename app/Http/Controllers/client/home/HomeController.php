@@ -25,7 +25,7 @@ class HomeController extends Controller
     }
     public function detail($id)
     {
-        $product = Product::with('category', 'images', 'brand', 'variant.varianAttributeValue.attribute', 'variant.varianAttributeValue.attributeValue')->where('id', $id)->first();
+        $product = Product::with('category', 'images', 'brand', 'variant.varianAttributeValue.attribute', 'variant.varianAttributeValue.attributeValue', 'reviews.user')->where('id', $id)->first();
         // dd($product);
         if (Auth::check()) {
             $cart = Cart::where('id_user', Auth::id())->get();
@@ -35,5 +35,5 @@ class HomeController extends Controller
         // return response()->json($product);
     }
 
-   
+
 }

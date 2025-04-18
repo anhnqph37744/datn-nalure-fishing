@@ -9,6 +9,7 @@ use App\Http\Controllers\admin\banner\BannerController;
 use App\Http\Controllers\admin\category\CategoryController;
 use App\Http\Controllers\admin\voucher\VoucherController;
 use App\Http\Controllers\admin\product\ProductController;
+use App\Http\Controllers\admin\review\ProductReviewController;
 use App\Http\Controllers\AI\GeminiAIController;
 use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\auth\RoleController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\auth\PermissionController;
 use App\Http\Controllers\client\cart\CartController;
 use App\Http\Controllers\client\home\HomeController;
 use App\Http\Controllers\client\profile\ProfileController;
+use App\Http\Controllers\client\shop\ShopController;
 use App\Http\Controllers\client\checkout\CheckoutController;
 use App\Http\Controllers\client\profile\UpdateProfileController;
 use App\Http\Controllers\client\cart\OrderController as CartOrderController;
@@ -147,6 +149,14 @@ Route::prefix('dashboard')->group(function () {
     //get attribute cho variant
     Route::get('/get-attribute-values/{id}', [ProductController::class, 'attributeValueData'])->name('get-attribute-value');
 });
+    
+    // quản lý đánh giá sản phẩm
+    Route::prefix('admin')->group(function () {
+        Route::get('reviews', [ProductReviewController::class, 'index'])->name('admin.reviews.index');
+        Route::delete('reviews/{id}', [ProductReviewController::class, 'destroy'])->name('admin.reviews.destroy');
+        Route::patch('reviews/{id}/toggle', [ProductReviewController::class, 'toggle'])->name('admin.reviews.toggle');
+    });
+
 //auth
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
@@ -156,6 +166,9 @@ Route::get('/cart', [CartController::class, 'Cart'])->name('cart');
 Route::delete('/remove-cart/{id}', [CartController::class, 'RemoveCart'])->name('remove-cart');
 Route::post('/update-cart', [CartController::class, 'updateQuantity'])->name('update-cart');
 Route::get('product-detail/{id}', [HomeController::class, 'detail'])->name('detail');
+Route::get('shop', [ShopController::class, 'index'])->name('shop');
+Route::post('/products/{product}/reviews', [ProductReviewController::class, 'store'])->name('products.reviews.store');
+
 Route::get('/checkout', function () {
     return view('client.pages.checkout');
 });
