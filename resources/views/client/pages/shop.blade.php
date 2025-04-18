@@ -235,8 +235,8 @@
                                     </div>
                                     <div class="actions-style1">
                                         <a href="#" class="icon-btn2"><i class="far fa-heart"></i></a>
-                                        <a href="/detail/${product.id}" class="icon-btn2"><i class="far fa-eye"></i></a>
-                                        <a href="/detail/${product.id}" class="icon-btn2"><i class="far fa-shopping-cart"></i></a>
+                                        <a href="/product-detail/${product.id}" class="icon-btn2"><i class="far fa-eye"></i></a>
+                                        <a href="/product-detail/${product.id}" class="icon-btn2"><i class="far fa-shopping-cart"></i></a>
                                     </div>
                                 </div>
                                 <div class="product-body">
@@ -246,7 +246,7 @@
                                         <i class="fas fa-star"></i>
                                     </div>
                                     <h3 class="product-title">
-                                        <a class="text-inherit" href="/detail/${product.id}">
+                                        <a class="text-inherit" href="/product-detail/${product.id}">
                                             ${product.name}
                                         </a>
                                     </h3>
