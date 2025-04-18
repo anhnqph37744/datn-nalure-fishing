@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\client\profile;
 
+use App\Models\Cart;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -14,8 +15,8 @@ class ProfileController extends Controller
     public function index()
     {
         $user = Auth::user();
-       
-        return view('client.pages.profile', compact('user'));
+        $cart  = Cart::where('id_user', Auth::id())->get();
+        return view('client.pages.profile', compact('user', 'cart'));
     }
 
     /**

@@ -15,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="icon" type="image/png"
-        href="{{ asset('client/assets/img/favicons/favicon.png"') }}>
+        href="{{ asset('client/assets/img/favicons/favicon.png') }}">
     <meta name="msapplication-TileColor"
         content="#ffffff">
     <meta name="theme-color" content="#ffffff">
@@ -58,7 +58,7 @@
 
     @include('client.layouts._loader')
 
-    {{-- @if (Auth::check())
+    @if (Auth::check())
 
 
         <div class="sidemenu-wrapper d-none d-lg-block">
@@ -84,18 +84,18 @@
                             @endforeach
 
                         </ul>
-                        <div class="total">
+                        {{-- <div class="total">
                             <strong>Tổng tiền:</strong> <span class="amount"><span>67.000 đ</span></span>
-                        </div>
+                        </div> --}}
                         <div class="buttons">
                             <a href="{{ route('cart') }}" class="vs-btn style4">View cart</a>
-                            <a href="checkout.html" class="vs-btn style4">Checkout</a>
+                            <a href="{{ route('check-out') }}" class="vs-btn style4">Checkout</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    @endif --}}
+    @endif
 
 
 

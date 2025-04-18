@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\VNPay;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class VNPayController extends Controller
@@ -14,14 +15,11 @@ class VNPayController extends Controller
         $vnp_Returnurl = route('vnpay.return');
         $vnp_apiUrl = "http://sandbox.vnpayment.vn/merchant_webapi/merchant.html";
         $apiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
-
         $startTime = date("YmdHis");
         $expire = date('YmdHis', strtotime('+15 minutes', strtotime($startTime)));
-
         $vnp_Amount = $amount;
         $vnp_Locale = $language;
         $vnp_BankCode = 'VNBANK';
-
 
         $inputData = array(
             "vnp_Version" => "2.1.0",
@@ -32,7 +30,7 @@ class VNPayController extends Controller
             "vnp_CurrCode" => "VND",
             "vnp_IpAddr" => $vnp_IpAddr,
             "vnp_Locale" => $vnp_Locale,
-            "vnp_OrderInfo" =>  $vnp_TxnRef,
+            "vnp_OrderInfo" => $vnp_TxnRef,
             "vnp_OrderType" => "other",
             "vnp_ReturnUrl" => $vnp_Returnurl,
             "vnp_TxnRef" => $vnp_TxnRef,
@@ -59,7 +57,7 @@ class VNPayController extends Controller
 
         $vnp_Url = $vnp_Url . "?" . $query;
         if (isset($vnp_HashSecret)) {
-            $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret);
+            $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
             $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
         }
         header('Location: ' . $vnp_Url);
@@ -67,6 +65,16 @@ class VNPayController extends Controller
     }
     public function handleReturn(Request $request)
     {
-        return response()->json($request->all());
+        if($request->query('vnp_ResponseCode') == '00'){
+            $order = Order::find(intval($request->query('vnp_TxnRef')));
+            $order->payment_status = 'success';
+            $order->save();
+            return redirect()->route('order.success', ['id' => $order->id])
+            ->with('success', 'Đặt hàng thành công!');
+        }else{
+            return redirect()->route("home")
+            ->with('error', 'Thanh toán thất bại !');
+        }
     }
+
 }

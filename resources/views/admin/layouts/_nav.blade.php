@@ -77,8 +77,8 @@
                 </ul>
             </li>
             <li>
-                <a href=""><i class="fas fa-shopping-cart"></i>
-                    <span class="nav-label">Đơn Hàng </span><span class="label label-info pull-right">62</span></a>
+                <a href="{{ route('admin.order.index') }}"><i class="fas fa-shopping-cart"></i>
+                    <span class="nav-label">Đơn Hàng</span></a>
             </li>
             <li>
                 <a href="#"><i class="fas fa-list"></i>

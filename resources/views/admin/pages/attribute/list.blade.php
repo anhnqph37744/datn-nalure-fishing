@@ -41,8 +41,21 @@
                     <div class="alert alert-success">
                         {{ session('success') }}
                     </div>
-                @endif
-                <a href="{{ route('admin.attribute.create') }}" class="btn btn-primary mb-3">Tạo Mới Thuộc Tính</a>
+                    @endif
+                    <div class="row mb-3">
+                        <div class="col-md-8">
+                            <form action="{{ route('admin.attribute.index') }}" method="GET" class="form-inline">
+                                <div class="form-group mx-2">
+                                    <input type="text" name="search" class="form-control" placeholder="Tìm kiếm theo tên..." value="{{ request('search') }}">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                                <a href="{{ route('admin.attribute.index') }}" class="btn btn-default mx-2">Đặt lại</a>
+                            </form>
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <a href="{{ route('admin.attribute.create') }}" class="btn btn-primary">Tạo Mới Thuộc Tính</a>
+                        </div>
+                    </div>
                 <div class="ibox-content">
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover dataTables-example">
@@ -62,19 +75,23 @@
                                     <td>
                                         <a href="{{route('admin.attribute.edit',$attribute->id)}}"
                                             class="btn btn-warning btn-sm">Sửa</a>
+                                        @if($attribute->values->count() == 0)
                                         <form action="{{route('admin.attribute.destroy',$attribute->id)}}"
                                             method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Xóa danh mục này?')">Xóa</button>
+                                                onclick="return confirm('Xóa thuộc tính này?')">Xóa</button>
                                         </form>
+                                        @endif
                                     </td>
                                 </tr>
                                @endforeach
                             </tbody>
-                           
                         </table>
+                        <div class="d-flex justify-content-center mt-3">
+                           
+                        </div>
                     </div>
                 </div>
             </div>

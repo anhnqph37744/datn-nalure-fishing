@@ -24,3 +24,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/chat', [GeminiAIController::class, 'chat']);
 
 Route::post('/vnpay',[VNPayController::class,'VNpay_Payment']);
+Route::get('/vnpay/return', [VNPayController::class, 'handleReturn'])->name('vnpay.return');

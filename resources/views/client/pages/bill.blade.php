@@ -32,8 +32,9 @@
                 </div>
                 <div class="col-md-6">
                     <h4>Thông tin thanh toán</h4>
-                    <p><strong>Phương thức:</strong> {{ $order->payment_method == 'bacs' ? 'Chuyển khoản' : 'Khác' }}</p>
-                    <p><strong>Trạng thái:</strong> {{ $order->payment_status == 'pending' ? 'Chờ thanh toán' : 'Khác' }}</p>
+                    <p><strong>Phương thức:</strong> {{ $order->payment_method == 'bacs' ? 'Thanh toán bằng tiền mặt' : 'Khác' }}</p>
+                    <p><strong>Trạng thái:</strong> {{ $order->payment_status == 'pending' ? 'Chờ xác nhận' : 'Khác' }}</p>
+                    <p><strong>Trạng thái thanh toán:</strong> {{ $order->order_status == 'pending' ? 'chưa thanh toán' : 'Khác' }}</p>
                 </div>
             </div>
 
@@ -79,8 +80,8 @@
 
             <div class="text-center mt-4">
                 <a href="{{ route('home') }}" class="btn btn-primary">Tiếp tục mua sắm</a>
-                <a href="#" class="btn btn-secondary">Xem lịch sử đơn hàng</a>
+                <a href="{{ route('client.orders.index') }}" class="btn btn-secondary">Xem lịch sử đơn hàng</a>
             </div>
         </div>
     </section>
-@endsection
+@endsection             

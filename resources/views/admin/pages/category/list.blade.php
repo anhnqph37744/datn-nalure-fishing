@@ -62,6 +62,7 @@
                                             <td>
                                                 <a href="{{route('admin.category.edit',$category->id)}}"
                                                     class="btn btn-warning btn-sm">Sửa</a>
+                                                @if($category->products->isEmpty())
                                                 <form action="{{route('admin.category.destroy',$category->id)}}"
                                                     method="POST" style="display:inline;">
                                                     @csrf
@@ -69,6 +70,7 @@
                                                     <button type="submit" class="btn btn-danger btn-sm"
                                                         onclick="return confirm('Xóa danh mục này?')">Xóa</button>
                                                 </form>
+                                                @endif
                                             </td>
                                     </tr>
                                 @endforeach
