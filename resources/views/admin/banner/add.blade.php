@@ -24,6 +24,7 @@
 
                         @if ($errors->any())
                             <div class="alert alert-danger">
+                                <strong class="fs-5 text-uppercase">⚠ Vui lòng nhập đầy đủ thông tin!</strong>
                                 <ul>
                                     @foreach ($errors->all() as $error)
                                         <li>{{ $error }}</li>
@@ -60,12 +61,12 @@
                                 <input type="url" name="link" class="form-control" value="{{ old('link') }}">
                             </div>
 
-                            <!-- Trạng thái (1: Hiển thị, 0: Ẩn) -->
+                           
                             <div class="mt-3">
                                 <label for="active">Trạng thái:</label>
                                 <select name="active" class="form-control">
                                     <option value="1" {{ old('active', 1) == 1 ? 'selected' : '' }}>Hiển thị</option>
-                                    <option value="0" {{ old('active') == 0 ? 'selected' : '' }}>Ẩn</option>
+                                    <option value="0" {{ old('active') == 0 ? 'selected' : '' }}>Ẩn</option>                                  
                                 </select>
                             </div>
 

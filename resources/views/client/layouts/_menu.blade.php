@@ -2,7 +2,7 @@
     <div class="vs-menu-area text-center">
         <button class="vs-menu-toggle"><i class="fal fa-times"></i></button>
         <div class="mobile-logo">
-            <a href="index.html"><img src="{{asset('client/assets/img/logo.svg')}}" alt="Marino"></a>
+            <a href="index.html"><img src="{{ asset('client/assets/img/logo.svg') }}" alt="Marino"></a>
         </div>
         <div class="vs-mobile-menu">
             <ul>
@@ -37,12 +37,12 @@
                 </li>
 
                 <li class="menu-item-has-children">
-                    <a href="blog.html">Blog</a>
+                    <a href="{{ route('client.blog.pages.index') }}">Blog</a>
                     <ul class="sub-menu">
-                        <li><a href="blog-1.html">Blog Grid</a></li>
-                        <li><a href="blog.html">Blog Grid Sidebar</a></li>
-                        <li><a href="blog-list.html">Blog List</a></li>
-                        <li><a href="blog-details.html">Blog Details</a></li>
+                        <li><a href="{{ route('client.blog.pages.index') }}">Blog Grid</a></li>
+                        <li><a href="{{ route('client.blog.pages.index') }}">Blog Grid Sidebar</a></li>
+                        <li><a href="{{ route('client.blog.pages.index') }}">Blog List</a></li>
+                        <li><a href="{{ route('client.blog.pages.show', ['slug' => 'example-slug']) }}">Blog Details</a></li>
                     </ul>
                 </li>
                 <li><a href="error.html">Error Page</a></li>

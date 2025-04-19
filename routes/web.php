@@ -7,12 +7,15 @@ use App\Http\Controllers\admin\auth\UserRoleController;
 use App\Http\Controllers\admin\brand\BrandController;
 use App\Http\Controllers\admin\banner\BannerController;
 use App\Http\Controllers\admin\category\CategoryController;
+use App\Http\Controllers\admin\post\PostCategoryController;
+use App\Http\Controllers\admin\post\PostController;
 use App\Http\Controllers\admin\voucher\VoucherController;
 use App\Http\Controllers\admin\product\ProductController;
 use App\Http\Controllers\admin\review\ProductReviewController;
 use App\Http\Controllers\AI\GeminiAIController;
 use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\auth\RoleController;
+use App\Http\Controllers\Client\Blog\BlogController;
 use App\Http\Controllers\auth\PermissionController;
 use App\Http\Controllers\client\cart\CartController;
 use App\Http\Controllers\client\home\HomeController;
@@ -95,6 +98,12 @@ Route::prefix('dashboard')->group(function () {
     Route::resource('banner', BannerController::class);
     Route::get('/banner/{id}/edit', [BannerController::class, 'edit'])->name('banner.edit');
     Route::put('/banner/{banner}', [BannerController::class, 'update'])->name('banner.update');
+
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::resource('posts', PostController::class);
+        Route::resource('post-categories', PostCategoryController::class);
+    });
+   
 
     Route::get('/role', [RoleController::class, 'index'])->name('admin.role.index');
 
@@ -222,10 +231,6 @@ Route::post('/checkout-fatal-vnpay', [VNPayController::class, 'handleReturn'])->
 //gemini
 Route::post('/chat', [GeminiAIController::class, 'chat'])->name('gemini.ai');
 //
-Route::get('/blog',function(){
-    $cart = Cart::where('id_user',Auth::id())->get();
-    return view('client.pages.blog',compact('cart'));
-});
-Route::get('/blog-detail',function(){
-    return view('client.pages.blog-detail');
-});
+Route::get('/blog', [BlogController::class, 'index'])->name('client.blog.pages.index');
+Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('client.blog.pages.show');
+
