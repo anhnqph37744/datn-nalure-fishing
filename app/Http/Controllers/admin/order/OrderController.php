@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\order;
 
+use App\Events\OrderStatusUpdated;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ class OrderController extends Controller
         'pending' => 0,
         'processing' => 1,
         'shipping' => 2,
-        'completed' => 3,
+        'delivered' => 3,
         'cancelled' => 4
     ];
 
@@ -48,19 +49,12 @@ class OrderController extends Controller
 
         try {
             $order = Order::findOrFail($id);
-            $currentStatus = $order->order_status;
-
-            if (!$this->isValidStatusTransition($currentStatus, $status) && $status !== 'cancelled') {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Không thể chuyển về trạng thái trước đó'
-                ]);
-            }
-
+        
             $order->order_status = $status;
             // Cập nhật trạng thái hiển thị cho user
             // $order->status = $this->statusMapping[$status];
             $order->save();
+            broadcast(new OrderStatusUpdated($order))->toOthers();
 
             
             return response()->json(['success' => true, 'data' => $order]);

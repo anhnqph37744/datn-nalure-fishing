@@ -75,7 +75,7 @@
                         </div>
                         <div class="form-group">
                             <label>Cân nặng sản phẩm</label>
-                            <input type="number" placeholder="Cân nặng" class="form-control" value="{{ old('weight') }}"
+                            <input type="text" placeholder="Cân nặng" class="form-control" value="{{ old('weight') }}"
                                 name="weight">
                             @error('weight')
                                 <div class="custom-invalid-feedback">{{ $message }}</div>
@@ -396,7 +396,7 @@
                             <div class="variant-box-input">
                                 <div class="form-group mt-4">
                                     <label>Cân nặng ( Không bắt buộc )</label>
-                                    <input type="number" class="form-control variant-weight" name="variants[${index}][weight]" placeholder="Nhập nặng">
+                                    <input type="text" class="form-control variant-weight" name="variants[${index}][weight]" placeholder="Nhập nặng">
                                 </div>
                                 <div class="form-group mt-4">
                                     <label>Mô tả biến thể</label>

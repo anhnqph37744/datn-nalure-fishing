@@ -4,33 +4,17 @@
 <div class="main">
     <div class="row border-bottom white-bg dashboard-header">
         <div class="col-md-3">
-            <h2>Welcome Amelia</h2>
-            <small>You have 42 messages and 6 notifications.</small>
+            <h2>Welcome {{ Auth::user()->name }}</h2>
+            <small>Top 5 sản phẩm bán chạy</small>
             <ul class="list-group clear-list m-t">
+                @foreach ($topProducts as $key => $top)
                 <li class="list-group-item fist-item">
-                    <span class="pull-right"> 09:00 pm </span>
-                    <span class="label label-success">1</span>
-                    Please contact me
+                    <span class="pull-right"> {{ $top->total_sold }} </span>
+                    <span class="label label-success">{{ $key + 1 }}</span>
+                    {{ $top->name }}
                 </li>
-                <li class="list-group-item">
-                    <span class="pull-right"> 10:16 am </span>
-                    <span class="label label-info">2</span> Sign a contract
-                </li>
-                <li class="list-group-item">
-                    <span class="pull-right"> 08:22 pm </span>
-                    <span class="label label-primary">3</span>
-                    Open new shop
-                </li>
-                <li class="list-group-item">
-                    <span class="pull-right"> 11:06 pm </span>
-                    <span class="label label-default">4</span>
-                    Call back to Sylvia
-                </li>
-                <li class="list-group-item">
-                    <span class="pull-right"> 12:00 am </span>
-                    <span class="label label-primary">5</span>
-                    Write a letter to Sandra
-                </li>
+                @endforeach
+
             </ul>
         </div>
         <div class="col-md-6">
@@ -40,24 +24,19 @@
             <div class="row text-left">
                 <div class="col-xs-4">
                     <div class="m-l-md">
-                        <span class="h4 font-bold m-t block">$ 406,100</span>
-                        <small class="text-muted m-b block">Sales marketing report</small>
+                        <span class="h4 font-bold m-t block">{{ $totalRevenueFormatted }} VNĐ</span>
+                        <small class="text-muted m-b block">Doanh Thu Trong Năm</small>
                     </div>
                 </div>
                 <div class="col-xs-4">
-                    <span class="h4 font-bold m-t block">$ 150,401</span>
-                    <small class="text-muted m-b block">Annual sales revenue</small>
-                </div>
-                <div class="col-xs-4">
-                    <span class="h4 font-bold m-t block">$ 16,822</span>
-                    <small class="text-muted m-b block">Half-year revenue margin</small>
+                    <span class="h4 font-bold m-t block">{{ $halfYearProfit }} VNĐ</span>
+                    <small class="text-muted m-b block">Lợi nhuận nửa đầu năm</small>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
             <div class="statistic-box">
-                <h4>Project Beta progress</h4>
-                <p>You have two project with not compleated task.</p>
+                <p>Thống kê theo sản phẩm.</p>
                 <div class="row text-center">
                     <div class="col-lg-6">
                         <canvas
@@ -65,7 +44,7 @@
                             width="80"
                             height="80"
                             style="margin: 18px auto 0"></canvas>
-                        <h5>Kolter</h5>
+                        <h5>Tỷ lệ huỷ đơn </h5>
                     </div>
                     <div class="col-lg-6">
                         <canvas
@@ -73,7 +52,7 @@
                             width="80"
                             height="80"
                             style="margin: 18px auto 0"></canvas>
-                        <h5>Maxtor</h5>
+                        <h5>Top sản phẩm bán chạy nhất</h5>
                     </div>
                 </div>
                 <div class="m-t">
@@ -90,8 +69,8 @@
                     <div class="col-lg-4">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
-                                <h5>New data for the report</h5>
-                                <span class="label label-primary">IN+</span>
+                                <h5>Lọc doanh thu theo khoảng thời gian</h5>
+                                <span class="label label-primary">New+</span>
                                 <div class="ibox-tools">
                                     <a class="collapse-link">
                                         <i class="fa fa-chevron-up"></i>
@@ -112,26 +91,28 @@
                                 </div>
                             </div>
                             <div class="ibox-content">
-                                <div>
-                                    <div class="pull-right text-right">
-                                        <span class="bar_dashboard">5,3,9,6,5,9,7,3,5,2,4,7,3,2,7,9,6,4,5,7,3,2,1,0,9,5,6,8,3,2,1</span>
-                                        <br />
-                                        <small class="font-bold">$ 20 054.43</small>
+                                <div class="row align-items-end g-3 filter-form">
+                                    <div class="col-md-4">
+                                        <label for="start_date" class="form-label">Từ ngày</label>
+                                        <input type="date" class="form-control" id="start_date">
                                     </div>
-                                    <h4>
-                                        NYS report new data!
-                                        <br />
-                                        <small class="m-r"><a href="graph_flot.html">
-                                                Check the stock price!
-                                            </a>
-                                        </small>
-                                    </h4>
+                                    <div class="col-md-4">
+                                        <label for="end_date" class="form-label">Đến ngày</label>
+                                        <input type="date" class="form-control" id="end_date">
+                                    </div>
+                                    <div class="col-md-4 d-flex align-items-end mt-5" style="margin-top: 23px !important;">
+                                        <button type="submit" class="btn btn-primary w-100" id="filter-revenure">
+                                            <i class="fa fa-filter "></i>Lọc
+                                        </button>
+                                    </div>
                                 </div>
+                                <p>Doanh thu : <span id="revenure-result">?</span></p>
                             </div>
+
                         </div>
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
-                                <h5>Read below comments</h5>
+                                <h5>Đơn hàng theo các trạng thái</h5>
                                 <div class="ibox-tools">
                                     <a class="collapse-link">
                                         <i class="fa fa-chevron-up"></i>
@@ -152,206 +133,58 @@
                                 </div>
                             </div>
                             <div class="ibox-content no-padding">
-                                <ul class="list-group">
-                                    <li class="list-group-item">
-                                        <p>
-                                            <a class="text-info" href="#">@Alan Marry</a> I
-                                            belive that. Lorem Ipsum is simply dummy text of
-                                            the printing and typesetting industry.
-                                        </p>
-                                        <small class="block text-muted"><i class="fa fa-clock-o"></i> 1 minuts ago</small>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <p>
-                                            <a class="text-info" href="#">@Stock Man</a> Check
-                                            this stock chart. This price is crazy!
-                                        </p>
-                                        <div class="text-center m">
-                                            <span id="sparkline8"></span>
-                                        </div>
-                                        <small class="block text-muted"><i class="fa fa-clock-o"></i> 2 hours ago</small>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <p>
-                                            <a class="text-info" href="#">@Kevin Smith</a>
-                                            Lorem ipsum unknown printer took a galley
-                                        </p>
-                                        <small class="block text-muted"><i class="fa fa-clock-o"></i> 2 minuts ago</small>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <p>
-                                            <a class="text-info" href="#">@Jonathan Febrick</a>
-                                            The standard chunk of Lorem Ipsum
-                                        </p>
-                                        <small class="block text-muted"><i class="fa fa-clock-o"></i> 1 hour ago</small>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <p>
-                                            <a class="text-info" href="#">@Alan Marry</a> I
-                                            belive that. Lorem Ipsum is simply dummy text of
-                                            the printing and typesetting industry.
-                                        </p>
-                                        <small class="block text-muted"><i class="fa fa-clock-o"></i> 1 minuts ago</small>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <p>
-                                            <a class="text-info" href="#">@Kevin Smith</a>
-                                            Lorem ipsum unknown printer took a galley
-                                        </p>
-                                        <small class="block text-muted"><i class="fa fa-clock-o"></i> 2 minuts ago</small>
-                                    </li>
-                                </ul>
+                            <canvas id="orderStatusChart" width="400" height="400"></canvas>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
-                                <h5>Your daily feed</h5>
+                                <h5>Sản phầm tồn kho lâu && không bán được</h5>
                                 <div class="ibox-tools">
-                                    <span class="label label-warning-light pull-right">10 Messages</span>
+                                    <span class="label label-warning-light pull-right">{{ count($slowMoving) + count($lowStock) }} Sản Phẩm</span>
                                 </div>
                             </div>
                             <div class="ibox-content">
                                 <div>
                                     <div class="feed-activity-list">
+                                        @foreach($lowStock as $lowS)
                                         <div class="feed-element">
                                             <a href="profile.html" class="pull-left">
                                                 <img
                                                     alt="image"
                                                     class="img-circle"
-                                                    src="{{asset('admin/img/profile.jpg')}}" />
+                                                    src="{{$lowS->image}}" />
                                             </a>
                                             <div class="media-body">
-                                                <small class="pull-right">5m ago</small>
-                                                <strong>Monica Smith</strong>
-                                                posted a new blog.
+                                                <small class="pull-right badge bg-{{ $lowS->quantity == 0 ? "danger" : "warning" }}">{{ $lowS->quantity == 0 ? "Hết hàng" : "Sắp hết hàng" }}</small>
+                                                <strong>{{ $lowS->name }}</strong>
                                                 <br />
-                                                <small class="text-muted">Today 5:60 pm - 12.06.2014</small>
+                                                <small class="text-muted">SL : {{ $lowS->quantity }}</small>
                                             </div>
                                         </div>
 
+                                        @endforeach
+                                        @foreach($slowMoving as $lowS)
                                         <div class="feed-element">
                                             <a href="profile.html" class="pull-left">
                                                 <img
                                                     alt="image"
                                                     class="img-circle"
-                                                    src="img/a2.jpg" />
+                                                    src="{{$lowS->image}}" />
                                             </a>
                                             <div class="media-body">
-                                                <small class="pull-right">2h ago</small>
-                                                <strong>Mark Johnson</strong>
-                                                posted message on
-                                                <strong>Monica Smith</strong>
-                                                site. <br />
-                                                <small class="text-muted">Today 2:10 pm - 12.06.2014</small>
-                                            </div>
-                                        </div>
-                                        <div class="feed-element">
-                                            <a href="profile.html" class="pull-left">
-                                                <img
-                                                    alt="image"
-                                                    class="img-circle"
-                                                    src="img/a3.jpg" />
-                                            </a>
-                                            <div class="media-body">
-                                                <small class="pull-right">2h ago</small>
-                                                <strong>Janet Rosowski</strong>
-                                                add 1 photo on
-                                                <strong>Monica Smith</strong>.
+                                                <small class="pull-right badge bg-warning">Tồn kho lâu ngày</small>
+                                                <strong>{{ $lowS->name }}</strong>
                                                 <br />
-                                                <small class="text-muted">2 days ago at 8:30am</small>
+                                                <small class="text-muted">SL : {{ $lowS->quantity }}</small>
                                             </div>
                                         </div>
-                                        <div class="feed-element">
-                                            <a href="profile.html" class="pull-left">
-                                                <img
-                                                    alt="image"
-                                                    class="img-circle"
-                                                    src="{{asset('admin/img/a4.jpg')}}" />
-                                            </a>
-                                            <div class="media-body">
-                                                <small class="pull-right text-navy">5h ago</small>
-                                                <strong>Chris Johnatan Overtunk</strong>
-                                                started following
-                                                <strong>Monica Smith</strong>.
-                                                <br />
-                                                <small class="text-muted">Yesterday 1:21 pm - 11.06.2014</small>
-                                                <div class="actions">
-                                                    <a class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i>
-                                                        Like
-                                                    </a>
-                                                    <a class="btn btn-xs btn-white"><i class="fa fa-heart"></i> Love</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="feed-element">
-                                            <a href="profile.html" class="pull-left">
-                                                <img
-                                                    alt="image"
-                                                    class="img-circle"
-                                                    src="img/a5.jpg" />
-                                            </a>
-                                            <div class="media-body">
-                                                <small class="pull-right">2h ago</small>
-                                                <strong>Kim Smith</strong>
-                                                posted message on
-                                                <strong>Monica Smith</strong>
-                                                site. <br />
-                                                <small class="text-muted">Yesterday 5:20 pm - 12.06.2014</small>
-                                                <div class="well">
-                                                    Lorem Ipsum is simply dummy text of the
-                                                    printing and typesetting industry. Lorem Ipsum
-                                                    has been the industry's standard dummy text
-                                                    ever since the 1500s. Over the years,
-                                                    sometimes by accident, sometimes on purpose
-                                                    (injected humour and the like).
-                                                </div>
-                                                <div class="pull-right">
-                                                    <a class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i>
-                                                        Like
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="feed-element">
-                                            <a href="profile.html" class="pull-left">
-                                                <img
-                                                    alt="image"
-                                                    class="img-circle"
-                                                    src="{{asset('admin/img/profile.jpg')}}" />
-                                            </a>
-                                            <div class="media-body">
-                                                <small class="pull-right">23h ago</small>
-                                                <strong>Monica Smith</strong>
-                                                love
-                                                <strong>Kim Smith</strong>.
-                                                <br />
-                                                <small class="text-muted">2 days ago at 2:30 am - 11.06.2014</small>
-                                            </div>
-                                        </div>
-                                        <div class="feed-element">
-                                            <a href="profile.html" class="pull-left">
-                                                <img
-                                                    alt="image"
-                                                    class="img-circle"
-                                                    src="{{asset('admin/img/a7.jpg')}}" />
-                                            </a>
-                                            <div class="media-body">
-                                                <small class="pull-right">46h ago</small>
-                                                <strong>Mike Loreipsum</strong>
-                                                started following
-                                                <strong>Monica Smith</strong>.
-                                                <br />
-                                                <small class="text-muted">3 days ago at 7:58 pm - 10.06.2014</small>
-                                            </div>
-                                        </div>
+
+                                        @endforeach
                                     </div>
 
-                                    <button class="btn btn-primary btn-block m-t">
-                                        <i class="fa fa-arrow-down"></i>
-                                        Show More
-                                    </button>
+
                                 </div>
                             </div>
                         </div>
@@ -359,7 +192,7 @@
                     <div class="col-lg-4">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
-                                <h5>Alpha project</h5>
+                                <h5>Thống kê</h5>
                                 <div class="ibox-tools">
                                     <a class="collapse-link">
                                         <i class="fa fa-chevron-up"></i>
@@ -380,28 +213,25 @@
                                 </div>
                             </div>
                             <div class="ibox-content ibox-heading">
-                                <h3>You have meeting today!</h3>
-                                <small><i class="fa fa-map-marker"></i> Meeting is on
-                                    6:00am. Check your schedule to see detail.</small>
+                                <h3>Đơn hàng chưa được xử lí</h3>
                             </div>
                             <div class="ibox-content inspinia-timeline">
+                                @foreach ($latestOrders as $lates)
                                 <div class="timeline-item">
                                     <div class="row">
                                         <div class="col-xs-3 date">
                                             <i class="fa fa-briefcase"></i>
-                                            6:00 am
+                                            {{ $lates->created_at->format('d/m/Y') }}
                                             <br />
                                             <small class="text-navy">2 hour ago</small>
                                         </div>
                                         <div class="col-xs-7 content no-top-border">
-                                            <p class="m-b-xs"><strong>Meeting</strong></p>
+                                            <p class="m-b-xs"><strong>{{ $lates->code }}</strong></p>
 
-                                            <p>
-                                                Conference on the sales results for the previous
-                                                year. Monica please examine sales trends in
-                                                marketing and products. Below please find the
-                                                current status of the sale.
-                                            </p>
+                                            @foreach ($lates->orderItems ?? [] as $item)
+                                            x{{ $item->quantity }} {{ optional($item->product)->name ?? 'Sản phẩm không tồn tại' }} <br>
+                                            @endforeach
+
 
                                             <p>
                                                 <span data-diameter="40" class="updating-chart">5,3,9,6,5,9,7,3,5,2,5,3,9,6,5,9,4,7,3,2,9,8,7,4,5,1,2,9,5,4,7,2,7,7,3,5,2</span>
@@ -409,102 +239,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="timeline-item">
-                                    <div class="row">
-                                        <div class="col-xs-3 date">
-                                            <i class="fa fa-file-text"></i>
-                                            7:00 am
-                                            <br />
-                                            <small class="text-navy">3 hour ago</small>
-                                        </div>
-                                        <div class="col-xs-7 content">
-                                            <p class="m-b-xs">
-                                                <strong>Send documents to Mike</strong>
-                                            </p>
-                                            <p>
-                                                Lorem Ipsum is simply dummy text of the printing
-                                                and typesetting industry. Lorem Ipsum has been
-                                                the industry's standard dummy text ever since.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="row">
-                                        <div class="col-xs-3 date">
-                                            <i class="fa fa-coffee"></i>
-                                            8:00 am
-                                            <br />
-                                        </div>
-                                        <div class="col-xs-7 content">
-                                            <p class="m-b-xs">
-                                                <strong>Coffee Break</strong>
-                                            </p>
-                                            <p>
-                                                Go to shop and find some products. Lorem Ipsum
-                                                is simply dummy text of the printing and
-                                                typesetting industry. Lorem Ipsum has been the
-                                                industry's.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="row">
-                                        <div class="col-xs-3 date">
-                                            <i class="fa fa-phone"></i>
-                                            11:00 am
-                                            <br />
-                                            <small class="text-navy">21 hour ago</small>
-                                        </div>
-                                        <div class="col-xs-7 content">
-                                            <p class="m-b-xs">
-                                                <strong>Phone with Jeronimo</strong>
-                                            </p>
-                                            <p>
-                                                Lorem Ipsum has been the industry's standard
-                                                dummy text ever since.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="row">
-                                        <div class="col-xs-3 date">
-                                            <i class="fa fa-user-md"></i>
-                                            09:00 pm
-                                            <br />
-                                            <small>21 hour ago</small>
-                                        </div>
-                                        <div class="col-xs-7 content">
-                                            <p class="m-b-xs">
-                                                <strong>Go to the doctor dr Smith</strong>
-                                            </p>
-                                            <p>Find some issue and go to doctor.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="row">
-                                        <div class="col-xs-3 date">
-                                            <i class="fa fa-comments"></i>
-                                            12:50 pm
-                                            <br />
-                                            <small class="text-navy">48 hour ago</small>
-                                        </div>
-                                        <div class="col-xs-7 content">
-                                            <p class="m-b-xs">
-                                                <strong>Chat with Monica and Sandra</strong>
-                                            </p>
-                                            <p>
-                                                Web sites still in their infancy. Various
-                                                versions have evolved over the years, sometimes
-                                                by accident, sometimes on purpose (injected
-                                                humour and the like).
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endforeach
+
                             </div>
                         </div>
                     </div>
@@ -1021,5 +757,72 @@
         </div>
     </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+    const btn = document.querySelector('#filter-revenure');
+    btn.addEventListener('click', () => {
+        var startDate = document.querySelector('#start_date').value;
+        var endDate = document.querySelector('#end_date').value;
+        if (startDate && endDate) {
+            $.ajax({
+                url: '{{ route('admin.revenue.filter') }}',
+                method: 'GET',
+                data: {
+                    start_date: startDate,
+                    end_date: endDate,
+                },
+                success: function(response) {
+                    document.querySelector('#revenure-result').innerHTML = response.totalRevenue != 0 ? response.totalRevenue + ' VNĐ' : 'Không có doanh thu ';
+                },
+                error: function(xhr) {
+                    console.error('Lỗi:', xhr.responseText);
+                }
+            });
+        } else {
+            alert("Vui lòng chọn đầy đủ ngày bắt đầu và kết thúc.");
+        }
+    })
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const data = @json(array_values($orderStatusData));
+    const labels = @json(array_keys($orderStatusData));
+
+    const ctx = document.getElementById('orderStatusChart').getContext('2d');
+    const orderStatusChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Tỷ lệ đơn hàng theo trạng thái',
+                data: data,
+                backgroundColor: [
+                    '#1ab394', // green - delivered
+                    '#f8ac59', // yellow - processing
+                    '#ed5565', // red - canceled
+                    '#23c6c8'  // blue - returned
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const label = context.label || '';
+                            const value = context.raw || 0;
+                            return `${label}: ${value} đơn`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
 
 @endsection

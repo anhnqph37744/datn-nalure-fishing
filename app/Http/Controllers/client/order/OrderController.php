@@ -38,7 +38,7 @@ class OrderController extends Controller
             return response()->json(['message' => 'Không thể hủy đơn hàng này'], 400);
         }
 
-        $order->update(['order_status' => 'canceled']);
+        $order->update(['order_status' => 'cancelled']);
         return response()->json(['message' => 'Đơn hàng đã được hủy thành công']);
     }
 }

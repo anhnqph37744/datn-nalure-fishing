@@ -63,4 +63,9 @@ class AuthController extends Controller
     {
         return view('admin.pages.user.create');
     }
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('login')->with('success', 'Đăng xuất thành công');
+    }
 }

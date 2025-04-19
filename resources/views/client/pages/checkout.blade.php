@@ -210,25 +210,25 @@ textarea.form-control {
 
             <div class="row shipping_address">
                 <div class="col-md-6 form-group">
-                    <input type="text" name="name" class="form-control" placeholder="Họ và Tên" value="{{ $user_login->name }}" required>
+                    <input type="text" name="name" class="form-control" placeholder="Họ và Tên" value="{{ $user_login->name ? $user_login->name : '' }}" required>
                     @error('name')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="col-md-6 form-groups">
-                    <input type="text" name="email" class="form-control" placeholder="Email" value="{{ $user_login->email }}" required>
+                    <input type="text" name="email" class="form-control" placeholder="Email"  required>
                     @error('email')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="col-md-6 form-group">
-                    <input type="text" name="phone" class="form-control" placeholder="Số điện thoại" value="{{ $user_login->profile->phone }}" required>
+                    <input type="text" name="phone" class="form-control" placeholder="Số điện thoại"  required>
                     @error('phone')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="col-md-6 form-group">
-                    <input type="text" name="address" class="form-control" placeholder="Địa chỉ" value="{{ $user_login->profile->address }}" required>
+                    <input type="text" name="address" class="form-control" placeholder="Địa chỉ"  required>
                     @error('address')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror

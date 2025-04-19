@@ -11,25 +11,31 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Profile;
+use App\Models\Voucher;
 
 class CheckoutController extends Controller
 {
     public function showCheckoutForm()
     {
-        $user_login = Auth::user();
-        $profile = Profile::where('user_id', Auth::id())->first();
-        $cartItems = Cart::getItems();
-        $cart = Cart::where('id_user', Auth::id())->get();
-        $totalPrice = $cartItems->sum(function($item) {
-            return $item->total_price;
-        });
+        if (Auth::check()) {
+            $user_login = Auth::user();
+            $profile = Profile::where('user_id', Auth::id())->first();
+            $cartItems = Cart::getItems();
+            $cart = Cart::where('id_user', Auth::id())->get();
+            $totalPrice = $cartItems->sum(function ($item) {
+                return $item->total_price;
+            });
+            $vouchers = Voucher::all();
 
-    return view('client.pages.checkout', compact('cartItems', 'totalPrice', 'cart', 'profile', 'user_login'));
+            return view('client.pages.checkout', compact('cartItems', 'vouchers','totalPrice', 'cart', 'profile', 'user_login'));
+        }else{
+            return redirect()->route('login')->with('error', 'Please login to continue.');
+        }
     }
 
     public function store(Request $request)
     {
-        
+
         try {
             DB::beginTransaction();
 

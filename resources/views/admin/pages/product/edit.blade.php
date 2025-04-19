@@ -320,12 +320,12 @@
                             </div>
                         </div>
 
-                                <input type="number" class="form-control variant-price" name="variants[${index}][image]"  placeholder="Nhập giá" style="display:none !important"  value="${variant.image}">
+                                <input type="text" class="form-control variant-price" name="variants[${index}][image]"  placeholder="Nhập giá" style="display:none !important"  value="${variant.image}">
 
                         <div class="variant-box-input">
                             <div class="form-group mt-4">
                                 <label>Cân nặng (Không bắt buộc)</label>
-                                <input type="number" class="form-control variant-weight" name="variants[${index}][weight]" value="${variant.weight}">
+                                <input type="text" class="form-control variant-weight" name="variants[${index}][weight]" value="${variant.weight}">
                             </div>
                             <div class="form-group mt-4">
                                 <label>Mô tả biến thể</label>

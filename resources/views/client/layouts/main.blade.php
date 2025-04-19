@@ -21,7 +21,6 @@
     <meta name="theme-color" content="#ffffff">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-
     <link rel="preconnect" href="https://fonts.googleapis.com/">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo:wght@400;500;600;700;800&amp;family=Inter&amp;display=swap"
@@ -33,6 +32,32 @@
     <link rel="stylesheet" href="{{ asset('client/assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('client/assets/css/chat.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    @vite(['resources/js/app.js'])
+    <style>
+        .bg-update {
+            animation: highlight-effect 2s ease;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        @keyframes highlight-effect {
+            0% {
+                background-color: #fff;
+            }
+
+            25% {
+                background-color:rgb(255, 255, 33);
+            }
+
+            75% {
+                background-color:rgb(250, 250, 130);
+            }
+
+            100% {
+                background-color: #fff;
+            }
+        }
+    </style>
 
 </head>
 
@@ -61,40 +86,40 @@
     @if (Auth::check())
 
 
-        <div class="sidemenu-wrapper d-none d-lg-block">
-            <div class="sidemenu-content">
-                <button class="closeButton sideMenuCls"><i class="far fa-times"></i></button>
-                <div class="widget widget_shopping_cart">
-                    <h3 class="widget_title">Giỏ hàng</h3>
-                    <div class="widget_shopping_cart_content">
-                        <ul class="cart_list">
-                            @foreach ($cart as $c)
-                                <li class="mini_cart_item">
-                                    <form action="{{ route('remove-cart', $c->id) }}" method="POST"> @csrf
-                                        @method('DELETE')<button style="border:none;" class="remove"><i
-                                                class="fal fa-trash-alt"></i></button></form> <a
-                                        href="{{ route('detail', $c->id_product) }}"><img src="{{ $c->image }}"
-                                            alt="Cart Image" />{{ Str::limit($c->name, 50, '...') }}</a>
-                                    <span class="quantity">
-                                        {{ $c->quantity }} × <span
-                                            class="amount"><span>{{ number_format($c->price, 0, ',', '.') }}
-                                                đ</span></span>
-                                    </span>
-                                </li>
-                            @endforeach
+    <div class="sidemenu-wrapper d-none d-lg-block">
+        <div class="sidemenu-content">
+            <button class="closeButton sideMenuCls"><i class="far fa-times"></i></button>
+            <div class="widget widget_shopping_cart">
+                <h3 class="widget_title">Giỏ hàng</h3>
+                <div class="widget_shopping_cart_content">
+                    <ul class="cart_list">
+                        @foreach ($cart as $c)
+                        <li class="mini_cart_item">
+                            <form action="{{ route('remove-cart', $c->id) }}" method="POST"> @csrf
+                                @method('DELETE')<button style="border:none;" class="remove"><i
+                                        class="fal fa-trash-alt"></i></button></form> <a
+                                href="{{ route('detail', $c->id_product) }}"><img src="{{ $c->image }}"
+                                    alt="Cart Image" />{{ Str::limit($c->name, 50, '...') }}</a>
+                            <span class="quantity">
+                                {{ $c->quantity }} × <span
+                                    class="amount"><span>{{ number_format($c->price, 0, ',', '.') }}
+                                        đ</span></span>
+                            </span>
+                        </li>
+                        @endforeach
 
-                        </ul>
-                        {{-- <div class="total">
+                    </ul>
+                    {{-- <div class="total">
                             <strong>Tổng tiền:</strong> <span class="amount"><span>67.000 đ</span></span>
                         </div> --}}
-                        <div class="buttons">
-                            <a href="{{ route('cart') }}" class="vs-btn style4">View cart</a>
-                            <a href="{{ route('check-out') }}" class="vs-btn style4">Checkout</a>
-                        </div>
+                    <div class="buttons">
+                        <a href="{{ route('cart') }}" class="vs-btn style4">View cart</a>
+                        <a href="{{ route('check-out') }}" class="vs-btn style4">Checkout</a>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     @endif
 
 
@@ -208,25 +233,121 @@
 
     <script>
         $(document).ready(function() {
-            @if (session('success'))
-                toastr.success("{{ session('success') }}", "Thành công");
+            @if(session('success'))
+            toastr.success("{{ session('success') }}", "Thành công");
             @endif
 
-            @if (session('error'))
-                toastr.error("{{ session('error') }}", "Lỗi");
+            @if(session('error'))
+            toastr.error("{{ session('error') }}", "Lỗi");
             @endif
 
-            @if (session('warning'))
-                toastr.warning("{{ session('warning') }}", "Cảnh báo");
+            @if(session('warning'))
+            toastr.warning("{{ session('warning') }}", "Cảnh báo");
             @endif
 
-            @if (session('info'))
-                toastr.info("{{ session('info') }}", "Thông báo");
+            @if(session('info'))
+            toastr.info("{{ session('info') }}", "Thông báo");
             @endif
         });
     </script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            var userId = {{Auth::id() ?? 0}};
+            var statusElement = document.querySelector('#status_order_show');
 
+            window.Echo.private(`order.${userId}`)
+                .listen('OrderStatusUpdated', (data) => {
+                    console.log("Phần tử:", statusElement);
+                    console.log("Đơn hàng cập nhật realtime:", data);
+                    var table_order = document.querySelector(`#status_order_${data.order_id}`);                    
+                    if (statusElement) {
+                        let statusHTML = '';
+
+                        switch (data.status) {
+                            case 'pending':
+                                statusHTML = `
+                                <span class="text-dark d-flex align-items-center gap-2">
+                                    <i class="fas fa-clock"></i> Chờ xử lý
+                                </span>
+                            `;
+                                break;
+                            case 'processing':
+                                statusHTML = `
+                                <span class="d-flex align-items-center gap-2">
+                                    <i class="fas fa-cog fa-spin"></i> Đang xử lý
+                                </span>
+                            `;
+                                break;
+                            case 'shipping':
+                                statusHTML = `
+                                <span class="d-flex align-items-center gap-2">
+                                    <i class="fas fa-shipping-fast"></i> Đang giao hàng
+                                </span>
+                            `;
+                                break;
+                            case 'delivered':
+                                statusHTML = `
+                                <span class="d-flex align-items-center gap-2">
+                                    <i class="fas fa-check-circle"></i> Đã giao hàng
+                                </span>
+                            `;
+                                break;
+                            default:
+                                statusHTML = `
+                                <span class="d-flex align-items-center gap-2">
+                                    <i class="fas fa-times-circle"></i> Đã hủy
+                                </span>
+                            `;
+                        }
+
+                        statusElement.innerHTML = statusHTML;
+
+                        statusElement.classList.add('bg-update');
+                        setTimeout(() => {
+                            statusElement.classList.remove('bg-update');
+                        }, 2000);
+                    }
+                    if(table_order) {
+                        let statusHTML = '';
+
+                        switch (data.status) {
+                            case 'pending':
+                                statusHTML = `
+                                <span class="btn btn-secondary"><i class="fas fa-clock me-1"></i>Chờ xử lý</span>
+                            `;
+                                break;
+                            case 'processing':
+                                statusHTML = `
+                                <span class="btn btn-info"><i class="fas fa-cog me-1"></i>Đang xử lý</span>
+                            `;
+                                break;
+                            case 'shipping':
+                                statusHTML = `
+                                <span class="btn btn-primary"><i class="fas fa-shipping-fast me-1"></i>Đang giao hàng</span>
+                            `;
+                                break;
+                            case 'delivered':
+                                statusHTML = `
+                                <span class="btn btn-success"><i class="fas fa-check-circle me-1"></i>Đã giao hàng</span>
+                            `;
+                                break;
+                            default:
+                                statusHTML = `
+                                <span class="btn btn-danger"><i class="fas fa-times-circle me-1"></i>Đã hủy</span>
+                            `;
+                        }
+
+                        table_order.innerHTML = statusHTML;
+
+                        table_order.classList.add('bg-update');
+                        setTimeout(() => {
+                            table_order.classList.remove('bg-update');
+                        }, 2000);
+                    }
+                });
+        });
+    </script>
 
 
 </body>

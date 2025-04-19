@@ -69,8 +69,8 @@
                                                 <option value="shipping"
                                                     {{ $order->order_status == 'shipping' ? 'selected' : '' }}>Đang giao
                                                     hàng</option>
-                                                <option value="completed"
-                                                    {{ $order->order_status == 'completed' ? 'selected' : '' }}>Hoàn thành
+                                                <option value="delivered"
+                                                    {{ $order->order_status == 'delivered' ? 'selected' : '' }}>Hoàn thành
                                                 </option>
                                                 <option value="cancelled"
                                                     {{ $order->order_status == 'cancelled' ? 'selected' : '' }}>Đã hủy
@@ -116,11 +116,6 @@
 
             element.addEventListener('change', () => {
                 let newStatus = element.value;
-                if (!isValidStatusTransition(currentStatus, newStatus) && newStatus !== 'cancelled') {
-                    toastr.error('Không thể chuyển về trạng thái trước đó');
-                    element.value = currentStatus;
-                    return;
-                }
                 
                 $.ajax({
                     url:"{{route('admin.order.update')}}",

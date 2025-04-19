@@ -5,7 +5,7 @@
 
 
 <div class="container py-5">
-    
+
     <div class="container">
         <div class="container py-5">
             <div class="card shadow-sm rounded mb-4">
@@ -18,8 +18,8 @@
                     </div>
                 </div>
             </div>
+        </div>
     </div>
-</div>
 
 
     <div class="row">
@@ -39,7 +39,7 @@
                         <div class="col-md-6">
                             <h6 class="mb-1 text-primary">{{ $item->product->name }}</h6>
                             @if($item->variant_id)
-                                <small class="text-muted d-block"><i class="fas fa-tag me-1"></i>Phân loại: {{ $item->variant->name }}</small>
+                            <small class="text-muted d-block"><i class="fas fa-tag me-1"></i>Phân loại: {{ $item->variant->name }}</small>
                             @endif
                         </div>
                         <div class="col-md-2 text-center">
@@ -60,51 +60,55 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center p-3 bg-light rounded mb-3">
                         <span class="fw-bold">Trạng thái đơn hàng:</span>
-                        @switch($order->order_status)
+                        <div id="status_order_show">
+                            @switch($order->order_status)
                             @case('pending')
-                                <span class="text-dark d-flex align-items-center gap-2">
-                                    <i class="fas fa-clock"></i> Chờ xử lý
-                                </span>
-                                @break
+                            <span class="text-dark d-flex align-items-center gap-2">
+                                <i class="fas fa-clock"></i> Chờ xử lý
+                            </span>
+                            @break
                             @case('processing')
-                                <span class=" d-flex align-items-center gap-2">
-                                    <i class="fas fa-cog fa-spin"></i> Đang xử lý
-                                </span>
-                                @break
-                            @case('shipped')
-                                <span class="d-flex align-items-center gap-2">
-                                    <i class="fas fa-shipping-fast"></i> Đang giao hàng
-                                </span>
-                                @break
+                            <span class=" d-flex align-items-center gap-2">
+                                <i class="fas fa-cog fa-spin"></i> Đang xử lý
+                            </span>
+                            @break
+                            @case('shipping')
+                            <span class="d-flex align-items-center gap-2">
+                                <i class="fas fa-shipping-fast"></i> Đang giao hàng
+                            </span>
+                            @break
                             @case('delivered')
-                                <span class="d-flex align-items-center gap-2">
-                                    <i class="fas fa-check-circle"></i> Đã giao hàng
-                                </span>
-                                @break
+                            <span class="d-flex align-items-center gap-2">
+                                <i class="fas fa-check-circle"></i> Đã giao hàng
+                            </span>
+                            @break
                             @default
-                                <span class="d-flex align-items-center gap-2">
-                                    <i class="fas fa-times-circle"></i> Đã hủy
-                                </span>
-                        @endswitch
+                            <span class="d-flex align-items-center gap-2">
+                                <i class="fas fa-times-circle"></i> Đã hủy
+                            </span>
+                            @endswitch
+                        </div>
                     </div>
                     <div class="d-flex justify-content-between align-items-center p-3 bg-light rounded">
                         <span class="fw-bold">Trạng thái thanh toán:</span>
-                        @switch($order->payment_status)
+                        <div>
+                            @switch($order->payment_status)
                             @case('pending')
-                                <span class=" text-dark d-flex align-items-center gap-2">
-                                    <i class="fas fa-hourglass-half"></i> Chưa thanh toán
-                                </span>
-                                @break
+                            <span class=" text-dark d-flex align-items-center gap-2">
+                                <i class="fas fa-hourglass-half"></i> Chưa thanh toán
+                            </span>
+                            @break
                             @case('paid')
-                                <span class="badge bg-success d-flex align-items-center gap-2">
-                                    <i class="fas fa-check-circle"></i> Đã thanh toán
-                                </span>
-                                @break
+                            <span class="badge bg-success d-flex align-items-center gap-2">
+                                <i class="fas fa-check-circle"></i> Đã thanh toán
+                            </span>
+                            @break
                             @default
-                                <span class="badge bg-danger d-flex align-items-center gap-2">
-                                    <i class="fas fa-exclamation-circle"></i> Thanh toán thất bại
-                                </span>
-                        @endswitch
+                            <span class="badge bg-danger d-flex align-items-center gap-2">
+                                <i class="fas fa-exclamation-circle"></i> Thanh toán thất bại
+                            </span>
+                            @endswitch
+                        </div>
                     </div>
                 </div>
             </div>
@@ -172,4 +176,5 @@
         </div>
     </div>
 </div>
+
 @endsection

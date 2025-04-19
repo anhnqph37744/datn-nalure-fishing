@@ -436,6 +436,7 @@
                 },
                 dataType: 'json',
                 success: function(data) {
+                    console.log(data);
                     if (data.type === 'success') {
                         toastr.success(data.message, data.type);
                     } else {
@@ -443,7 +444,7 @@
                     }
                 },
                 error: function(xhr, status, error) {
-                    console.log(xhr.responseText);
+                    console.log(error,xhr,status);
                     toastr.error("Lỗi hệ thống !", "Lỗi");
                 }
             });

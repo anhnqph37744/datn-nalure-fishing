@@ -13,10 +13,7 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('post_category_id')
-                ->constrained()
-                ->onDelete('cascade')
-                ->comment('Khóa ngoại liên kết tới post_categories.id');
+            $table->integer('post_category_id');
             $table->string('title')->comment('Tiêu đề bài viết');
             $table->string('slug')->unique()->comment('Slug bài viết dùng trong URL, duy nhất');
             $table->text('excerpt')->nullable()->comment('Trích đoạn mô tả ngắn, có thể để trống');

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->text('description')->nullable();
             $table->string('image', 200)->nullable();
-            $table->double('weight', 8, 2)->nullable();
+            $table->string('weight', 20)->nullable();
             $table->integer('quantity')->default(0);
             $table->integer('quantity_warning')->default(0);
             $table->string('tags', 200)->nullable();

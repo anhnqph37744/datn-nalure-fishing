@@ -7,6 +7,7 @@ use App\Http\Controllers\admin\auth\UserRoleController;
 use App\Http\Controllers\admin\brand\BrandController;
 use App\Http\Controllers\admin\banner\BannerController;
 use App\Http\Controllers\admin\category\CategoryController;
+use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\voucher\VoucherController;
 use App\Http\Controllers\admin\product\ProductController;
 use App\Http\Controllers\AI\GeminiAIController;
@@ -40,9 +41,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('dashboard')->group(function () {
     //dashboard
-    Route::get('/', function () {
-        return view('admin.pages.Dashboard');
-    });
+    Route::get('/', [DashboardController::class, 'dashboard'])->middleware('permission:dashboard')->name('admin.dashboard');
     //order management
     Route::get('/orders', [App\Http\Controllers\Admin\order\OrderController::class, 'index'])->name('admin.order.index');
     Route::get('/orders/{id}', [App\Http\Controllers\Admin\order\OrderController::class, 'show'])->name('admin.order.show');
@@ -146,10 +145,12 @@ Route::prefix('dashboard')->group(function () {
     Route::put('/product/{id}', [ProductController::class, 'update'])->name('admin.product.update');
     //get attribute cho variant
     Route::get('/get-attribute-values/{id}', [ProductController::class, 'attributeValueData'])->name('get-attribute-value');
+    Route::get('/get-attribute-values', [DashboardController::class, 'getRevenue'])->name('admin.revenue.filter');
 });
 //auth
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 //client
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/cart', [CartController::class, 'Cart'])->name('cart');
@@ -205,7 +206,7 @@ Route::middleware(['auth'])->group(function () {
 
 //vnpay return
 Route::get('/vnpay/payment/{amount}', [VNPayController::class, 'VNpay_Payment'])->name('vnpay.payment');
-Route::post('/checkout-fatal-vnpay', [VNPayController::class, 'handleReturn'])->name('vnpay.return');
+Route::get('/checkout-fatal-vnpay', [VNPayController::class, 'handleReturn'])->name('vnpay.return');
 //gemini
 Route::post('/chat', [GeminiAIController::class, 'chat'])->name('gemini.ai');
 //

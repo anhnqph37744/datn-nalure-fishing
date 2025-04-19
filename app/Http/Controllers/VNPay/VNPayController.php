@@ -67,7 +67,7 @@ class VNPayController extends Controller
     {
         if($request->query('vnp_ResponseCode') == '00'){
             $order = Order::find(intval($request->query('vnp_TxnRef')));
-            $order->payment_status = 'success';
+            $order->payment_status = 'paid';
             $order->save();
             return redirect()->route('order.success', ['id' => $order->id])
             ->with('success', 'Đặt hàng thành công!');

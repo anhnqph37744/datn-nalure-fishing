@@ -106,7 +106,7 @@
                                                 <a href="{{ route('client.orders.index') }}" class="dropdown-item">
                                                     <i class="fas fa-shopping-bag"></i> Đơn hàng của tôi
                                                 </a>
-                                                <a href="" class="dropdown-item">
+                                                <a href="{{ route('logout')}}" class="dropdown-item" >
                                                     <i class="fas fa-sign-out-alt"></i> Đăng xuất
                                                 </a>
                                             </div>
