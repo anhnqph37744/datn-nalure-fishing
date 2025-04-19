@@ -18,18 +18,32 @@ class ProductController extends Controller
     public $base_url = "admin.pages.product.";
     public function index()
     {
-        $products = Product::with('category', 'images', 'brand', 'variant.varianAttributeValue.attribute', 'variant.varianAttributeValue.attributeValue')->orderBy('id', 'DESC')->get();
-        // dd($products);
+        $products = Product::with(['category', 'images', 'brand', 'variant.varianAttributeValue.attribute', 'variant.varianAttributeValue.attributeValue'])
+            ->withSum('orderDetails', 'quantity')
+            ->orderBy('id', 'DESC')
+            ->get();
         return view($this->base_url . __FUNCTION__, compact('products'));
-        // return response()->json($products);
     }
     public function edit($id)
     {
+        $product = Product::with(['category', 'images', 'brand', 'variant.varianAttributeValue.attribute', 'variant.varianAttributeValue.attributeValue'])
+            ->withSum('orderDetails', 'quantity')
+            ->findOrFail($id);
+
+        if (!$product->active) {
+            return redirect()->route('admin.product.index')
+                ->with('error', 'Không thể chỉnh sửa sản phẩm đã bị vô hiệu hóa!');
+        }
+
+        if ($product->order_details_sum_quantity > 0) {
+            return redirect()->route('admin.product.index')
+                ->with('error', 'Không thể chỉnh sửa sản phẩm đã có đơn hàng!');
+        }
+
         $category = Category::orderBy('id', 'DESC')->get();
         $brand = Brand::orderBy('id', 'DESC')->get();
         $attribute = Attribute::orderBy('id', 'DESC')->get();
         $attribute_value = AttributeValue::orderBy('id', 'DESC')->get();
-        $product = Product::with('category', 'images', 'brand', 'variant.varianAttributeValue.attribute', 'variant.varianAttributeValue.attributeValue')->find($id);
         return view($this->base_url . __FUNCTION__,compact('product','category','brand','attribute','attribute_value'));
     }
     public function update(Request $request, $id)
@@ -120,7 +134,16 @@ class ProductController extends Controller
     }
     public function destroy($id)
     {
-        $product = Product::find($id);
+        $product = Product::withSum('orderDetails', 'quantity')->find($id);
+        
+        if (!$product->active) {
+            return redirect()->route('admin.product.index')->with('error', 'Không thể xóa sản phẩm đã bị vô hiệu hóa!');
+        }
+
+        if ($product->order_details_sum_quantity > 0) {
+            return redirect()->route('admin.product.index')->with('error', 'Không thể xóa sản phẩm đã có đơn hàng!');
+        }
+
         $images = ProductAttackment::where('product_id', $id)->get();
         $variant = Variant::where('product_id', $id)->get();
         foreach ($images as $img) {

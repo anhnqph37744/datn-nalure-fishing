@@ -81,10 +81,9 @@
                             <tr>
                                 <td colspan="6" class="actions">
                                     <div class="vs-cart-coupon">
-                                        <input type="text" class="form-control" placeholder="Coupon Code...">
-                                        <button type="submit" class="vs-btn">Apply Coupon</button>
+                                       
                                     </div>
-                                    <button type="submit" class="vs-btn">Update cart</button>
+                                   
                                     <a href="{{ route('check-out') }}" class="vs-btn">Thanh toán</a>
                                 </td>
                                 <p>Tổng tiền: <span class="subtotal text-bold">{{ number_format($total, 0, ',', '.') }}

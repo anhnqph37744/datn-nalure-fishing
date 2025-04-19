@@ -18,6 +18,7 @@ return new class extends Migration
             $table->tinyInteger('rating')->unsigned()->comment('Rating từ 1 đến 5');
             $table->text('review')->nullable()->comment('Nội dung đánh giá');
             $table->timestamps();
+            $table->boolean('is_active')->comment('True: hiển thị, False: ẩn')->default(true);
         });
     }
 

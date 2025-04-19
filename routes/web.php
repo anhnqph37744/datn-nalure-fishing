@@ -11,17 +11,23 @@ use App\Http\Controllers\admin\post\PostCategoryController;
 use App\Http\Controllers\admin\post\PostController;
 use App\Http\Controllers\admin\voucher\VoucherController;
 use App\Http\Controllers\admin\product\ProductController;
+use App\Http\Controllers\admin\review\ProductReviewController;
 use App\Http\Controllers\AI\GeminiAIController;
 use App\Http\Controllers\auth\AuthController;
-use App\Http\Controllers\auth\PermissionController;
 use App\Http\Controllers\auth\RoleController;
 use App\Http\Controllers\Client\Blog\BlogController;
+use App\Http\Controllers\auth\PermissionController;
 use App\Http\Controllers\client\cart\CartController;
-use App\Http\Controllers\client\checkout\CheckoutController;
-use App\Http\Controllers\client\cart\OrderController as CartOrderController;
 use App\Http\Controllers\client\home\HomeController;
 use App\Http\Controllers\client\profile\ProfileController;
+use App\Http\Controllers\client\shop\ShopController;
+use App\Http\Controllers\client\checkout\CheckoutController;
+use App\Http\Controllers\client\profile\UpdateProfileController;
+use App\Http\Controllers\client\cart\OrderController as CartOrderController;
+use App\Http\Controllers\Momo\MomoController;
 use App\Http\Controllers\VNPay\VNPayController;
+use App\Http\Controllers\OrderController;
+use App\Models\Cart;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,6 +48,10 @@ Route::prefix('dashboard')->group(function () {
     Route::get('/', function () {
         return view('admin.pages.Dashboard');
     });
+    //order management
+    Route::get('/orders', [App\Http\Controllers\Admin\order\OrderController::class, 'index'])->name('admin.order.index');
+    Route::get('/orders/{id}', [App\Http\Controllers\Admin\order\OrderController::class, 'show'])->name('admin.order.show');
+    Route::get('/orders-status', [App\Http\Controllers\Admin\order\OrderController::class, 'update'])->name('admin.order.update');
     //category
     Route::get('/category', [CategoryController::class, 'index'])->name('admin.category.index');
     Route::get('/category/create', [CategoryController::class, 'create'])->name('admin.category.create');
@@ -148,6 +158,14 @@ Route::prefix('dashboard')->group(function () {
     //get attribute cho variant
     Route::get('/get-attribute-values/{id}', [ProductController::class, 'attributeValueData'])->name('get-attribute-value');
 });
+    
+    // quản lý đánh giá sản phẩm
+    Route::prefix('admin')->group(function () {
+        Route::get('reviews', [ProductReviewController::class, 'index'])->name('admin.reviews.index');
+        Route::delete('reviews/{id}', [ProductReviewController::class, 'destroy'])->name('admin.reviews.destroy');
+        Route::patch('reviews/{id}/toggle', [ProductReviewController::class, 'toggle'])->name('admin.reviews.toggle');
+    });
+
 //auth
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
@@ -157,6 +175,9 @@ Route::get('/cart', [CartController::class, 'Cart'])->name('cart');
 Route::delete('/remove-cart/{id}', [CartController::class, 'RemoveCart'])->name('remove-cart');
 Route::post('/update-cart', [CartController::class, 'updateQuantity'])->name('update-cart');
 Route::get('product-detail/{id}', [HomeController::class, 'detail'])->name('detail');
+Route::get('shop', [ShopController::class, 'index'])->name('shop');
+Route::post('/products/{product}/reviews', [ProductReviewController::class, 'store'])->name('products.reviews.store');
+
 Route::get('/checkout', function () {
     return view('client.pages.checkout');
 });
@@ -190,6 +211,18 @@ Route::post('/order', [CartOrderController::class, 'store'])->name('order');
 
 Route::get('/order-success/{id}', [CartOrderController::class, 'success'])->name('order.success');
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [UpdateProfileController::class, 'index'])->name('profile.index');
+    Route::post('/profile/update', [UpdateProfileController::class, 'update'])->name('profile.update');
+
+    // Order routes
+    Route::prefix('client/orders')->group(function () {
+        Route::get('', [\App\Http\Controllers\client\order\OrderController::class, 'index'])->name('client.orders.index');
+        Route::get('/{order}', [\App\Http\Controllers\client\order\OrderController::class, 'show'])->name('client.orders.show');
+        Route::post('/{order}/cancel', [\App\Http\Controllers\client\order\OrderController::class, 'cancel'])->name('client.orders.cancel');
+    });
+});
+
 
 
 //vnpay return
@@ -200,3 +233,4 @@ Route::post('/chat', [GeminiAIController::class, 'chat'])->name('gemini.ai');
 //
 Route::get('/blog', [BlogController::class, 'index'])->name('client.blog.pages.index');
 Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('client.blog.pages.show');
+

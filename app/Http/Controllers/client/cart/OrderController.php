@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\client\cart;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\VNPay\VNPayController;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -14,55 +15,70 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
-    public function store(Request $request)
+    protected $vnpay;
+    public function __construct(VNPayController $vnpay)
     {
-        // dd($request);
-        // dd($request);
-        // // Validate dữ liệu
-        // $validated = $request->validate([
-        //     'name' => 'required|string|max:255',
-        //     'email' => 'required|email|max:255',
-        //     'phone' => 'required|string|max:20',
-        //     'address' => 'required|string|max:500',
-        //     'payment_method' => 'required|string',
-        //     'products' => 'required|array',
-        // ]);
+        $this->vnpay = $vnpay;
+    }
+    public function store(Request $request)
+{
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'phone' => 'required|string|max:20',
+        'address' => 'required|string|max:500',
+        'payment_method' => 'required|string',
+        'products' => 'required|array',
+    ]);
 
-        // Bắt đầu transaction để đảm bảo tính toàn vẹn dữ liệu
-        DB::beginTransaction(); 
+    try {
+        if ($request->payment_method === "vnpay") {
+            $order_id = $this->placeOrder($request, 2);
+           if($order_id != null){
+            return $this->vnpay->VNpay_Payment($request->total_price,'en',$request->ip(),$order_id);
+           }
+        } else {
+            $order_id = $this->placeOrder($request, 1);
+            return redirect()->route('order.success', ['id' => $order_id]);
+        }
+    } catch (\Exception $e) {
+        return back()->with('error', 'Lỗi khi đặt hàng: ' . $e->getMessage());
+    }
+}
+
+    public function success($id)
+    {
+        $order = Order::with('orderItems.product')->findOrFail($id);
+        $cart = Cart::where('id_user', Auth::id())->get();
+
+        return view('client.pages.bill', compact('order', 'cart'));
+    }
+    private function placeOrder($request, $type)
+    {
+        DB::beginTransaction();
 
         try {
-            // Xử lý voucher
             $voucherId = null;
-            $discountAmount = $request->discount_amount ?? 0;
+            $discountAmount = 0;
             $shippingFee = $request->shipping_fee ?? 30000;
             $subtotal = $request->subtotal ?? 0;
-            $totalPrice = $request->total_price ?? ($subtotal + $shippingFee);
+            $totalPrice = $subtotal + $shippingFee;
 
-            // dd($request->voucher_id);
             if ($request->voucher_id && $request->voucher_id != 0) {
                 $voucher = Voucher::find($request->voucher_id);
-                if ($voucher) {
+                if ($voucher && $voucher->is_active && $voucher->limit > 0) {
                     $voucherId = $voucher->id;
-                    if ($voucher->limit > 0) {
-                        $voucher->decrement('limit');
-                    }
+                    $discountAmount = min($voucher->max_discount_value, $totalPrice);
+                    $voucher->decrement('limit');
+                    $totalPrice -= $discountAmount;
+                } else {
+                    return response()->json(['error' => 'Voucher không hợp lệ hoặc đã hết hạn']);
                 }
             }
-            
-            $vouchers = Voucher::find($request->voucher_id);
-
-            if (!$voucher || !$voucher->is_active) {
-                return response()->json(['error' => 'Voucher không hợp lệ hoặc đã hết hạn']);
-            }
-
-            $discountAmount = min($voucher->max_discount_value, $totalPrice);
-            $totalPrice -= $discountAmount;  //
 
             $order = Order::create([
                 'code' => 'DH' . time() . rand(100, 999),
                 'user_id' => Auth::id(),
-                'address' => $request->address,
                 'coupon_id' => $voucherId,
                 'total_price' => $totalPrice,
                 'shipping_fee' => $shippingFee,
@@ -71,14 +87,15 @@ class OrderController extends Controller
                 'payment_status' => 'pending',
                 'order_status' => 'processing',
                 'note' => $request->note,
-                
+                'address' => $request->address,
             ]);
+
 
             foreach ($request->products as $productId => $productData) {
                 $product = Product::find($productData['id']);
 
                 if (!$product) {
-                    throw new \Exception("Sản phẩm ID $productId không tồn tại");
+                    throw new \Exception("Sản phẩm ID {$productData['id']} không tồn tại");
                 }
 
                 if ($product->quantity < $productData['quantity']) {
@@ -100,21 +117,13 @@ class OrderController extends Controller
 
             DB::commit();
 
-            return redirect()->route('order.success', ['id' => $order->id])
-            ->with('success', 'Đặt hàng thành công!');
+            return $order->id;
+
 
 
         } catch (\Exception $e) {
             DB::rollBack();
-            dd($e->getMessage());
             return back()->with('error', 'Đặt hàng thất bại: ' . $e->getMessage());
         }
     }
-    public function success($id)
-    {
-        $order = Order::with('orderItems.product')->findOrFail($id);
-        
-        return view('client.pages.bill', compact('order'));
-    }
-
 }

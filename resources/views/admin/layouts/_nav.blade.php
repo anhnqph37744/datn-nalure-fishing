@@ -89,8 +89,8 @@
                 </ul>
             </li>
             <li>
-                <a href=""><i class="fas fa-shopping-cart"></i>
-                    <span class="nav-label">Đơn Hàng </span><span class="label label-info pull-right">62</span></a>
+                <a href="{{ route('admin.order.index') }}"><i class="fas fa-shopping-cart"></i>
+                    <span class="nav-label">Đơn Hàng</span></a>
             </li>
             <li>
                 <a href="#"><i class="fas fa-list"></i>
@@ -99,6 +99,14 @@
 
                     <li><a href="{{ route('admin.voucher.create') }}">Thêm Voucher</a></li>
                     <li><a href="{{ route('admin.voucher.index') }}">Danh Sách Voucher</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#"><i class="fas fa-list"></i>
+                    <span class="nav-label">Quản lý đánh giá</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+
+                    <li><a href="{{ route('admin.reviews.index') }}">Danh sách đánh giá</a></li>
                 </ul>
             </li>
             <li>

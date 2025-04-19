@@ -56,6 +56,7 @@
     <link href="{{ asset('admin/css/plugins/touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet">
 
     <link href="{{ asset('admin/css/plugins/dualListbox/bootstrap-duallistbox.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/css/review.css') }}" rel="stylesheet">
 
 
 </head>
@@ -431,6 +432,14 @@
     });
 })
 
+
+</script>
+<script>
+    $(document).ready(function () {
+        $('.custom-toggle').on('change', function () {
+            $(this).closest('form').submit();
+        });
+    });
 
 </script>
 

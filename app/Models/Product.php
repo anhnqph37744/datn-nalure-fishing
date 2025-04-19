@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'name',
         'sku',
@@ -38,5 +38,12 @@ class Product extends Model
     public function variant() {
         return $this->hasMany(Variant::class);
     }
+    public function reviews()
+    {
+        return $this->hasMany(ProductReview::class);
+    }
 
+    public function orderDetails() {
+        return $this->hasMany(OrderItem::class);
+    }
 }

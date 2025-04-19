@@ -13,9 +13,39 @@ class VoucherController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $voucher = Voucher::all();
+        $query = Voucher::query();
+
+        // Tìm kiếm theo mã voucher
+        if ($request->has('code')) {
+            $query->where('code', 'like', '%' . $request->code . '%');
+        }
+
+        // Tìm kiếm theo tiêu đề
+        if ($request->has('title')) {
+            $query->where('title', 'like', '%' . $request->title . '%');
+        }
+
+        // Lọc theo loại voucher
+        if ($request->has('voucher_type') && $request->voucher_type != '') {
+            $query->where('voucher_type', $request->voucher_type);
+        }
+
+        // Lọc theo trạng thái
+        if ($request->has('is_active') && $request->is_active != '') {
+            $query->where('is_active', $request->is_active);
+        }
+
+        // Lọc theo thời gian
+        if ($request->has('start_date') && $request->start_date) {
+            $query->where('start_date', '>=', Carbon::parse($request->start_date)->startOfDay());
+        }
+        if ($request->has('end_date') && $request->end_date) {
+            $query->where('end_date', '<=', Carbon::parse($request->end_date)->endOfDay());
+        }
+
+        $voucher = $query->get();
         return view('admin.pages.voucher.list', compact('voucher'));
     }
 

@@ -1,4 +1,9 @@
 @extends('client.layouts.main')
+@php
+    $activeReviews = $product->reviews->where('is_active', true);
+    $reviewCount = $activeReviews->unique('user_id')->count();
+    $averageRating = $reviewCount > 0 ? round($activeReviews->avg('rating'), 1) : 0;
+@endphp
 @section('main')
     <div class="breadcumb-wrapper " data-bg-src="{{ asset('client/assets/img/breadcrumb/breadcrumb-1-1.png') }}">
         <div class="container">
@@ -50,15 +55,25 @@
                         <div class="product-about">
                             <div class="product-rating justify-content-start">
                                 <div class="star-rating">
-                                    <ul>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
+                                    <ul class="d-flex">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            <li>
+                                                @if ($i <= floor($averageRating))
+                                                    <i class="fas fa-star text-warning"></i> {{-- Sao đầy --}}
+                                                @elseif ($i - $averageRating <= 0.5)
+                                                    <i class="fas fa-star-half-alt text-warning"></i> {{-- Nửa sao --}}
+                                                @else
+                                                    <i class="fas fa-star text-muted"></i> {{-- Sao rỗng --}}
+                                                @endif
+                                            </li>
+                                        @endfor
                                     </ul>
+                                    
                                 </div>
-                                <span class="count"> ( 3 Customer Review ) </span>
+                                <span class="count">
+                                    ( {{ $reviewCount }} Customer Review{{ $reviewCount !== 1 ? 's' : '' }} - Avg:
+                                    {{ $averageRating }}/5 )
+                                </span>
                             </div>
                             <h2 class="h3 mb-3">{{ $product->name }}</h2>
                             <p class="price">
@@ -125,146 +140,87 @@
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link" id="reviews-tab" data-bs-toggle="tab" href="#reviews" role="tab"
-                            aria-controls="reviews" aria-selected="true">reviews(2)</a>
+                            aria-controls="reviews" aria-selected="true">
+                            reviews ({{ $product->reviews->where('is_active', true)->count() }})
+                        </a>
+
                     </li>
                 </ul>
                 <div class="tab-content" id="productTabContent">
                     <div class="tab-pane fade active show" id="description" role="tabpanel"
                         aria-labelledby="description-tab">
-                        <p class="desc-title">{!! $product->description !!}
-                        </p>
-                        <div class="row mt-30">
-                            <div class="col-md-6 mb-30">
-                                <div class="mega-hover">
-                                    <img src="{{ asset('client/assets/img/shop/shop-desc-1.jpg') }}"
-                                        class="w-100 rounded-2" alt="Shop Image">
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-30">
-                                <div class="mega-hover">
-                                    <img src="{{ asset('client/assets/img/shop/shop-desc-2.jpg') }}"
-                                        class="w-100 rounded-2" alt="Shop Image">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-inner-list mb-4">
-                            <ul>
-                                <li><i class="fal fa-hand-point-right"></i> Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit.</li>
-                                <li><i class="fal fa-hand-point-right"></i> Fusce vitae orci id leo pulvinar euismod et
-                                    placerat diam.</li>
-                                <li><i class="fal fa-hand-point-right"></i> Etiam pharetra mauris at fringilla laoreet.
-                                </li>
-                                <li> <i class="fal fa-hand-point-right"></i>Vivamus eu tellus pretium, fringilla justo nec,
-                                    volutpat sapien.</li>
-                            </ul>
-                        </div>
-                        <div class="product-inner-list">
-                            <ul>
-                                <li><i class="fal fa-hand-point-right"></i> Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit.</li>
-                                <li><i class="fal fa-hand-point-right"></i> Fusce vitae orci id leo pulvinar euismod et
-                                    placerat diam.</li>
-                                <li><i class="fal fa-hand-point-right"></i> Etiam pharetra mauris at fringilla laoreet.
-                                </li>
-                                <li> <i class="fal fa-hand-point-right"></i>Vivamus eu tellus pretium, fringilla justo nec,
-                                    volutpat sapien.</li>
-                            </ul>
-                        </div>
+                        <p class="desc-title">{!! $product->description !!}</p>
                     </div>
+
                     <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
                         <div class="vs-comments-wrap mt-0 vs-comments-layout1">
                             <ul class="comment-list">
-                                <li class="review vs-comment">
-                                    <div class="vs-post-comment">
-                                        <div class="comment-avater">
-                                            <img src="{{ asset('client/assets/img/blog/comment-author-1.jpg') }}"
-                                                alt="Comment Author">
-                                        </div>
-                                        <div class="comment-content">
-                                            <div class="star-rating1">
-                                                <ul>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                </ul>
+                                @foreach ($product->reviews->where('is_active', true)->sortByDesc('created_at') as $review)
+                                    <li class="review vs-comment">
+                                        <div class="vs-post-comment">
+                                            <div class="comment-avater">
+                                                <img src="{{ asset('client/assets/img/blog/comment-author-1.jpg') }}"
+                                                    alt="Comment Author">
                                             </div>
-                                            <h4 class="name h5">Mark Jack</h4>
-                                            <p class="text mb-2">Progressively procrastinate mission-critical action items
-                                                before team building ROI. Interactively provide access to cross functional
-                                                quality vectors for client-centric catalysts for change.</p>
-                                            <span class="commented-on">Published 1 day ago</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="review vs-comment">
-                                    <div class="vs-post-comment">
-                                        <div class="comment-avater">
-                                            <img src="{{ asset('client/assets/img/blog/comment-author-2.jpg') }}"
-                                                alt="Comment Author">
-                                        </div>
-                                        <div class="comment-content">
-                                            <div class="star-rating1">
-                                                <ul>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                </ul>
+                                            <div class="comment-content">
+                                                <div class="star-rating1">
+                                                    <ul>
+                                                        @for ($i = 1; $i <= 5; $i++)
+                                                            <li><i
+                                                                    class="fas fa-star{{ $i <= $review->rating ? '' : '-o' }}"></i>
+                                                            </li>
+                                                        @endfor
+                                                    </ul>
+                                                </div>
+                                                <h4 class="name h5">{{ $review->user->name ?? 'Ẩn danh' }}</h4>
+                                                <p class="text mb-2">{{ $review->review }}</p>
+                                                <span class="commented-on">Đăng
+                                                    {{ $review->created_at->diffForHumans() }}</span>
                                             </div>
-                                            <h4 class="name h5">Jack anderson</h4>
-
-                                            <p class="text mb-2">Progressively procrastinate mission-critical action items
-                                                before team building ROI. Interactively provide access to cross functional
-                                                quality vectors for client-centric catalysts for change.</p>
-                                            <span class="commented-on">Published 1 day ago</span>
                                         </div>
-                                    </div>
-                                </li>
+                                    </li>
+                                @endforeach
                             </ul>
                         </div>
+
                         <div class="vs-comment-form style2 pt-3">
                             <div class="form-title">
                                 <h3 class="h4 mb-lg-4 pb-lg-1">Add a review</h3>
                             </div>
-                            <div class="row g-2">
-                                <div class="form-group rating-select d-flex align-items-center">
-                                    <label>Your Rating : </label>
-                                    <div class="star-rating2 ms-3">
-                                        <span class="active"><i class="fas fa-star"></i></span>
-                                        <span class="active"><i class="fas fa-star"></i></span>
-                                        <span class="active"><i class="fas fa-star"></i></span>
-                                        <span class="active"><i class="fas fa-star"></i></span>
-                                        <span class="active"><i class="fas fa-star"></i></span>
+                            @auth
+                                <form action="{{ route('products.reviews.store', $product->id) }}" method="POST">
+                                    @csrf
+                                    <div class="row g-2">
+                                        <div class="form-group rating-select d-flex align-items-center">
+                                            <label>Your Rating :</label>
+                                            <div class="star-rating2 ms-3">
+                                                @for ($i = 5; $i >= 1; $i--)
+                                                    <label>
+                                                        <input type="radio" name="rating" value="{{ $i }}"
+                                                            style="display:none" {{ old('rating') == $i ? 'checked' : '' }}>
+                                                        <i
+                                                            class="fas fa-star {{ old('rating') >= $i ? 'text-warning' : '' }}"></i>
+                                                    </label>
+                                                @endfor
+                                            </div>
+                                        </div>
+                                        <div class="col-12 form-group mb-20">
+                                            <textarea name="review" placeholder="Write a Message" class="form-control" required></textarea>
+                                        </div>
+                                        <div class="col-12 form-group mb-0 mt-20">
+                                            <button class="vs-btn w-100 d-block rounded-1">Submit</button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6 form-group mb-20">
-                                    <input type="text" placeholder="Your Name" class="form-control">
-                                </div>
-                                <div class="col-md-6 form-group mb-20">
-                                    <input type="text" placeholder="Your Email" class="form-control">
-                                </div>
-                                <div class="col-12 form-group mb-20">
-                                    <textarea placeholder="Write a Message" class="form-control"></textarea>
-                                </div>
-                                <div class="col-12 form-group mt-3 mb-2">
-                                    <input id="reviewcheck" name="reviewcheck" type="checkbox">
-                                    <label for="reviewcheck">Save my name, email, and website in this browser for the next
-                                        time I comment.<span class="checkmark">
-                                        </span>
-                                    </label>
-                                </div>
-                                <div class="col-12 form-group mb-0 mt-20">
-                                    <button class="vs-btn w-100 d-block rounded-1">Submit</button>
-                                </div>
-                            </div>
+                                </form>
+                            @else
+                                <div class="alert alert-warning">Vui lòng <a href="{{ route('login') }}">đăng nhập</a> để
+                                    đánh giá sản phẩm.</div>
+                            @endauth
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
 
@@ -292,6 +248,34 @@
             </div>
         </div>
     </section>
+    <style>
+        .star-rating2 {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-start;
+            cursor: pointer;
+        }
+
+        .star-rating2 label {
+            font-size: 24px;
+            color: #ccc;
+            transition: color 0.2s;
+        }
+
+        .star-rating2 input[type="radio"]:checked~label i,
+        .star-rating2 label:hover~label i,
+        .star-rating2 label:hover i {
+            color: #ffc107;
+        }
+
+        .text-warning {
+            color: #ffc107 !important;
+        }
+
+        .text-muted {
+            color: #ccc !important;
+        }
+    </style>
     <script>
         const variants = @json($product->variant);
         const quantityInput = document.querySelector('input[name="quantity"]');
@@ -446,6 +430,29 @@
                     console.log(xhr.responseText);
                     toastr.error("Lỗi hệ thống !", "Lỗi");
                 }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const labels = document.querySelectorAll('.star-rating2 label');
+
+            labels.forEach((label) => {
+                label.addEventListener('click', function() {
+                    // Xoá hết highlight
+                    labels.forEach(l => l.querySelector('i').classList.remove('text-warning'));
+
+                    // Lấy value của input
+                    const selectedValue = parseInt(this.querySelector('input').value);
+
+                    // Highlight theo sao được chọn
+                    labels.forEach((l) => {
+                        const val = parseInt(l.querySelector('input').value);
+                        if (val <= selectedValue) {
+                            l.querySelector('i').classList.add('text-warning');
+                        }
+                    });
+                });
             });
         });
     </script>

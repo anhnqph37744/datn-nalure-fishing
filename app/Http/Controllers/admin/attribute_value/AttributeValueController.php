@@ -13,10 +13,25 @@ class AttributeValueController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $attribute = AttributeValue::all();
-        return view('admin.pages.attribute_value.list', compact('attribute'));
+        $query = AttributeValue::query();
+
+        // Tìm kiếm theo giá trị thuộc tính
+        if ($request->has('search') && $request->search != '') {
+            $query->where('value', 'like', '%' . $request->search . '%');
+        }
+
+        // Lọc theo thuộc tính
+        if ($request->has('attribute_id') && $request->attribute_id != '') {
+            $query->where('attribute_id', $request->attribute_id);
+        }
+
+        // Phân trang và lấy dữ liệu
+        $attribute_values = $query->paginate(10);
+        $attributes = Attribute::all();
+
+        return view('admin.pages.attribute_value.list', compact('attribute_values', 'attributes'));
     }
 
     /**
