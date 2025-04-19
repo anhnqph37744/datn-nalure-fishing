@@ -38,9 +38,8 @@
                                                 <a href="{{ url('/') }}">Home</a>
 
                                             </li>
-                                            <li>
-                                                <a href="">Shop</a>
-
+                                            <li >
+                                                <a href="{{url('/shop')}}">Shop</a>
                                             </li>
                                             <li>
                                                 <a href="">Service</a>

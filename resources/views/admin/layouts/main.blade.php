@@ -56,6 +56,7 @@
     <link href="{{ asset('admin/css/plugins/touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet">
 
     <link href="{{ asset('admin/css/plugins/dualListbox/bootstrap-duallistbox.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/css/review.css') }}" rel="stylesheet">
 
 </head>
 
@@ -412,17 +413,28 @@
 
             var drag_fixed = document.getElementById('drag-fixed');
 
-            noUiSlider.create(drag_fixed, {
-                start: [40, 60],
-                behaviour: 'drag-fixed',
-                connect: true,
-                range: {
-                    'min': 20,
-                    'max': 80
-                }
-            });
-        })
-    </script>
+    noUiSlider.create(drag_fixed, {
+        start: [ 40, 60 ],
+        behaviour: 'drag-fixed',
+        connect: true,
+        range: {
+            'min':  20,
+            'max':  80
+        }
+    });
+})
+
+
+</script>
+<script>
+    $(document).ready(function () {
+        $('.custom-toggle').on('change', function () {
+            $(this).closest('form').submit();
+        });
+    });
+
+</script>
+
 </body>
 
 </html>
