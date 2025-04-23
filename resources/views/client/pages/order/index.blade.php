@@ -105,7 +105,7 @@
                     </td>
                     <td class="py-3">
                         <a href="{{ route('client.orders.show', $order->id) }}" class="btn btn-sm btn-info me-2 hover-shadow-sm transition-all"><i class="fas fa-eye me-1"></i>Chi tiết</a>
-                        @if($order->order_status === 'pending')
+                        @if($order->order_status == 'pending' || $order->order_status == 'processing')
                         <button type="button" class="btn btn-sm btn-danger cancel-order hover-shadow-sm transition-all" data-order-id="{{ $order->id }}"><i class="fas fa-ban me-1"></i>Hủy đơn</button>
                         @endif
                     </td>

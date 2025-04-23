@@ -1,5 +1,5 @@
 <header class="vs-header">
-    <div class="header-top" style="background-color: #ff8c00; color: white;">
+    <div class="header-top" style="background-color:#364863; color: white;">
         <div class="container">
             <div class="row justify-content-xl-between justify-content-md-center align-items-center gx-50">
             <div class="col d-none d-xl-block">
@@ -9,7 +9,7 @@
                             <a href="#"><i class="fas fa-map-marker-alt"></i> Nam Từ Liêm , Hà Nội , Việt Nam  </a>
                         </li>
                         <li>
-                            <a href="#"><i class="fas fa-envelope"></i> anhnqph37744@fpt.edu.vn </a>
+                            <a href="#"><i class="fas fa-envelope"></i> Nhaihoinalurefishing@gmail.com </a>
                         </li>
                     </ul>
                 </div>
@@ -35,27 +35,22 @@
                                     <nav class="main-menu d-none d-lg-block">
                                         <ul>
                                             <li>
-                                                <a href="{{ url('/') }}">Home</a>
-
+                                                <a href="{{ url('/') }}">Trang Chủ</a>
                                             </li>
                                             <li >
-                                                <a href="{{url('/shop')}}">Shop</a>
+                                                <a href="{{url('/shop')}}">Cửa Hàng </a>
+                                            </li>
+                                            <!-- <li>
+                                                <a href="">servistservist</a>
+                                            </li> -->
+                                            <li>
+                                                <a href="{{ url('/blog') }}">Bài viết</a>
                                             </li>
                                             <li>
-                                                <a href="">Service</a>
-
-                                            </li>
-
-                                            <li>
-                                                <a href="">Blog</a>
-
+                                                <a href="">Liên Hệ</a>
                                             </li>
                                             <li class="mega-menu-wrap">
-                                                <a href="#">Pages</a>
-
-                                            </li>
-                                            <li>
-                                                <a href="">Contact Us</a>
+                                                <a href="#">Trang Bán Hàng khác</a>
                                             </li>
                                         </ul>
                                     </nav>
@@ -75,21 +70,21 @@
                                             <i class="fas fa-phone-alt"></i>
                                         </div>
                                         <div class="media-body">
-                                            <span class="header-info_label">Call Now</span>
+                                            <span class="header-info_label">Gọi ngay</span>
                                             <div class="header-info_link">
-                                                <a href="tel:+26921562148">(+269) 2156 2148</a>
+                                                <a href="tel:+26921562148">(+84) 356807235</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-auto">
                                     @if (Auth::check())
-                                        <button class="icon-btn sideMenuToggler has-badge" type="button">
+                                        <a href="{{ url('/cart') }}" class="icon-btn  has-badge" type="button">
                                             <i class="fas fa-shopping-cart"></i>
                                             <span class="badge">{{ count($cart) }}</span>
-                                        </button>
+                                        </â>
                                     @else
-                                        <button class="icon-btn has-badge" type="button" id="no-auth">
+                                        <button class="icon-âbtn has-badge" type="button" id="no-auth">
                                             <i class="fas fa-shopping-cart"></i>
                                         </button>
                                     @endif

@@ -456,7 +456,7 @@ textarea.form-control {
             voucherMessage += 'Đã giảm ' + new Intl.NumberFormat('vi-VN').format(discount) + 
                             'đ vào giá trị đơn hàng';
         }
-        alert(voucherMessage);
+        toastr.success(voucherMessage);
     });
 </script>
                     {{-- <li class="wc_payment_method payment_method_cheque">

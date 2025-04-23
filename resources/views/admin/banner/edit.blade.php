@@ -84,8 +84,8 @@
                             <div class="filter-choices-input mt-3">
                                 <label class="form-label">Trạng thái</label>
                                 <select name="active" class="form-control">
-                                    <option value="1" {{ old('active', $banner->active) == 1 ? 'selected' : '' }}>Ẩn</option>
-                                    <option value="0" {{ old('active', $banner->active) == 0 ? 'selected' : '' }}>Hiển thị</option>
+                                    <option value="1" {{ old('active', $banner->active) == 1 ? 'selected' : '' }}>Hiển thị</option>
+                                    <option value="0" {{ old('active', $banner->active) == 0 ? 'selected' : '' }}>Ẩn</option>
                                 </select>
                             </div>
 
@@ -107,27 +107,14 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
-                        <h1>Slide ở đây</h1>
                         <div id="bannerCarousel" class="carousel slide mb-3" data-bs-ride="carousel">
                             <div class="carousel-inner">
-                                @foreach ($hinhAnhBanner as $key => $hinhAnh)
-                                    <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
-                                        <img src="{{ Storage::url($hinhAnh->hinh_anh) }}" class="d-block w-100 img-fluid"
-                                            style="height: 300px; object-fit: cover;"
-                                            alt="Banner {{ $banner->id }} Image {{ $key + 1 }}">
-                                    </div>
-                                @endforeach
+                                <div class="carousel-item active">
+                                    <img src="{{ asset('storage/' . $banner->image) }}" class="d-block w-100 img-fluid"
+                                        style="height: 300px; object-fit: cover;"
+                                        alt="Banner {{ $banner->id }}">
+                                </div>
                             </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel"
-                                data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel"
-                                data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
                         </div>
                     </div>
                 </div>

@@ -18,163 +18,114 @@
     <div class="container">
         <div class="row">
             <div class="col-xl-8 col-lg-8">
-                <div class="row g-4">
-                    <div class="col-xl-6 col-lg-12">
-                        <div class="blog-style2">
+                <div class="row row-cols-1 row-cols-md-2 g-4">
+                    @foreach ($posts as $post)
+                    <div class="col">
+                        <div class="blog-style2 h-100 d-flex flex-column">
                             <div class="blog-img">
-                                <img class="w-100" src="{{asset('client/assets/img/blog/blog-1-1.jpg')}}" alt="Blog Img">
+                                <img class="w-100" src="{{ asset('storage/' . $post->thumbnail) }}" alt="{{ $post->title }}">
                                 <div class="blog-meta2">
-                                    <span class="day">08</span>
-                                    <span class="month">January</span>
+                                    <span class="day">{{ \Carbon\Carbon::parse($post->created_at)->format('d') }}</span>
+                                    <span class="month">{{ \Carbon\Carbon::parse($post->created_at)->format('F') }}</span>
                                 </div>
                             </div>
                             <div class="blog-content">
                                 <h4 class="blog-title">
-                                    <a href="blog-details.html">Mastering the Art of Fly Fishing Tips for Beginners</a>
+                                    <a href="#">{{ $post->title }}</a>
                                 </h4>
                                 <p class="blog-text">
-                                    Blienum nhaedrum torquatos nec eul, vis detraxit periculis ex, nihil is in mei.
+                                    {{ $post->excerpt }}
                                 </p>
                                 <div class="blog-bottom">
-                                    <div class="blog-author">
-                                        <a href="blog.html"><i class="fas fa-user"></i>Rodja Heartmman</a>
+                                    {{-- <div class="blog-author">
+                                        <a href="#"><i class="fas fa-user"></i>Admin</a>
+                                    </div> --}}
+                                    <div class="blog-bottom">
+                                        {{-- <div class="blog-author">
+                                            <a href="#"><i class="fas fa-user"></i>Admin</a>
+                                        </div> --}}
+                                        
+                                        <a href="{{ route('client.blog.pages.show', $post->slug) }}" class="vs-btn style3">Read More <i class="far fa-arrow-right"></i></a>
                                     </div>
-                                    <a href="blog-details.html" class="vs-btn style3">Read More <i class="far fa-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>
                     </div>
-
+                    @endforeach
                 </div>
             </div>
             <div class="col-xl-4 col-lg-4">
                 <aside class="sidebar-area">
                     <div class="widget widget_search">
                         <h3 class="widget_title">Search</h3>
-                        <form class="search-form">
-                            <input type="text" placeholder="Search Tour">
-                            <button type="submit"><i class="far fa-search"></i></button>
+                        <form class="search-form" method="GET" action="{{ route('client.blog.pages.index') }}">
+                            <input type="text" name="search"  placeholder="Search" value="{{ request('search') }}">
+                            <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                         </form>
                     </div>
                     <div class="widget widget_categories">
-                        <h3 class="widget_title">Categories</h3>
+                        <h3 class="widget_title">Danh mục bài viết</h3>
                         <ul>
                             <li>
-                                <a href="blog.html">Sea Fish</a>
-                                <span>(09)</span>
+                                <a href="{{ route('client.blog.pages.index') }}">Tất cả danh mục</a>
                             </li>
-                            <li>
-                                <a href="blog.html">Rock Fishing</a>
-                                <span>(10)</span>
-                            </li>
-                            <li>
-                                <a href="blog.html">Wild Fishing</a>
-                                <span>(21)</span>
-                            </li>
-                            <li>
-                                <a href="blog.html">Sea Fish</a>
-                                <span>(12)</span>
-                            </li>
-                            <li>
-                                <a href="blog.html">Boat Fishing</a>
-                                <span>(10)</span>
-                            </li>
+                            @foreach ($categories as $category)
+                                <li>
+                                    <a href="{{ route('client.blog.pages.index', ['category' => $category->slug]) }}">
+                                        {{ $category->name }}
+                                    </a>
+                                    <span>({{ $category->posts_count }})</span>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
+                    
                     <div class="widget widget-postes">
-                        <h3 class="widget_title">Recent Postes</h3>
+                        <h3 class="widget_title">Bài viết gần đây</h3>
                         <div class="recent-post-wrap">
+                            @foreach($recentPosts as $recent)
                             <div class="recent-post">
                                 <div class="media-img">
-                                    <a href="blog-details.html"><img src="assets/img/blog/recent-post-1-1.jpg"
-                                            alt="Blog Image"></a>
+                                    <a href="{{ route('client.blog.pages.show', $recent->slug) }}">
+                                        <img src="{{ asset('storage/' . $recent->thumbnail) }}" alt="{{ $recent->title }}">
+                                    </a>
                                 </div>
                                 <div class="media-body">
-                                    <h4 class="post-title"><a class="text-inherit"
-                                            href="blog-details.html">Lorem ipsum dolor sit amet, consectetur adipiscing elit</a>
+                                    <h4 class="post-title">
+                                        <a class="text-inherit" href="{{ route('client.blog.pages.show', $recent->slug) }}">
+                                            {{ $recent->title }}
+                                        </a>
                                     </h4>
                                     <div class="recent-post-meta">
-                                        <a href="blog.html"><i class="fal fa-calendar-alt"></i>July 15, 2022</a>
+                                        <i class="fal fa-calendar-alt"></i> {{ \Carbon\Carbon::parse($recent->created_at)->format('M d, Y') }}
                                     </div>
                                 </div>
                             </div>
-                            <div class="recent-post">
-                                <div class="media-img">
-                                    <a href="blog-details.html"><img src="assets/img/blog/recent-post-1-2.jpg"
-                                            alt="Blog Image"></a>
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="post-title"><a class="text-inherit"
-                                            href="blog-details.html">Ut enim ad minim veniam, quis nostrud citation ullamco</a>
-                                    </h4>
-                                    <div class="recent-post-meta">
-                                        <a href="blog.html"><i class="fal fa-calendar-alt"></i>July 15, 2022</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="recent-post">
-                                <div class="media-img">
-                                    <a href="blog-details.html"><img src="assets/img/blog/recent-post-1-3.jpg"
-                                            alt="Blog Image"></a>
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="post-title"><a class="text-inherit"
-                                            href="blog-details.html">Duis aute irure dolor on the reprehenderit voluptate</a>
-                                    </h4>
-                                    <div class="recent-post-meta">
-                                        <a href="blog.html"><i class="fal fa-calendar-alt"></i>July 15, 2022</a>
-                                    </div>
-                                </div>
-                            </div>
-
+                            @endforeach
                         </div>
                     </div>
                     <div class="widget">
                         <h3 class="widget_title">Popular Products</h3>
                         <div class="recent-post-wrap">
+                            @foreach($popularProducts as $product)
                             <div class="recent-post">
                                 <div class="media-img">
-                                    <a href="blog-details.html"><img src="assets/img/blog/popular-p-1-1.png"
-                                            alt="Blog Image"></a>
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="post-title"><a class="text-inherit"
-                                            href="blog-details.html">Fishing Reels</a>
-                                    </h4>
-                                    <div class="recent-post-meta">
-                                        <a href="blog.html">$100.00</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="recent-post">
-                                <div class="media-img">
-                                    <a href="blog-details.html"><img src="assets/img/blog/popular-p-1-2.png"
-                                            alt="Blog Image"></a>
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="post-title"><a class="text-inherit"
-                                            href="blog-details.html">Fishing Hook</a>
-                                    </h4>
-                                    <div class="recent-post-meta">
-                                        <a href="blog.html">$60.00</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="recent-post">
-                                <div class="media-img">
-                                    <a href="blog-details.html">
-                                        <img src="assets/img/blog/popular-p-1-3.png" alt="Blog Image">
+                                    <a href="{{ route('detail', $product->id) }}">
+                                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
                                     </a>
                                 </div>
                                 <div class="media-body">
-                                    <h4 class="post-title"><a class="text-inherit"
-                                            href="blog-details.html">Fishing Baits</a>
+                                    <h4 class="post-title">
+                                        <a class="text-inherit" href="{{ route('detail', $product->id) }}">
+                                            {{ $product->name }}
+                                        </a>
                                     </h4>
                                     <div class="recent-post-meta">
-                                        <a href="blog.html">$100.00</a>
+                                        <a href="{{ route('detail', $product->id) }}">${{ number_format($product->price, 2) }}</a>
                                     </div>
                                 </div>
                             </div>
+                            @endforeach
                         </div>
                     </div>
                 </aside>
@@ -183,7 +134,7 @@
     </div>
 </section>
 
-<section class="bg-body space-title">
+{{-- <section class="bg-body space-title">
     <div class="container">
         <div class="subscribe">
             <div class="row gx-0 align-items-center justify-content-between z-index-common ">
@@ -206,5 +157,12 @@
             </div>
         </div>
     </div>
-</section>
+</section> --}}
+<style>
+    .blog-style2 .blog-img img {
+    height: 220px;
+    object-fit: cover;
+    width: 100%;
+}
+</style>
 @endsection

@@ -1,3 +1,6 @@
+
+
+
 @extends('client.layouts.main')
 @section('main')
 <div class="row vs-carousel" data-arrows="false" data-dots="true" data-dots-lg-show="true" data-fade="true">
@@ -10,15 +13,18 @@
             <img src="{{ asset('client/assets/img/bg/hero-shape1.png') }}" alt="hero shape">
         </div>
         <!-- Carousel -->
-        <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1900">
+        <div id="bannerCarousel" height="600px !important" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1700">
             <div class="carousel-inner">
                 @foreach ($banners as $index => $banner)
                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
                     <a href="{{ $banner->link ?? '#' }}">
-                        <img src="{{ asset( $banner->image) }}" class="d-block w-100" alt="{{ $banner->title }}">
+                        <img src="{{ asset( $banner->image) }}" class="d-block w-100" alt="{{ $banner->title }}" >
                     </a>
                 </div>
                 @endforeach
+                
+            </div>
+
             </div>
 
             <!-- Hero Content -->
@@ -76,8 +82,7 @@
     </div>
 </div>
 </div> --}}
-
-<section class="space">
+<!-- <section class="space">
     <div class="container">
         <div class="title-area text-center wow fadeInUp wow-animated" data-wow-delay="0.3s">
             <span class="sec-subtitle">Fishing Post</span>
@@ -87,22 +92,20 @@
         <div class="service_style3">
             <div class="service_inner">
                 <a href="service-details.html" class="service_img"
-                    data-bg-src="{{ asset('client/assets/img/service/service-2-1.jpg') }}"></a>
+                    data-bg-src="{{ asset('client/assets/img/service/lkhoa.webp') }}"></a>
                 <div class="service_content">
-                    <h3 class="service_title"><a href="service-details.html">Tuba Island Hunting Spot</a></h3>
-                    <p class="service_text">Lorem ipsum dolor sit amet is the good ectur adipiscing elit eiusmod ex
-                        tempor incididunt labore dolore exercitagtion laboris.</p>
+                    <h3 class="service_title"><aư href="service-details.html">LK hòa></h3>
+                    <p class="service_text">LK Hoà Câu Cá Mập BX400KG Một Tay Chơi. Khám phá cuộc phiêu lưu câu cá mập 400 kg với LK Hoà! Những thử thách và kỹ năng không thể bỏ lỡ</p>
                     <a href="service-details.html" class="vs-btn style3">View More<i
                             class="fal fa-arrow-right"></i></a>
                 </div>
             </div>
             <div class="service_inner">
                 <a href="service-details.html" class="service_img"
-                    data-bg-src="{{ asset('client/assets/img/service/service-2-2.jpg') }}"></a>
+                    data-bg-src="{{ asset('client/assets/img/service/images.jpg') }}"></a>
                 <div class="service_content">
-                    <h3 class="service_title"><a href="service-details.html">Magic Gun Powder Short</a></h3>
-                    <p class="service_text">Lorem ipsum dolor sit amet is the good ectur adipiscing elit eiusmod ex
-                        tempor incididunt labore dolore exercitagtion laboris.</p>
+                    <h3 class="service_title"><a href="service-details.html">Toán nhà quêê</a></h3>
+                    <p class="service_text">TOÁN NHÀ QUÊ ... CÂU CÁ ĐẠI CHIẾN CÁ VƯỢC HỒ NƯỚC NGỌT</p>
                     <a href="service-details.html" class="vs-btn style3">View More<i
                             class="fal fa-arrow-right"></i></a>
                 </div>
@@ -143,7 +146,7 @@
         </div>
 
     </div>
-</section>
+</section> -->
 
 @foreach ($products as $product)
 <section class="bg-title space">
@@ -188,8 +191,13 @@
                         <h3 class="product-title"><a class="text-inherit" href="{{route('detail',$p->id)}}">{{Str::limit($p->name,50,'...')}}</a></h3>
                         <span class="product-price">{{number_format($p->price,0,',','.')}} đ</span>
                     </div>
+                    
+
+                    
                 </div>
+                
             </div>
+            
             @endforeach
          
 
@@ -203,8 +211,8 @@
 <section>
     <div class="container">
         <div class="title-area text-center wow fadeInUp wow-animated" data-wow-delay="0.3s">
-            <span class="sec-subtitle">Our Blog</span>
-            <h2 class="sec-title">Our Latest News & Update</h2>
+            <span class="sec-subtitle"></span>
+            <h2 class="sec-title">Bài viết phổ biến</h2>
             <div class="sec-line"></div>
         </div>
         <div class="row vs-carousel" data-arrows="true" data-wow-delay="0.4s" data-slide-show="3"
@@ -324,7 +332,7 @@
     </div>
 </section>
 
-<div>
+<!-- <div>
     <div class="vs-container1">
         <div class="subscribe style1">
             <div class="container">
@@ -350,5 +358,5 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 @endsection

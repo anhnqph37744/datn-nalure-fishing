@@ -4,10 +4,9 @@
             <div class="row gx-5 justify-content-between">
                 <div class="col-md-6 col-xl-4">
                     <div class="widget footer-widget">
-                        <img src="{{asset('client/assets/img/footer-logo1.svg')}}" alt="footer">
+                        <img src="{{asset('client/assets/img/logo.png')}}" alt="footer">
                         <p class="footer-text">
-                            Blienum nhaedrum torquatos nec eul, vietraxit periculis ex, nihil is in mei. Xei ariculaeuripidis,
-                            fincartem ei est. Dlienum phaed is in mei. Lei an Hericulaeuripidis, hincartem ei est.
+                        "Chào mừng bạn ghé thăm Shop Nhái Hơi Na Lure Fishing của chúng tôi! 
                         </p>
                         <div class="social-media3">
                             <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -19,24 +18,24 @@
                 </div>
                 <div class="col-md-6 col-xl-2">
                     <div class="widget  footer-widget">
-                        <h3 class="widget_title">Useful Links</h3>
+                        <h3 class="widget_title"> Các Kênh bán hàng kháckhác</h3>
                         <div class="sec-line2"></div>
                         <div class="vs-mobile-menu style2 pb-0 mt-n2 overflow-hidden">
                             <ul class="px-0">
                                 <li>
-                                    <a href="properties.html">Properties</a>
+                                    <a href="https://shopee.vn/shopnhaihoinalure">Shopee</a>
                                 </li>
                                 <li>
-                                    <a href="about.html">About</a>
+                                    <a href="https://shopee.vn/shopnhaihoinalure">Lazada</a>
                                 </li>
                                 <li>
-                                    <a href="properties.html">Properties</a>
+                                    <a href="https://shopee.vn/shopnhaihoinalure">Tiktok</a>
                                 </li>
                                 <li>
-                                    <a href="service.html">Service</a>
+                                    <a href="https://shopee.vn/shopnhaihoinalure">Facebook</a>
                                 </li>
                                 <li>
-                                    <a href="shop.html">Shop</a>
+                                    <a href="https://shopee.vn/shopnhaihoinalure">Amazon</a>
                                 </li>
                             </ul>
                         </div>
@@ -44,21 +43,22 @@
                 </div>
                 <div class="col-md-6 col-xl-3">
                     <div class="widget footer-widget">
-                        <h3 class="widget_title">Contact</h3>
+                        <h3 class="widget_title">Liên hệ</h3>
                         <div class="sec-line2"></div>
                         <div class="vs-widget-about">
-                            <p class="footer-address"><i class="far fa-map-marker-alt"></i>Fifth Avenue 550, Broadway, New York Morris Street London 64395</p>
-                            <p class="footer-address"><a class="text-inherit" href="mailto:info@example.com"><i class="far fa-envelope"></i>info@example.com</a>
+                            <p class="footer-address"><i class="far fa-map-marker-alt"></i>63/33/52 Lê Đức Thọ
+                            Phường Mỹ Đình 2, Quận Nam Từ Liêm, Hà Nội</p>
+                            <p class="footer-address"><a class="text-inherit" href="mailto:info@example.com"><i class="far fa-envelope"></i>nhaihoinalurefishing@gmail.com</a>
                             </p>
                             <p class="footer-address">
-                                <a class="text-inherit" href="tel:++11234562228"><i class="far fa-phone-alt"></i>+1 123 4562228 </a>
+                                <a class="text-inherit" href="tel:++11234562228"><i class="far fa-phone-alt"></i>+84 356807235 </a>
                             </p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-xl-3">
                     <div class="widget footer-widget">
-                        <h3 class="widget_title">Our Instagram</h3>
+                        <h3 class="widget_title">Các khung cảnh câu cácá</h3>
                         <div class="sec-line2"></div>
                         <div class="sidebar-gallery">
                             <div class="gallery-thumb">
@@ -102,15 +102,15 @@
             <div class="copyright-area">
                 <div class="row justify-content-between align-items-center">
                     <div class="text-center col-lg-auto">
-                        <p class="copyright-text"><i class="fal fa-copyright"></i> Copyright 2023 - <a
-                                href="index.html" class="text-secondary" >Marino</a> Designed by
-                                <a href="https://themeforest.net/user/vecuro_themes" class="text-secondary">Vecuro</a>
+                        <p class="copyright-text"><i class="fal fa-copyright"></i> Copyright by  - <a
+                                href="index.html" class="text-secondary" >WD68</a> Designed by Nguyen Quang Anh
+                                <a href="https://themeforest.net/user/vecuro_themes" class="text-secondary">Lien he</a>
                         </p>
                     </div>
                     <div class="terms-condition  col-lg-auto">
                         <ul class="list-unstyled mb-0">
-                            <li class="d-inline"><a href="#">Privacy</a></li>
-                            <li class="d-inline"><a href="#">Terms & Condition</a></li>
+                            <li class="d-inline"><a href="#">Câu cá </a></li>
+                            <li class="d-inline"><a href="#">Giải Trí</a></li>
                         </ul>
                     </div>
                 </div>

@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Marino HTML Template - Home One</title>
+    <title>Na Lure Fishing Shop</title>
     <meta name="author" content="vecuro">
     <meta name="description" content="Marino HTML Template">
     <meta name="keywords" content="Marino HTML Template">
@@ -130,7 +130,7 @@
 
 
     <div class="brand">
-        <a href="http://www.smartcodehub.com">Best Angular Courses</a>
+        <!-- <a href="http://www.smartcodehub.com">Best Angular Courses</a> -->
     </div>
 
     @include('client.layouts._footer');
