@@ -45,8 +45,9 @@
                         <div class="col-sm-6 b-r">
                             <h3 class="m-t-none m-b">Sửa Quyền</h3>
                             <p>Thêm quyền hạn cho vai trò của bạn</p>
-                            <form action="{{ route('admin.permission.store') }}" method="POST">
+                            <form action="{{ route('admin.permission.update',$permission->id) }}" method="POST">
                                 @csrf
+                                @method('PUT')
                                 <div class="form-group">
                                     <label>Tên Quyền</label>
                                     <input type="text" class="form-control" name="name"

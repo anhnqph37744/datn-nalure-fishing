@@ -5,6 +5,7 @@ namespace App\Http\Controllers\auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RoleRequest;
 use App\Models\Role;
+use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
@@ -31,10 +32,13 @@ class RoleController extends Controller
         return view('admin.pages.role.update', compact('role'));
     }
 
-    public function update(RoleRequest $request,  $id)
+    public function update(Request $request,  $id)
     {
         $role = Role::find($id);
-        $role->update($request->validated());
+        $role->update($request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string'
+        ]));
         return redirect()->route('admin.role.index')->with('success', 'Role updated successfully.');
     }
 

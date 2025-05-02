@@ -16,14 +16,11 @@ class CheckPermission
      */
     public function handle(Request $request, Closure $next, $permission)
     {
-        // Kiểm tra nếu người dùng chưa đăng nhập
         if (!Auth::check()) {
-            return redirect()->route('login'); // Chuyển hướng về trang login
+            return redirect()->route('login');
         }
-
-        // Kiểm tra nếu người dùng không phải Admin hoặc không có quyền truy cập
-        if (!Auth::user() && !Auth::user()->hasPermission($permission)) {
-            abort(403, 'Bạn không có quyền truy cập!');
+        if (!Auth::user() || !Auth::user()->hasPermission($permission)) {
+            abort(403, 'Bạn không có quyền truy cập!');  
         }
 
         return $next($request);

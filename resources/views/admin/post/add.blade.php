@@ -125,13 +125,6 @@
         </div>
     </form>
 </div>
-@endsection
-
-@push('styles')
-    <link href="{{ asset('assets/admin/libs/dropzone/dropzone.css') }}" rel="stylesheet">
-@endpush
-
-@push('scripts')
 <script src="{{ asset('assets/admin/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
 <script>
     ClassicEditor
@@ -151,4 +144,10 @@
         }
     }
 </script>
+@endsection
+
+@push('styles')
+    <link href="{{ asset('assets/admin/libs/dropzone/dropzone.css') }}" rel="stylesheet">
 @endpush
+
+

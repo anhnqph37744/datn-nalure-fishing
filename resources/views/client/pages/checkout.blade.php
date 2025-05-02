@@ -2,123 +2,123 @@
 @section('main')
 <style>
     /* Reset mặc định và cấu hình chung */
-/* Reset mặc định và cấu hình chung */
-.vs-checkout-wrapper {
-    padding: 40px 0;
-    background-color: #f9f9f9;
-    font-family: 'Arial', sans-serif;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* Tiêu đề */
-h4 {
-    font-size: 24px;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-/* Form thông tin nhận hàng */
-.shipping_address {
-    margin-bottom: 20px;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-control {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
-    color: #555;
-    transition: border-color 0.3s ease;
-}
-
-.form-control:focus {
-    border-color: #007bff;
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
-}
-
-.form-control::placeholder {
-    color: #999;
-}
-
-/* Checkbox địa chỉ nhận hàng */
-#ship-to-different-address {
-    margin: 20px 0;
-}
-
-#ship-to-different-address-checkbox {
-    display: none;
-}
-
-#ship-to-different-address label {
-    position: relative;
-    padding-left: 30px;
-    font-size: 16px;
-    color: #333;
-    cursor: pointer;
-}
-
-#ship-to-different-address .checkmark {
-    position: absolute;
-    left: 0;
-    top: 2px;
-    width: 18px;
-    height: 18px;
-    border: 2px solid #007bff;
-    border-radius: 3px;
-    background-color: #fff;
-    transition: background-color 0.3s ease;
-}
-
-#ship-to-different-address-checkbox:checked + label .checkmark {
-    background-color: #007bff;
-}
-
-#ship-to-different-address-checkbox:checked + label .checkmark:after {
-    content: '';
-    position: absolute;
-    left: 5px;
-    top: 1px;
-    width: 5px;
-    height: 10px;
-    border: solid #fff;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-}
-
-/* Textarea ghi chú */
-textarea.form-control {
-    resize: vertical;
-    min-height: 100px;
-}
-
-/* Responsive */
-@media (max-width: 767px) {
-    .shipping_address .col-md-6 {
-        width: 100%;
+    /* Reset mặc định và cấu hình chung */
+    .vs-checkout-wrapper {
+        padding: 40px 0;
+        background-color: #f9f9f9;
+        font-family: 'Arial', sans-serif;
     }
-}
 
-/* Phần còn lại của CSS giữ nguyên */
-.cart_table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-}
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
 
-/* ... (Giữ nguyên các phần CSS khác như bảng giỏ hàng, nút đặt hàng, v.v.) */
+    /* Tiêu đề */
+    h4 {
+        font-size: 24px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    /* Form thông tin nhận hàng */
+    .shipping_address {
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+        color: #555;
+        transition: border-color 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #007bff;
+        outline: none;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+    }
+
+    .form-control::placeholder {
+        color: #999;
+    }
+
+    /* Checkbox địa chỉ nhận hàng */
+    #ship-to-different-address {
+        margin: 20px 0;
+    }
+
+    #ship-to-different-address-checkbox {
+        display: none;
+    }
+
+    #ship-to-different-address label {
+        position: relative;
+        padding-left: 30px;
+        font-size: 16px;
+        color: #333;
+        cursor: pointer;
+    }
+
+    #ship-to-different-address .checkmark {
+        position: absolute;
+        left: 0;
+        top: 2px;
+        width: 18px;
+        height: 18px;
+        border: 2px solid #007bff;
+        border-radius: 3px;
+        background-color: #fff;
+        transition: background-color 0.3s ease;
+    }
+
+    #ship-to-different-address-checkbox:checked+label .checkmark {
+        background-color: #007bff;
+    }
+
+    #ship-to-different-address-checkbox:checked+label .checkmark:after {
+        content: '';
+        position: absolute;
+        left: 5px;
+        top: 1px;
+        width: 5px;
+        height: 10px;
+        border: solid #fff;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
+
+    /* Textarea ghi chú */
+    textarea.form-control {
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    /* Responsive */
+    @media (max-width: 767px) {
+        .shipping_address .col-md-6 {
+            width: 100%;
+        }
+    }
+
+    /* Phần còn lại của CSS giữ nguyên */
+    .cart_table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    /* ... (Giữ nguyên các phần CSS khác như bảng giỏ hàng, nút đặt hàng, v.v.) */
 </style>
 <div class="breadcumb-wrapper" data-bg-src="{{asset('client/assets/img/breadcrumb/breadcrumb-1-1.png')}}">
     <div class="container">
@@ -199,42 +199,40 @@ textarea.form-control {
             </div>
         </div>
         {{-- <form action="{{ route('bill') }}" method="POST">
-            @csrf
-            <input type="text" name="hello">
-            <button type="submit">hel</button>
+        @csrf
+        <input type="text" name="hello">
+        <button type="submit">hel</button>
         </form> --}}
-        
+
         <form action="{{ route('order') }}" method="POST">
             @csrf
             <h4 class="mt-4 pt-lg-2">Thông tin nhận hàng</h4>
 
-            <div class="row shipping_address">
-                <div class="col-md-6 form-group">
-                    <input type="text" name="name" class="form-control" placeholder="Họ và Tên" value="{{ $user_login->name ? $user_login->name : '' }}" required>
-                    @error('name')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="col-md-6 form-groups">
-                    <input type="text" name="email" class="form-control" placeholder="Email"  required>
-                    @error('email')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="col-md-6 form-group">
-                    <input type="text" name="phone" class="form-control" placeholder="Số điện thoại"  required>
-                    @error('phone')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="col-md-6 form-group">
-                    <input type="text" name="address" class="form-control" placeholder="Địa chỉ"  required>
-                    @error('address')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="col-md-12 form-group">
-                    <textarea cols="20" name="note" rows="5" class="form-control" placeholder="Ghi chú về đơn hàng, ví dụ: lưu ý đặc biệt khi giao hàng."></textarea>
+            <div class=" shipping_address">
+
+                <button class="btn btn-primary mb-3" type="button" data-bs-toggle="modal" data-bs-target="#addressModal" onclick="openAddressModal()">Thêm địa chỉ mới</button>
+
+                <div class="list-group mb-4">
+                    @foreach ($addresses as $address)
+                    <div id="address-item-{{ $address->id }}" class="list-group-item d-flex justify-content-between align-items-start mt-3">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">{{ $address->full_name }} - {{ $address->phone }}</div>
+                            {{ $address->address }}, {{ $address->ward }}, {{ $address->district }}, {{ $address->province }}
+                            <br>
+                            <small>Email: {{ $address->email }} | Ghi chú: {{ $address->note }}</small>
+                            @if ($address->is_default)
+                            <span class="badge bg-success ms-2">Mặc định</span>
+                            @endif
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-sm btn-outline-primary" onclick="editAddress({{ $address }})">Sửa</button>
+
+                            <button type="button" class="btn btn-sm btn-outline-danger"
+                                onclick="deleteAddress({{ $address->id }})">Xóa</button>
+                        </div>
+                    </div>
+                    @endforeach
+
                 </div>
             </div>
             <table class="cart_table mb-20">
@@ -249,13 +247,13 @@ textarea.form-control {
                 </thead>
                 <tbody>
                     @php
-                        $subtotal = 0;
+                    $subtotal = 0;
                     @endphp
-                    
+
                     @foreach ($cart as $item)
                     @php
-                        $total = $item->quantity * $item->price;
-                        $subtotal += $total;
+                    $total = $item->quantity * $item->price;
+                    $subtotal += $total;
                     @endphp
                     <tr class="cart_item">
                         <td data-title="Product">
@@ -268,6 +266,7 @@ textarea.form-control {
                             <input type="hidden" name="products[{{ $item->id }}][id]" value="{{ $item->id_product }}">
                             <input type="hidden" name="products[{{ $item->id }}][quantity]" value="{{ $item->quantity }}">
                             <input type="hidden" name="products[{{ $item->id }}][price]" value="{{ $item->price }}">
+                            <input type="hidden" name="products[{{ $item->id }}][variant_id]" value="{{ $item->variant_id }}">
                         </td>
                         <td data-title="Price">
                             <span class="amount"><bdi>{{ number_format($item->price, 0, ',', '.') }}đ</bdi></span>
@@ -290,7 +289,7 @@ textarea.form-control {
                             </span>
                         </td>
                     </tr>
-                
+
                     <!-- Phí vận chuyển -->
                     <tr class="woocommerce-shipping-totals shipping">
                         <th>Phí vận chuyển</th>
@@ -299,7 +298,7 @@ textarea.form-control {
                             <span id="shipping-discount" style="color:red; display:none;">(-<span id="discount-amount">0</span>đ)</span>
                         </td>
                     </tr>
-                
+
                     <!-- Chọn mã giảm giá -->
                     <tr class="woocommerce-shipping-totals shipping">
                         <th>Mã giảm giá</th>
@@ -307,24 +306,24 @@ textarea.form-control {
                             <select id="voucher-select" name="voucher_id" class="form-control">
                                 <option value="0" selected>Chọn mã giảm giá</option>
                                 @foreach ($vouchers as $voucher)
-                                    <option value="{{ $voucher->id }}" 
-                                            data-value="{{ $voucher->value }}" 
-                                            data-type="{{ $voucher->voucher_type }}"
-                                            data-min="{{ $voucher->min_order_value }}"
-                                            data-max="{{ $voucher->max_discount_value ?? null }}">
-                                        {{ $voucher->title }} - 
-                                        @if ($voucher->voucher_type == 'freeship')
-                                            Giảm {{ number_format(min($voucher->value, 30000), 0, ',', '.') }}đ phí vận chuyển
-                                        @elseif ($voucher->voucher_type == 'discount')
-                                            Giảm {{ number_format($voucher->value, 0, ',', '.') }}đ
-                                            (ĐH tối thiểu {{ number_format($voucher->min_order_value, 0, ',', '.') }}đ)
-                                        @endif
-                                    </option>
+                                <option value="{{ $voucher->id }}"  
+                                    data-value="{{ $voucher->value }}"  
+                                    data-type="{{ $voucher->voucher_type }}"
+                                    data-min="{{ $voucher->min_order_value }}"
+                                    data-max="{{ $voucher->max_discount_value ?? null }}">
+                                    {{ $voucher->title }} -
+                                    @if ($voucher->voucher_type == 'freeship')
+                                    Giảm {{ number_format(min($voucher->value, 30000), 0, ',', '.') }}đ phí vận chuyển
+                                    @elseif ($voucher->voucher_type == 'discount')
+                                    Giảm {{ number_format($voucher->value, 0, ',', '.') }}đ
+                                    (ĐH tối thiểu {{ number_format($voucher->min_order_value, 0, ',', '.') }}đ)
+                                    @endif
+                                </option>
                                 @endforeach
                             </select>
                         </td>
                     </tr>
-                
+
                     <!-- Tổng cộng -->
                     <tr class="order-total">
                         <th>Tổng cộng</th>
@@ -333,12 +332,12 @@ textarea.form-control {
                                 <span class="woocommerce-Price-amount amount">
                                     <bdi id="total-price">{{ number_format($subtotal + 30000, 0, ',', '.') }}đ</bdi>
                                 </span>
-                            </strong> 
+                            </strong>
                         </td>
                     </tr>
                 </tfoot>
             </table>
-                    
+
             <!-- Các trường ẩn cần thiết -->
             <input type="hidden" name="subtotal" id="input-subtotal" value="{{ $subtotal }}">
             <input type="hidden" name="shipping_fee" id="input-shipping-fee" value="30000">
@@ -370,11 +369,57 @@ textarea.form-control {
             </div>
         </form>
     </div>
+    <div class="modal fade" id="addressModal" tabindex="-1" aria-labelledby="addressModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="POST" action="{{ route('address.store') }}" id="addressForm">
+                @csrf
+                <input type="hidden" name="id" id="address_id">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addressModalLabel">Thêm địa chỉ</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group mb-2">
+                            <input type="text" name="full_name" id="full_name" class="form-control" placeholder="Họ tên" required>
+                        </div>
+                        <div class="form-group mb-2">
+                            <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
+                        </div>
+                        <div class="form-group mb-2">
+                            <input type="text" name="phone" id="phone" class="form-control" placeholder="Số điện thoại" required>
+                        </div>
+                        <div class="form-group mb-2">
+                            <input type="text" name="province" id="province" class="form-control" placeholder="Tỉnh / Thành phố" required>
+                        </div>
+                        <div class="form-group mb-2">
+                            <input type="text" name="district" id="district" class="form-control" placeholder="Quận / Huyện" required>
+                        </div>
+                        <div class="form-group mb-2">
+                            <input type="text" name="ward" id="ward" class="form-control" placeholder="Phường / Xã" required>
+                        </div>
+                        <div class="form-group mb-2">
+                            <input type="text" name="address" id="address" class="form-control" placeholder="Số nhà, tên đường" required>
+                        </div>
+                        <div class="form-group mb-2">
+                            <textarea name="note" id="note" class="form-control" placeholder="Ghi chú (không bắt buộc)"></textarea>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" name="is_default" value="1" id="is_default">
+                            <label class="form-check-label" for="is_default">Đặt làm địa chỉ mặc định</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-primary">Lưu địa chỉ</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <script>
-   
-
     // Thiết lập action form ban đầu dựa trên radio button được chọn
     document.addEventListener('DOMContentLoaded', function() {
         var selectedPayment = document.querySelector('input[name="payment_method"]:checked');
@@ -383,56 +428,55 @@ textarea.form-control {
         }
     });
     document.getElementById('voucher-select').addEventListener('change', function() {
-        var subtotal = parseFloat({{ $subtotal }});
+        var subtotal = parseFloat({{$subtotal}});
         var defaultShippingFee = 30000;
         var selectedVoucher = this.options[this.selectedIndex];
         var totalPrice = subtotal + defaultShippingFee;
         var newShippingFee = defaultShippingFee;
         var discount = 0;
-        
+
         // Reset về giá trị ban đầu nếu không chọn voucher
         if (this.value == "0") {
-            document.getElementById('shipping-fee').textContent = 
+            document.getElementById('shipping-fee').textContent =
                 new Intl.NumberFormat('vi-VN').format(defaultShippingFee) + 'đ';
             document.getElementById('shipping-discount').style.display = 'none';
-            document.getElementById('total-price').textContent = 
+            document.getElementById('total-price').textContent =
                 new Intl.NumberFormat('vi-VN').format(totalPrice) + 'đ';
             return;
         }
-        
+
         // Lấy thông tin voucher
         var voucherValue = parseFloat(selectedVoucher.getAttribute('data-value'));
         var voucherType = selectedVoucher.getAttribute('data-type');
         var minOrderValue = parseFloat(selectedVoucher.getAttribute('data-min'));
-        var maxDiscount = selectedVoucher.getAttribute('data-max') ? 
-                         parseFloat(selectedVoucher.getAttribute('data-max')) : null;
-        
+        var maxDiscount = selectedVoucher.getAttribute('data-max') ?
+            parseFloat(selectedVoucher.getAttribute('data-max')) : null;
+
         // Kiểm tra điều kiện đơn hàng tối thiểu
         if (subtotal < minOrderValue) {
-            alert('Đơn hàng phải có giá trị tối thiểu ' + 
-                 new Intl.NumberFormat('vi-VN').format(minOrderValue) + 
-                 'đ để áp dụng voucher này');
+            alert('Đơn hàng phải có giá trị tối thiểu ' +
+                new Intl.NumberFormat('vi-VN').format(minOrderValue) +
+                'đ để áp dụng voucher này');
             this.value = "0";
             return;
         }
-        
+
         // Xử lý từng loại voucher
         if (voucherType === 'freeship') {
             // Voucher freeship - chỉ giảm phí ship, không trừ vào tổng đơn hàng
             discount = Math.min(voucherValue, defaultShippingFee);
             newShippingFee = defaultShippingFee - discount;
-            
+
             // Hiển thị phí ship mới và số tiền được giảm
-            document.getElementById('shipping-fee').textContent = 
+            document.getElementById('shipping-fee').textContent =
                 new Intl.NumberFormat('vi-VN').format(newShippingFee) + 'đ';
-            document.getElementById('discount-amount').textContent = 
+            document.getElementById('discount-amount').textContent =
                 new Intl.NumberFormat('vi-VN').format(discount);
             document.getElementById('shipping-discount').style.display = 'inline';
-            
+
             // Tổng đơn hàng = subtotal + phí ship mới
             totalPrice = subtotal + newShippingFee;
-        } 
-        else if (voucherType === 'discount') {
+        } else if (voucherType === 'discount') {
             // Voucher discount - giảm trực tiếp vào subtotal
             if (maxDiscount) {
                 discount = Math.min(voucherValue, maxDiscount, subtotal);
@@ -444,64 +488,67 @@ textarea.form-control {
         }
         document.querySelector('#input-total-price').value = totalPrice;
         // Cập nhật giao diện
-        document.getElementById('total-price').textContent = 
+        document.getElementById('total-price').textContent =
             new Intl.NumberFormat('vi-VN').format(totalPrice) + 'đ';
-        
+
         // Hiển thị thông báo
         var voucherMessage = 'Áp dụng voucher thành công!\n';
         if (voucherType === 'freeship') {
-            voucherMessage += 'Đã giảm ' + new Intl.NumberFormat('vi-VN').format(discount) + 
-                            'đ phí vận chuyển (Còn ' + new Intl.NumberFormat('vi-VN').format(newShippingFee) + 'đ)';
+            voucherMessage += 'Đã giảm ' + new Intl.NumberFormat('vi-VN').format(discount) +
+                'đ phí vận chuyển (Còn ' + new Intl.NumberFormat('vi-VN').format(newShippingFee) + 'đ)';
         } else {
-            voucherMessage += 'Đã giảm ' + new Intl.NumberFormat('vi-VN').format(discount) + 
-                            'đ vào giá trị đơn hàng';
+            voucherMessage += 'Đã giảm ' + new Intl.NumberFormat('vi-VN').format(discount) +
+                'đ vào giá trị đơn hàng';
         }
         toastr.success(voucherMessage);
     });
 </script>
-                    {{-- <li class="wc_payment_method payment_method_cheque">
-                        <input id="payment_method_cheque" type="radio" class="input-radio" name="payment_method" value="cheque">
-                        <label for="payment_method_cheque">Cheque Payment</label>
-                        <div class="payment_box payment_method_cheque">
-                            <p>Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p>
-                        </div>
-                    </li>
-                    <li class="wc_payment_method payment_method_cod">
-                        <input id="payment_method_cod" type="radio" class="input-radio" name="payment_method">
-                        <label for="payment_method_cod">Credit Cart <img src="{{asset('client/assets/img/card/all.jpg')}}" alt="image"></label>
-                        <div class="payment_box payment_method_cod">
-                            <p>Pay with cash upon delivery.</p>
-                        </div>
-                    </li>
-                    <li class="wc_payment_method payment_method_paypal">
-                        <input id="payment_method_paypal" type="radio" class="input-radio" name="payment_method" value="paypal">
-                        <label for="payment_method_paypal">Paypal</label>
-                        <div class="payment_box payment_method_paypal">
-                            <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account.</p>
-                        </div>
-                    </li> --}}
-{{-- <section class="bg-body space-title">
-    <div class="container">
-        <div class="subscribe">
-            <div class="row gx-0 align-items-center justify-content-between z-index-common ">
-                <div class="col-xl-auto">
-                    <p class="sec-subtitle mb-0">Newsletter</p>
-                    <h2 class="sec-title h1 text-white">Get Regular Update</h2>
-                </div>
-                <div class="col-xl-auto">
-                    <form action="#" class="form-style">
-                        <div class="row align-items-center">
-                            <div class="form-group mb-0 col">
-                                <input type="text" placeholder="Enter your email address....">
-                            </div>
-                            <div class="col-md-auto col-12">
-                                <button class="vs-btn w-100">Subscribe <i class="fab fa-telegram-plane"></i></button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</section> --}}
+<script>
+    function openAddressModal() {
+        document.getElementById('addressForm').reset();
+        document.getElementById('addressModalLabel').innerText = "Thêm địa chỉ";
+        document.getElementById('address_id').value = "";
+        document.getElementById('is_default').checked = false;
+    }
+
+    function editAddress(data) {
+        openAddressModal();
+        document.getElementById('addressModalLabel').innerText = "Cập nhật địa chỉ";
+        document.getElementById('address_id').value = data.id;
+        document.getElementById('full_name').value = data.full_name;
+        document.getElementById('email').value = data.email;
+        document.getElementById('phone').value = data.phone;
+        document.getElementById('province').value = data.province;
+        document.getElementById('district').value = data.district;
+        document.getElementById('ward').value = data.ward;
+        document.getElementById('address').value = data.address;
+        document.getElementById('note').value = data.note ?? '';
+        document.getElementById('is_default').checked = data.is_default == 1;
+        new bootstrap.Modal(document.getElementById('addressModal')).show();
+    }
+</script>
+
+<script>
+    function deleteAddress(id) {
+        if (confirm('Bạn chắc chắn muốn xóa?')) {
+            $.ajax({
+                url: 'http://127.0.0.1:8000/address/' + id,
+                type: 'POST',
+                data: {
+                    _method: 'DELETE',
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function (response) {
+                    $('#address-item-' + id).remove();
+                    toastr.success('Xóa địa chỉ thành công!');
+                },
+                error: function (xhr) {
+                 toastr.error('Có lỗi xảy ra khi xóa địa chỉ!');
+                 alert(JSON.stringify(xhr.responseJSON));    
+                }
+            });
+        }
+    }
+</script>
+
 @endsection

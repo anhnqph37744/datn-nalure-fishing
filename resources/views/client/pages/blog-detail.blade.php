@@ -76,27 +76,7 @@
                                 </div>
                             </div>
 
-                            {{-- <div class="vs-comments-wrap">
-                            <h2 class="blog-inner-title">Comments (3)</h2>
-                            <ul class="comment-list">
-                                <li class="vs-comment-item">
-                                    <div class="vs-post-comment">
-                                        <div class="comment-avater">
-                                            <img src="assets/img/blog/comment-author-1.jpg" alt="Comment Author">
-                                        </div>
-                                        <div class="comment-content">
-                                            <span class="commented-on"><i class="fas fa-calendar-alt"></i> July 21, 2023</span>
-                                            <h4 class="name h4">Rosalina Kelian</h4>
-                                            <p class="text">Lorem lipsum dolor sit amet, adipiscfvdg fgjnving consectetur adipiscing elit dolor sit amet.</p>
-                                            <div class="reply_and_edit">
-                                                <a href="#" class="replay-btn">Replay <i class="fas fa-reply"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <!-- Comments Continues... -->
-                            </ul>
-                        </div> --}}
+                     
                         </div>
                     </div>
                     <div class="vs-comment-form">
@@ -182,33 +162,7 @@
                                 @endforeach
                             </div>
                         </div>
-                        <div class="widget">
-                            <h3 class="widget_title">Popular Products</h3>
-                            <div class="recent-post-wrap">
-                                @foreach ($popularProducts as $product)
-                                    <div class="recent-post">
-                                        <div class="media-img">
-                                            <a href="{{ route('detail', $product->id) }}">
-                                                <img src="{{ asset('storage/' . $product->image) }}"
-                                                    alt="{{ $product->name }}">
-                                            </a>
-                                        </div>
-                                        <div class="media-body">
-                                            <h4 class="post-title">
-                                                <a class="text-inherit"
-                                                    href="{{ route('client.product.show', $product->slug) }}">
-                                                    {{ $product->name }}
-                                                </a>
-                                            </h4>
-                                            <div class="recent-post-meta">
-                                                <a
-                                                    href="{{ route('client.product.show', $product->slug) }}">${{ number_format($product->price, 2) }}</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
+                      
                     </aside>
                 </div>
             </div>

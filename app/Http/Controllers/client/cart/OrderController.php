@@ -4,6 +4,7 @@ namespace App\Http\Controllers\client\cart;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\VNPay\VNPayController;
+use App\Models\Address;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -21,39 +22,36 @@ class OrderController extends Controller
         $this->vnpay = $vnpay;
     }
     public function store(Request $request)
-{
-    $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|max:255',
-        'phone' => 'required|string|max:20',
-        'address' => 'required|string|max:500',
-        'payment_method' => 'required|string',
-        'products' => 'required|array',
-    ]);
-
-    try {
-        if ($request->payment_method === "vnpay") {
-            $order_id = $this->placeOrder($request, 2);
-           if($order_id != null){
-            return $this->vnpay->VNpay_Payment($request->total_price,'en',$request->ip(),$order_id);
-           }
-        } else {
-            $order_id = $this->placeOrder($request, 1);
-            return redirect()->route('order.success', ['id' => $order_id]);
+    {
+        try {
+            $address = Address::where('user_id', Auth::id())->where('is_default',1)->first();
+            if (!$address) {
+                return back()->with('error', 'Vui lòng thêm địa chỉ giao hàng hoặc chọn địa chỉ trước khi đặt hàng');
+            }
+            if ($request->payment_method === "vnpay") { 
+                $order_id = $this->placeOrder($request, 2,$address->id);
+                if ($order_id != null) {
+                    return $this->vnpay->VNpay_Payment($request->total_price, 'en', $request->ip(), $order_id);
+                }
+            } else {
+                $order_id = $this->placeOrder($request, 1,$address->id);
+                return redirect()->route('order.success', ['id' => $order_id]);
+            }
+        } catch (\Exception $e) {
+            return back()->with('error', 'Lỗi khi đặt hàng: ' . $e->getMessage());
         }
-    } catch (\Exception $e) {
-        return back()->with('error', 'Lỗi khi đặt hàng: ' . $e->getMessage());
     }
-}
 
     public function success($id)
     {
         $order = Order::with('orderItems.product')->findOrFail($id);
         $cart = Cart::where('id_user', Auth::id())->get();
+        $total = $order->orderItems->sum('total_price');
 
-        return view('client.pages.bill', compact('order', 'cart'));
+
+        return view('client.pages.bill', compact('order', 'cart','total'));
     }
-    private function placeOrder($request, $type)
+    private function placeOrder($request, $type,$address_id)
     {
         DB::beginTransaction();
 
@@ -63,7 +61,7 @@ class OrderController extends Controller
             $shippingFee = $request->shipping_fee ?? 30000;
             $subtotal = $request->subtotal ?? 0;
             $totalPrice = $subtotal + $shippingFee;
-
+           
             if ($request->voucher_id && $request->voucher_id != 0) {
                 $voucher = Voucher::find($request->voucher_id);
                 if ($voucher && $voucher->is_active && $voucher->limit > 0) {
@@ -85,9 +83,9 @@ class OrderController extends Controller
                 'discount_amount' => $discountAmount,
                 'payment_method' => $request->payment_method,
                 'payment_status' => 'pending',
-                'order_status' => 'processing',
-                'note' => $request->note,
-                'address' => $request->address,
+                'order_status' => 'pending',
+                'note' => "Null",
+                'address_id' => $address_id,
             ]);
 
 
@@ -109,6 +107,7 @@ class OrderController extends Controller
                     'product_id' => $productData['id'],
                     'quantity' => $productData['quantity'],
                     'price' => $productData['price'],
+                    'variant_id' => $productData['variant_id'],
                     'total_price' => $productData['quantity'] * $productData['price'],
                 ]);
             }
@@ -118,9 +117,6 @@ class OrderController extends Controller
             DB::commit();
 
             return $order->id;
-
-
-
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Đặt hàng thất bại: ' . $e->getMessage());

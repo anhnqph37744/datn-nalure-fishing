@@ -52,8 +52,20 @@
                                 @foreach ($rolePermissions as $rp)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $rp->role->name }}</td>
-                                        <td>{{ $rp->permission->name }}</td>
+                                        <td>
+                                            @if(isset($rp->role->name))
+                                                {{ $rp->role->name }}
+                                            @else
+                                               <p>Lỗi vai trò unauthorize</p>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if(isset($rp->permission->name))
+                                                {{ $rp->permission->name }}
+                                            @else
+                                               <p>Lỗi quyền hạn unauthorize</p>
+                                            @endif
+                                        </td>
                                         <td>
                                             <form action="{{ route('admin.perrmission-role.destroy', $rp->id) }}" method="POST">
                                                 @csrf

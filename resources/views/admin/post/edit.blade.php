@@ -58,7 +58,7 @@
       
         <div class="mb-3 d-flex align-items-start gap-3">
             <label class="form-label mt-2" style="min-width: 120px;">Nội dung chính</label>
-            <textarea id="ckeditor-classic" rows="12" name="content"
+            <textarea id="editor" rows="12" name="content"
                 class="form-control w-100 @error('content') is-invalid @enderror">{{ old('content', $post->content) }}</textarea>
         </div>
         @error('content')
@@ -69,7 +69,7 @@
         <div class="mb-3">
             <label class="form-label">Ảnh đại diện</label><br>
             @if ($post->thumbnail)
-                <img src="{{ asset('storage/' . $post->thumbnail) }}" alt="Thumbnail" class="img-thumbnail mb-2" style="max-width: 200px;">
+                <img src="{{ asset($post->thumbnail) }}" alt="Thumbnail" class="img-thumbnail mb-2" style="max-width: 200px;">
             @endif
             <input type="file" name="thumbnail"
                 class="form-control @error('thumbnail') is-invalid @enderror">
@@ -95,4 +95,12 @@
         <a href="{{ route('admin.posts.index') }}" class="btn btn-secondary">Quay lại</a>
     </form>
 </div>
+<script src="{{ asset('assets/admin/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
+<script>
+    ClassicEditor
+        .create(document.querySelector('#editor'))
+        .catch(error => {
+            console.error(error);
+        });
+        </script>
 @endsection

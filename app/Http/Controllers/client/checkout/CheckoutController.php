@@ -9,6 +9,7 @@ use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Address;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Profile;
 use App\Models\Voucher;
@@ -25,10 +26,11 @@ class CheckoutController extends Controller
             $totalPrice = $cartItems->sum(function ($item) {
                 return $item->total_price;
             });
-            $vouchers = Voucher::all();
+          
+            $addresses = Address::where('user_id', Auth::id())->get();
 
-            return view('client.pages.checkout', compact('cartItems', 'vouchers','totalPrice', 'cart', 'profile', 'user_login'));
-        }else{
+            return view('client.pages.checkout', compact('cartItems', 'vouchers', 'totalPrice', 'cart', 'profile', 'user_login', 'addresses'));
+        } else {
             return redirect()->route('login')->with('error', 'Please login to continue.');
         }
     }

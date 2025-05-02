@@ -27,6 +27,10 @@
                 </div>
                 <div class="ibox-content">
                     <div class="table-responsive">
+                    <div style="margin-bottom: 20px;">
+                        <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm đơn hàng...">
+                    </div>
+
                         <table class="table table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
@@ -39,6 +43,7 @@
                                     <th>Trạng thái thanh toán</th>
                                     <th>Trạng thái đơn hàng</th>
                                     <th>Ngày đặt</th>
+                                    <th>Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -51,7 +56,7 @@
                                         <td>{{ number_format($order->discount_amount) }}đ</td>
                                         <td>{{ $order->payment_method }}</td>
                                         <td>
-                                            @if ($order->payment_status == 1)
+                                            @if ($order->payment_status == 'paid')
                                                 <span class="label label-primary">Đã thanh toán</span>
                                             @else
                                                 <span class="label label-warning">Chưa thanh toán</span>
@@ -78,7 +83,9 @@
                                             </select>
                                         </td>
                                         <td>{{ $order->created_at->format('d/m/Y H:i') }}</td>
-
+                                        <td>
+                                            <a href="{{ route('admin.order.detail',$order->id) }}" class="btn btn-primary">Chi tiết</a>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -114,7 +121,7 @@
                 }
             });
 
-            element.addEventListener('change', () => {
+            element.addEventListener('change', () => { 
                 let newStatus = element.value;
                 
                 $.ajax({
@@ -128,7 +135,6 @@
                         if(response.success) {
                             toastr.success('Cập nhật trạng thái đơn hàng thành công');
                             currentStatus = newStatus;
-                            // Update disabled states after successful status change
                             Array.from(element.options).forEach(option => {
                                 if (statusOrder[option.value] <= statusOrder[currentStatus] && option.value !== currentStatus) {
                                     option.disabled = true;
@@ -147,6 +153,24 @@
             })
         }
     </script>
-    @push('scripts')
-    @endpush
-@endsection
+   <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const table = document.querySelector('table');
+        const rows = table.querySelectorAll('tbody tr');
+
+        searchInput.addEventListener('input', function() {
+            const searchValue = this.value.toLowerCase();
+
+            rows.forEach(row => {
+                const rowText = row.innerText.toLowerCase();
+                if (rowText.includes(searchValue)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }     
+            });
+        });
+    });
+</script>
+@endsection 

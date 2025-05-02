@@ -3,20 +3,18 @@
     <div class="breadcumb-wrapper" data-bg-src="assets/img/breadcrumb/breadcrumb-1-1.png">
         <div class="container">
             <div class="breadcumb-content">
-                <h1 class="breadcumb-title">Cửa hàng</h1>
+                <h1 class="breadcumb-title">Sản phẩm</h1>
                 <div class="breadcumb-menu-wrap">
                     <ul class="breadcumb-menu">
-                        <li><a href="index.html">Trang chủ</a></li>
-                        <li>Cửa hàng</li>
+                        <li><a href="http://127.0.0.1:8000/">Trang chủ</a></li>
+                        <li>Sản phẩm</li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
 
-    <!--==============================
-                                     Shop Area
-                                     ==============================-->
+ 
     <section class="space">
         <div class="container">
             <div class="row">

@@ -13,7 +13,7 @@
             <img src="{{ asset('client/assets/img/bg/hero-shape1.png') }}" alt="hero shape">
         </div>
         <!-- Carousel -->
-        <div id="bannerCarousel" height="600px !important" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1700">
+        <div id="bannerCarousel" height="300px !important" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1700">
             <div class="carousel-inner">
                 @foreach ($banners as $index => $banner)
                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
@@ -219,115 +219,28 @@
             data-lg-slide-show="2" data-md-slide-show="2" data-center-mode="true" data-xl-center-mode="true"
             data-ml-center-mode="true" data-lg-center-mode="true" data-md-center-mode="true"
             data-sm-center-mode="true">
+            @foreach ($posts as $post)
             <div class="col-lg-4 col-md-6">
                 <div class="vs-blog blog-style1">
                     <div class="blog-img">
-                        <img class="w-100" src="{{ asset('client/assets/img/blog/blog-1-1.jpg') }}" alt="Blog Img">
+                        <img class="w-100" src="{{ asset($post->thumbnail) }}" alt="Blog Img">
                         <div class="blog-meta2">
-                            <span class="day">07</span>
-                            <span class="month">January</span>
+                            <span class="month">{{ $post->created_at }}</span>
                         </div>
                     </div>
                     <div class="blog-content">
                         <div class="blog-meta">
-                            <a href="blog.html"><i class="fas fa-user"></i>Rodja Heartmman</a>
-                            <a href="blog.html"><i class="fas fa-comment-dots"></i>Comments (3)</a>
+                            <in href="{{ route('client.blog.pages.show', $post->slug) }}"><i class="fas fa-user"></i>Admin</a>
                         </div>
                         <h4 class="blog-title">
-                            <a href="blog-details.html">Sharing Their Group Of Students Ideas</a>
+                            <a href="{{ route('client.blog.pages.show', $post->slug) }}">{{ $post->title }}</a>
                         </h4>
-                        <a href="blog-details.html" class="link-btn">Read More <i class="far fa-arrow-right"></i></a>
+                        <a href="{{ route('client.blog.pages.show', $post->slug) }}" class="link-btn">Read More <i class="far fa-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="vs-blog blog-style1">
-                    <div class="blog-img">
-                        <img class="w-100" src="{{ asset('client/assets/img/blog/blog-1-3.jpg') }}" alt="Blog Img">
-                        <div class="blog-meta2">
-                            <span class="day">09</span>
-                            <span class="month">January</span>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <a href="blog.html"><i class="fas fa-user"></i>Rodja Heartmman</a>
-                            <a href="blog.html"><i class="fas fa-comment-dots"></i>Comments (3)</a>
-                        </div>
-                        <h4 class="blog-title">
-                            <a href="blog-details.html">consectetur ipsum dolor sit amet adipisicing elit</a>
-                        </h4>
-                        <a href="blog-details.html" class="link-btn">Read More <i class="far fa-arrow-right"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="vs-blog blog-style1">
-                    <div class="blog-img">
-                        <img class="w-100" src="{{ asset('client/assets/img/blog/blog-1-4.jpg') }}" alt="Blog Img">
-                        <div class="blog-meta2">
-                            <span class="day">07</span>
-                            <span class="month">January</span>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <a href="blog.html"><i class="fas fa-user"></i>Rodja Heartmman</a>
-                            <a href="blog.html"><i class="fas fa-comment-dots"></i>Comments (3)</a>
-                        </div>
-                        <h4 class="blog-title">
-                            <a href="blog-details.html">Lorem ipsum dolor sit amet consectetur.</a>
-                        </h4>
-                        <a href="blog-details.html" class="link-btn">Read More <i class="far fa-arrow-right"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="vs-blog blog-style1">
-                    <div class="blog-img">
-                        <img class="w-100" src="{{ asset('client/assets/img/blog/blog-1-5.jpg') }}"
-                            alt="Blog Img">
-                        <div class="blog-meta2">
-                            <span class="day">08</span>
-                            <span class="month">January</span>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <a href="blog.html"><i class="fas fa-user"></i>Rodja Heartmman</a>
-                            <a href="blog.html"><i class="fas fa-comment-dots"></i>Comments (3)</a>
-                        </div>
-                        <h4 class="blog-title">
-                            <a href="blog-details.html">adipisicing ipsum dolor sit amet consectetur elit.</a>
-                        </h4>
-                        <a href="blog-details.html" class="link-btn">Read More <i
-                                class="far fa-arrow-right"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="vs-blog blog-style1">
-                    <div class="blog-img">
-                        <img class="w-100" src="{{ asset('client/assets/img/blog/blog-1-6.jpg') }}"
-                            alt="Blog Img">
-                        <div class="blog-meta2">
-                            <span class="day">09</span>
-                            <span class="month">January</span>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <a href="blog.html"><i class="fas fa-user"></i>Rodja Heartmman</a>
-                            <a href="blog.html"><i class="fas fa-comment-dots"></i>Comments (3)</a>
-                        </div>
-                        <h4 class="blog-title">
-                            <a href="blog-details.html">a group of students exchanging concepts</a>
-                        </h4>
-                        <a href="blog-details.html" class="link-btn">Read More <i
-                                class="far fa-arrow-right"></i></a>
-                    </div>
-                </div>
-            </div>
+            @endforeach
+           
         </div>
     </div>
 </section>

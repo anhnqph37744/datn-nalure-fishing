@@ -362,7 +362,7 @@
 
         minusBtn.addEventListener("click", () => {
             if (parseInt(quantityInput.value) > 1) {
-                quantityInput.value = parseInt(quantityInput.value) - 1;
+                quantityInput.value = parseInt(quantityInput.value);    
             }
         });
 
@@ -372,7 +372,7 @@
                 return;
             }
             if (parseInt(quantityInput.value) < maxQuantity) {
-                quantityInput.value = parseInt(quantityInput.value) + 1;
+                quantityInput.value = parseInt(quantityInput.value);
             } else {
                 toastr.error("Số lượng không thể vượt quá giới hạn!", "Lỗi");
             }

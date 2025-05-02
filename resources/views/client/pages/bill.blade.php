@@ -27,20 +27,23 @@
             <div class="row mt-4">
                 <div class="col-md-6">
                     <h4>Thông tin giao hàng</h4>
-                    <p><strong>Địa chỉ:</strong> {{ $order->address }}</p>
-                    <p><strong>Ghi chú:</strong> {{ $order->note ?: 'Không có' }}</p>
+                    <p><strong>Họ và tên:</strong> {{ $order->address->full_name ?: 'Không có' }}</p>
+                    <p><strong>Địa chỉ:</strong> {{ $order->address->address }} , {{ $order->address->ward }}, {{ $order->address->district }}, {{ $order->address->province }}</p>
+                    <p><strong>Email:</strong> {{ $order->address->email ?: 'Không có' }}</p>
+                    <p><strong>Số điện thoại:</strong> {{ $order->address->phone ?: 'Không có' }}</p>
+                    <p><strong>Ghi chú:</strong> {{ $order->address->note ?: 'Không có' }}</p>
                 </div>
                 <div class="col-md-6">
                     <h4>Thông tin thanh toán</h4>
-                    <p><strong>Phương thức:</strong> {{ $order->payment_method == 'bacs' ? 'Thanh toán bằng tiền mặt' : 'Khác' }}</p>
-                    <p><strong>Trạng thái:</strong> {{ $order->payment_status == 'pending' ? 'Chờ xác nhận' : 'Khác' }}</p>
-                    <p><strong>Trạng thái thanh toán:</strong> {{ $order->order_status == 'pending' ? 'chưa thanh toán' : 'Khác' }}</p>
+                    <p><strong>Phương thức:</strong> {{ $order->payment_method == 'bacs' ? 'Thanh toán bằng tiền mặt' : 'Thanh toán bằng VNPAY' }}</p>
+                    <p><strong>Trạng thái:</strong> {{ $order->order_status == 'pending' ? 'Chờ xác nhận' : 'Khác' }}</p>
+                    <p><strong>Trạng thái thanh toán:</strong> {{ $order->payment_status ==  'paid' ? 'Đã thanh toán' : 'Chưa thanh toán' }}</p>
                 </div>
-            </div>
+            </div>      
 
             <h4 class="mt-4">Chi tiết đơn hàng</h4>
             <table class="table table-bordered">
-                <thead class="table-dark">
+                <thead class="table-light">
                     <tr>
                         <th>Sản phẩm</th>
                         <th>Số lượng</th>
@@ -61,7 +64,7 @@
                 <tfoot>
                     <tr>
                         <th colspan="3" class="text-end">Tạm tính:</th>
-                        <th>{{ number_format($order->total_price, 0, ',', '.') }}₫</th>
+                        <th>{{ number_format($total, 0, ',', '.') }}₫</th>
                     </tr>
                     <tr>
                         <th colspan="3" class="text-end">Phí vận chuyển:</th>

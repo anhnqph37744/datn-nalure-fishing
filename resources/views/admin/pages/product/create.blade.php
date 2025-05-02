@@ -1,5 +1,11 @@
 @extends('admin.layouts.main')
 @section('main')
+<style>
+.is-invalid {
+    border-color: red;
+}
+</style>
+
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
             <h2>Thêm sản phẩm</h2>
@@ -17,7 +23,7 @@
         </div>
         <div class="col-lg-2"></div>
     </div>
-    <form action="{{ route('admin.product.store') }}" method="POST" enctype="multipart/form-data"
+    <form action="{{ route('admin.product.store') }}" method="POST" id="product-form-create" enctype="multipart/form-data"
         class="wrapper wrapper-content animated " style="position: relative;">
         <div class="row">
             <div class="col-lg-5">
@@ -386,11 +392,11 @@
                             <div class="box-price-quantity">
                                 <div class="form-group" style="flex:1;">
                                     <label>Giá</label>
-                                    <input type="number" class="form-control variant-price" name="variants[${index}][price]" required placeholder="Nhập giá">
+                                    <input type="number" class="form-control variant-price" name="variants[${index}][price]"  placeholder="Nhập giá">
                                 </div>
                                 <div class="form-group" style="flex:1;">
                                     <label>Số lượng</label>
-                                    <input type="number" class="form-control variant-quantity" name="variants[${index}][quantity]" required min="1" placeholder="Nhập số lượng">
+                                    <input type="number" class="form-control variant-quantity" name="variants[${index}][quantity]"  min="1" placeholder="Nhập số lượng">
                                 </div>
                             </div>
                             <div class="variant-box-input">
@@ -426,6 +432,54 @@
             return result;
         }
     </script>
+    <script>
+document.getElementById('product-form-create').addEventListener('submit', function (e) {
+    let isValid = true;
+    let errorMessages = [];
+
+    document.querySelectorAll('.variant-box').forEach((box, index) => {
+        const price = box.querySelector('.variant-price');
+        const quantity = box.querySelector('.variant-quantity');
+        const sku = box.querySelector('.variant-sku');
+
+        if (!price || price.value.trim() === '' || parseFloat(price.value) < 0) {
+            isValid = false;
+            errorMessages.push(`Biến thể #${index + 1}: Giá không hợp lệ.`);
+            price?.classList.add('is-invalid');
+        } else {
+            price?.classList.remove('is-invalid');
+        }
+
+        if (!quantity || quantity.value.trim() === '' || parseInt(quantity.value) < 1) {
+            isValid = false;
+            errorMessages.push(`Biến thể #${index + 1}: Số lượng phải lớn hơn 0.`);
+            quantity?.classList.add('is-invalid');
+        } else {
+            quantity?.classList.remove('is-invalid');
+        }
+
+        if (!sku || sku.value.trim() === '') {
+            isValid = false;
+            errorMessages.push(`Biến thể #${index + 1}: Mã SKU không được để trống.`);
+            sku?.classList.add('is-invalid');
+        } else {
+            sku?.classList.remove('is-invalid');
+        }
+    });
+
+    if (!isValid) {
+        e.preventDefault(); 
+    toastr.error(errorMessages.join('\n'), 'Lỗi', {
+            "positionClass": "toast-top-right",
+            "timeOut": "10000",
+            "extendedTimeOut": "1000",
+            "showDuration": "1000",
+            "hideDuration": "1000",
+        });
+    } 
+});
+</script>
+
     <script>
         const checkbox = document.querySelector('#checkbox-status');
         checkbox.addEventListener('change', function() {

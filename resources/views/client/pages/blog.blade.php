@@ -3,11 +3,11 @@
 <div class="breadcumb-wrapper " data-bg-src="assets/img/breadcrumb/breadcrumb-1-1.png">
     <div class="container">
         <div class="breadcumb-content">
-            <h1 class="breadcumb-title">Blog Grid Sidebar</h1>
+            <h1 class="breadcumb-title">Bài viết phổ biến</h1>
             <div class="breadcumb-menu-wrap">
                 <ul class="breadcumb-menu">
-                    <li><a href="index.html">Home</a></li>
-                    <li>Blog Grid Sidebar</li>
+                    <li><a href="http://127.0.0.1:8000/">Trang chủ</a></li>
+                    <li>Bài viết</li>
                 </ul>
             </div>
         </div>
@@ -105,7 +105,7 @@
                         </div>
                     </div>
                     <div class="widget">
-                        <h3 class="widget_title">Popular Products</h3>
+                        <h3 class="widget_title">Sản phẩm phổ biến</h3>
                         <div class="recent-post-wrap">
                             @foreach($popularProducts as $product)
                             <div class="recent-post">

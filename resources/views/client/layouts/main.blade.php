@@ -83,47 +83,6 @@
 
     @include('client.layouts._loader')
 
-    @if (Auth::check())
-
-
-    <div class="sidemenu-wrapper d-none d-lg-block">
-        <div class="sidemenu-content">
-            <button class="closeButton sideMenuCls"><i class="far fa-times"></i></button>
-            <div class="widget widget_shopping_cart">
-                <h3 class="widget_title">Giỏ hàng</h3>
-                <div class="widget_shopping_cart_content">
-                    <ul class="cart_list">
-                        @foreach ($cart as $c)
-                        <li class="mini_cart_item">
-                            <form action="{{ route('remove-cart', $c->id) }}" method="POST"> @csrf
-                                @method('DELETE')<button style="border:none;" class="remove"><i
-                                        class="fal fa-trash-alt"></i></button></form> <a
-                                href="{{ route('detail', $c->id_product) }}"><img src="{{ $c->image }}"
-                                    alt="Cart Image" />{{ Str::limit($c->name, 50, '...') }}</a>
-                            <span class="quantity">
-                                {{ $c->quantity }} × <span
-                                    class="amount"><span>{{ number_format($c->price, 0, ',', '.') }}
-                                        đ</span></span>
-                            </span>
-                        </li>
-                        @endforeach
-
-                    </ul>
-                    {{-- <div class="total">
-                            <strong>Tổng tiền:</strong> <span class="amount"><span>67.000 đ</span></span>
-                        </div> --}}
-                    <div class="buttons">
-                        <a href="{{ route('cart') }}" class="vs-btn style4">View cart</a>
-                        <a href="{{ route('check-out') }}" class="vs-btn style4">Checkout</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    @endif
-
-
-
     @include('client.layouts._header')
 
     @yield('main')

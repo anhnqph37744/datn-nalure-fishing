@@ -147,7 +147,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="card shadow-sm rounded-3 border-0 mb-4">
                 <div class="card-header bg-light border-bottom">
                     <h5 class="mb-0 text-primary"><i class="fas fa-file-invoice me-2"></i>Thông tin đơn hàng</h5>
@@ -156,19 +155,19 @@
                     <div class="d-flex flex-column gap-3">
                         <p class="mb-0 d-flex align-items-center">
                             <i class="fas fa-user text-primary me-3"></i>
-                            <span><strong>Người nhận:</strong> {{ $order->user->name }}</span>
+                            <span><strong>Người nhận:</strong> {{ $order->address->full_name }}</span>
                         </p>
                         <p class="mb-0 d-flex align-items-center">
                             <i class="fas fa-phone text-primary me-3"></i>
-                            <span><strong>Số điện thoại:</strong> {{ $order->user->profile->phone }}</span>
+                            <span><strong>Số điện thoại:</strong> {{ $order->address->phone }}</span>
                         </p>
                         <p class="mb-0 d-flex align-items-center">
                             <i class="fas fa-envelope text-primary me-3"></i>
-                            <span><strong>Email:</strong> {{ $order->user->email }}</span>
+                            <span><strong>Email:</strong> {{ $order->address->email }}</span>
                         </p>
                         <p class="mb-0 d-flex align-items-center">
                             <i class="fas fa-home text-primary me-3"></i>
-                            <span><strong>Địa chỉ:</strong> {{$order->user->profile->address}}</span>
+                            <span><strong>Địa chỉ:</strong>{{ $order->address->address }} , {{ $order->address->ward }}, {{ $order->address->district }}, {{ $order->address->province }}</span>
                         </p>
                     </div>
                 </div>

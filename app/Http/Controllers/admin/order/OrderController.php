@@ -17,7 +17,9 @@ class OrderController extends Controller
 
     public function show($id)
     {
-        $order = Order::with(['user', 'orderItems.product'])->findOrFail($id);
+        $order = Order::with(['user', 'orderItems.variant.varianAttributeValue.attribute', 'orderItems.variant.varianAttributeValue.attributeValue'])->findOrFail($id);
+        $order_total = $order->orderItems->sum('total_price');
+        $order->total_items_price = $order_total;
         return view('admin.pages.order.show', compact('order'));
     }
 

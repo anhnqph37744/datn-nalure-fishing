@@ -53,7 +53,7 @@ class ProductController extends Controller
             'price' => 'required',
             'quantity' => 'required|integer|min:1',
             'quantity_warning' => 'nullable|integer|min:1',
-            'weight' => 'nullable|numeric|min:0',
+            'weight' => 'nullable',
             'tags' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
@@ -67,7 +67,6 @@ class ProductController extends Controller
             'quantity.min' => 'Số lượng sản phẩm không thể nhỏ hơn :min.',
             'quantity_warning.integer' => 'Số lượng cảnh báo phải là số nguyên.',
             'quantity_warning.min' => 'Số lượng cảnh báo không thể nhỏ hơn 0.',
-            'weight.min' => 'Khối lượng không thể nhỏ hơn 0.',
             'tags.max' => 'Tags không được vượt quá 255 ký tự.',
             'category_id.required' => 'Danh mục sản phẩm là bắt buộc.',
             'brand_id.required' => 'Thương hiệu sản phẩm là bắt buộc.',
@@ -176,7 +175,7 @@ class ProductController extends Controller
             'price' => 'required',
             'quantity' => 'required|integer|min:1',
             'quantity_warning' => 'nullable|integer|min:1',
-            'weight' => 'nullable|numeric|min:0',
+            'weight' => 'nullable',
             'tags' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
@@ -191,7 +190,6 @@ class ProductController extends Controller
             'quantity.min' => 'Số lượng sản phẩm không thể nhỏ hơn :min.',
             'quantity_warning.integer' => 'Số lượng cảnh báo phải là số nguyên.',
             'quantity_warning.min' => 'Số lượng cảnh báo không thể nhỏ hơn 0.',
-            'weight.min' => 'Khối lượng không thể nhỏ hơn 0.',
             'tags.max' => 'Tags không được vượt quá 255 ký tự.',
             'category_id.required' => 'Danh mục sản phẩm là bắt buộc.',
             'brand_id.required' => 'Thương hiệu sản phẩm là bắt buộc.',
@@ -300,5 +298,15 @@ class ProductController extends Controller
                 }
             }
         }
+    }
+    public function updateStatus()
+    {
+        $product = Product::find($_GET['id']);
+        if ($product) {
+            $product->active = $_GET['status'] ;
+            $product->save();
+            return response()->json(['status' => 'success', 'message' => 'Cập nhật trạng thái thành công']);
+        }
+        return response()->json(['status' => 'error', 'message' => 'Không tìm thấy sản phẩm']);
     }
 }

@@ -61,8 +61,16 @@ class PostController extends Controller
         ]);
 
         if ($request->hasFile('thumbnail')) {
-            $path = $request->file('thumbnail')->store('thumbnails', 'public');
-            $validated['thumbnail'] = $path;
+            $file = $request->file('thumbnail');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $destinationPath = public_path('storage/thumbnails');
+
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+
+            $file->move($destinationPath, $filename);
+            $validated['thumbnail'] = 'storage/thumbnails/' . $filename;
         }
 
         $validated['user_id'] = auth()->id();
@@ -100,14 +108,25 @@ class PostController extends Controller
         ]);
 
         if ($request->hasFile('thumbnail')) {
-            $path = $request->file('thumbnail')->store('thumbnails', 'public');
-            $validated['thumbnail'] = $path;
+            $file = $request->file('thumbnail');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $destinationPath = public_path('storage/thumbnails');
+
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+
+            $file->move($destinationPath, $filename);
+            $validated['thumbnail'] = 'storage/thumbnails/' . $filename;
+        } else {
+            $validated['thumbnail'] = $post->thumbnail;
         }
 
         $post->update($validated);
 
         return redirect()->route('admin.posts.index')->with('success', 'Cập nhật bài viết thành công!');
     }
+
 
     public function destroy($id)
     {

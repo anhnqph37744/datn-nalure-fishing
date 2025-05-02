@@ -35,10 +35,13 @@ class PermissionController extends Controller
         return view('admin.pages.permistion.update', compact('permission'));
     }
 
-    public function update(PermissionRequest $request,  $id)
+    public function update(Request $request,  $id)
     {
         $permission = Permission::find($id);
-        $permission->update($request->validated());
+        $permission->update($request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string'
+        ]));
         return redirect()->route('admin.permission.index')->with('success', 'Permission updated successfully.');
     }
 

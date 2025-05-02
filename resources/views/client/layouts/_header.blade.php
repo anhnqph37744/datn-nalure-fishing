@@ -38,7 +38,7 @@
                                                 <a href="{{ url('/') }}">Trang Chủ</a>
                                             </li>
                                             <li >
-                                                <a href="{{url('/shop')}}">Cửa Hàng </a>
+                                                <a href="{{url('/shop')}}">Sản Phẩm</a>
                                             </li>
                                             <!-- <li>
                                                 <a href="">servistservist</a>
@@ -47,10 +47,10 @@
                                                 <a href="{{ url('/blog') }}">Bài viết</a>
                                             </li>
                                             <li>
-                                                <a href="">Liên Hệ</a>
+                                                <a href="{{ route('contact') }}">Liên Hệ</a>
                                             </li>
                                             <li class="mega-menu-wrap">
-                                                <a href="#">Trang Bán Hàng khác</a>
+                                                <a href="{{ route('other') }}">Trang Bán Hàng khác</a>
                                             </li>
                                         </ul>
                                     </nav>
@@ -81,10 +81,16 @@
                                     @if (Auth::check())
                                         <a href="{{ url('/cart') }}" class="icon-btn  has-badge" type="button">
                                             <i class="fas fa-shopping-cart"></i>
-                                            <span class="badge">{{ count($cart) }}</span>
+                                            <span class="badge">
+                                                @if(isset($cart))
+                                                {{ count($cart) }}
+                                                @else
+                                                0
+                                                @endif
+                                            </span>
                                         </â>
                                     @else
-                                        <button class="icon-âbtn has-badge" type="button" id="no-auth">
+                                        <button class="icon-btn  has-badge" type="button" id="no-auth">
                                             <i class="fas fa-shopping-cart"></i>
                                         </button>
                                     @endif

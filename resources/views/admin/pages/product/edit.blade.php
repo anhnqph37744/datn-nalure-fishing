@@ -17,7 +17,7 @@
         </div>
         <div class="col-lg-2"></div>
     </div>
-    <form action="{{ route('admin.product.update', $product->id) }}" method="POST" enctype="multipart/form-data"
+    <form action="{{ route('admin.product.update', $product->id) }}" id="product-form-create" method="POST" enctype="multipart/form-data"
         class="wrapper wrapper-content animated " style="position: relative;">
         @method('PUT')
         <div class="row">
@@ -424,6 +424,53 @@
             }
         });
     </script>
+        <script>
+document.getElementById('product-form-create').addEventListener('submit', function (e) {
+    let isValid = true;
+    let errorMessages = [];
+
+    document.querySelectorAll('.variant-box').forEach((box, index) => {
+        const price = box.querySelector('.variant-price');
+        const quantity = box.querySelector('.variant-quantity');
+        const sku = box.querySelector('.variant-sku');
+
+        if (!price || price.value.trim() === '' || parseFloat(price.value) < 0) {
+            isValid = false;
+            errorMessages.push(`Biến thể #${index + 1}: Giá không hợp lệ.`);
+            price?.classList.add('is-invalid');
+        } else {
+            price?.classList.remove('is-invalid');
+        }
+
+        if (!quantity || quantity.value.trim() === '' || parseInt(quantity.value) < 1) {
+            isValid = false;
+            errorMessages.push(`Biến thể #${index + 1}: Số lượng phải lớn hơn 0.`);
+            quantity?.classList.add('is-invalid');
+        } else {
+            quantity?.classList.remove('is-invalid');
+        }
+
+        if (!sku || sku.value.trim() === '') {
+            isValid = false;
+            errorMessages.push(`Biến thể #${index + 1}: Mã SKU không được để trống.`);
+            sku?.classList.add('is-invalid');
+        } else {
+            sku?.classList.remove('is-invalid');
+        }
+    });
+
+    if (!isValid) {
+        e.preventDefault(); 
+    toastr.error(errorMessages.join('\n'), 'Lỗi', {
+            "positionClass": "toast-top-right",
+            "timeOut": "10000",
+            "extendedTimeOut": "1000",
+            "showDuration": "1000",
+            "hideDuration": "1000",
+        });
+    } 
+});
+</script>
     <script>
         ClassicEditor
             .create(document.querySelector('#editor'))

@@ -29,8 +29,15 @@
     @endif
 
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <form method="GET" class="mb-0">
-            <select name="post_category_id" onchange="this.form.submit()" class="form-select w-auto d-inline-block">
+      
+    
+        <div class="flex-shrink-0">
+            <a href="{{ route('admin.posts.create') }}" class="btn btn-success">
+                <i class="ri-add-line align-bottom me-1"></i> Thêm mới bài viết
+            </a>
+        </div>
+        <form method="GET" class="mb-2" style="margin-top: 20px;margin-bottom: 10px;">
+            <select name="post_category_id" onchange="this.form.submit()" class="form-control w-auto d-inline-block">
                 <option value="">-- Tất cả chuyên mục --</option>
                 @foreach ($postCategories as $category)
                     <option value="{{ $category->id }}" {{ request('post_category_id') == $category->id ? 'selected' : '' }}>
@@ -39,12 +46,6 @@
                 @endforeach
             </select>
         </form>
-    
-        <div class="flex-shrink-0">
-            <a href="{{ route('admin.posts.create') }}" class="btn btn-success">
-                <i class="ri-add-line align-bottom me-1"></i> Thêm mới bài viết
-            </a>
-        </div>
     </div>
 
     <table class="table table-striped table-hover table-bordered">
@@ -68,7 +69,7 @@
                     <td>{{ $index + 1 }}</td>
                     <td>
                         @if ($post->thumbnail)
-                            <img src="{{ asset('storage/' . $post->thumbnail) }}" alt="Ảnh đại diện" width="80" class="rounded">
+                            <img src="{{ asset($post->thumbnail) }}" alt="Ảnh đại diện" width="80" class="rounded">
                         @else
                             Không có
                         @endif

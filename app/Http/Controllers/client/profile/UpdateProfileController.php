@@ -15,7 +15,7 @@ class UpdateProfileController extends Controller
 {
     public function index()
     {
-        $vouchers = Voucher::get();
+        $vouchers = Voucher::where('limit','>',0)->get();
         $user = Auth::user();
         $cart  = Cart::where('id_user', Auth::id())->get();
         $profile = Profile::where('user_id', $user->id)->first();
@@ -56,16 +56,23 @@ class UpdateProfileController extends Controller
     
             // Handle avatar upload
             if ($request->hasFile('avatar')) {
-                // Delete old image if exists
+                // Xóa ảnh cũ nếu có
                 if ($profile->image) {
-                    Storage::delete('public/avatars/' . $profile->image);
+                    $oldPath = public_path('storage/avatars/' . $profile->image);
+                    if (file_exists($oldPath)) {
+                        unlink($oldPath);
+                    }
                 }
-    
+            
                 $avatar = $request->file('avatar');
                 $filename = time() . '.' . $avatar->getClientOriginalExtension();
-                $avatar->storeAs('public/storage/avatars', $filename);
+                
+                // Di chuyển file tới public/storage/avatars
+                $avatar->move(public_path('storage/avatars'), $filename);
+            
                 $profile->image = $filename;
             }
+            
     
             $profile->save();
             

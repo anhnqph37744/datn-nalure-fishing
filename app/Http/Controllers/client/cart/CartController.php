@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\client\cart;
 
 use App\Http\Controllers\Controller;
+use App\Models\Address;
 use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Variant;
@@ -144,13 +145,17 @@ class CartController extends Controller
         $cart = Cart::all();
         
         // Lấy tất cả các voucher
-        $vouchers = Voucher::all();
+        $vouchers = Voucher::where('is_active',1)->whereNotIn('id', function ($query) {
+            $query->select('coupon_id')
+                ->from('orders')
+                ->where('user_id', Auth::id());
+        })->get();
         
         // Lấy thông tin người dùng đã đăng nhập
         $user_login = Auth::user();
-        
+        $addresses = Address::where('user_id', Auth::id())->get();
         // Trả dữ liệu về view checkout
-        return view('client.pages.checkout', compact('cart', 'user_login', 'vouchers'));
+        return view('client.pages.checkout', compact('cart', 'user_login', 'vouchers','addresses'));
     }
     
     public function bill(Request $request){

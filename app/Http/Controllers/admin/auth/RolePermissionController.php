@@ -14,7 +14,6 @@ class RolePermissionController extends Controller
     {
 
         $rolePermissions = RolePermission::with(['role', 'permission'])->get();
-
         return view('admin.pages.authorization.list', compact('rolePermissions'));
     }
     public function create()
